@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CasosPruebasController;
 use App\Http\Controllers\PdfController;
+use App\Models\CasosPruebas;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +47,7 @@ Route::get('/observaCP/{idCP}', function ($idCP){
             'aprobador' => 'observacion'
         ]);
 
-    return redirect('/home');
+    return redirect('/dashboard');
 })
     ->name('observaCP');
 
@@ -57,6 +58,6 @@ Route::get('/apruebaCP/{idCP}', function ($idCP){
             'aprobador' => 'conforme'
         ]);
 
-    return redirect('/home');
+    return redirect('/dashboard');
 })
     ->name('apruebaCP');

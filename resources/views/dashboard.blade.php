@@ -164,10 +164,8 @@
 </div>
 @endsection
 
-@section('footer_scripts')
-
-<script type="text/javascript">
-
+@push('other-scripts')
+<script>
     $(document).ready(function(){
 
         $(document).on("click", ".modalCP", function () {
@@ -187,9 +185,7 @@
             $(".modal-body #testCaseAprobador").val( testCaseId.aprobador );
         });
     });
-
 </script>
-
-@endsection
+@endpush
 
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>

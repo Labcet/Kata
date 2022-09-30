@@ -5364,6 +5364,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     idCp: Number,
@@ -5405,6 +5408,8 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     createEvidencia: function createEvidencia(e) {
+      var _this2 = this;
+
       e.preventDefault();
       var existingObj = this;
       var config = {
@@ -5421,7 +5426,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/api/evidencias', data, config).then(function (response) {
         //this.$router.push({name:"mostrarDocumentos"});
         //console.log(response.data)
-        window.location.href = '/dashboard';
+        window.location.href = '/vistaCP/' + _this2.idCp;
       })["catch"](function (error) {
         alert(error);
         console.log(error);
@@ -5444,20 +5449,10 @@ __webpack_require__.r(__webpack_exports__);
     onFileChange: function onFileChange(e) {
       //console.log(e.target.files[0]);
       this.evidencia.imagen = e.target.files[0];
+    },
+    verCps: function verCps() {
+      window.location.href = '/dashboard';
     }
-    /*borrarDocumento(id){
-          if(confirm("¿confirma eliminar el registro")){
-            axios.delete('/api/documentos/' + id)
-            .then(response=>{
-                this.showDocuments()
-            })
-            .catch(error=>{
-                alert(error);
-                console.log(error)
-            })          
-        }
-    }*/
-
   }
 });
 
@@ -28289,21 +28284,45 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticStyle: { width: "100%", "text-align": "right" } }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary",
-          attrs: { type: "button" },
-          on: {
-            click: function ($event) {
-              return _vm.changeFlagEvidences()
+    _c(
+      "div",
+      {
+        staticStyle: {
+          width: "100%",
+          "text-align": "right",
+          "margin-top": "20px",
+        },
+      },
+      [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-warning",
+            attrs: { type: "button" },
+            on: {
+              click: function ($event) {
+                return _vm.verCps()
+              },
             },
           },
-        },
-        [_vm._v("\n            Desplegar\n        ")]
-      ),
-    ]),
+          [_vm._v("\n            Ver CP's\n        ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary",
+            attrs: { type: "button" },
+            on: {
+              click: function ($event) {
+                return _vm.changeFlagEvidences()
+              },
+            },
+          },
+          [_vm._v("\n            Desplegar\n        ")]
+        ),
+      ]
+    ),
     _c("br"),
     _vm._v(" "),
     _vm.showEvidences
@@ -28456,7 +28475,7 @@ var render = function () {
               ])
             : _vm._e(),
           _vm._v(" "),
-          _c("table", { staticClass: "table" }, [
+          _c("table", { staticClass: "table table-bordered" }, [
             _vm._m(0),
             _vm._v(" "),
             _c(
@@ -28489,7 +28508,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", { staticClass: "thead-light" }, [
+    return _c("thead", { staticClass: "table-dark" }, [
       _c("tr", [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
         _vm._v(" "),

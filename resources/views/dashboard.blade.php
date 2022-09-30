@@ -7,53 +7,28 @@
             @if (Auth::user()->email == 'gti-echura@cajalosandes.pe')
                 <a href="{{ route('importar') }}" class="btn btn-success">Importar Data</a><br><br>
             @endif
-            <div class="card">
-                <div class="card-header">Casos de prueba asignados</div>
 
-                <!--<div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
-                </div>-->
-
-                <table class="table table-striped table-bordered">
-                    <thead>
+                <table class="table table-bordered">
+                    <thead class="table-dark">
                         <tr>
-                            <td class="col-1">ID</td>
+                            <td>ID</td>
                             <td>Nombre</td>
-                            <!--<td>Funcionalidad</td>
-                            <td>T. Prueba</td>
-                            <td>Precondiciones</td>
-                            <td>Pasos</td>
-                            <td>Ola</td>
-                            <td>Resultado</td>
-                            <td>Aprobador</td>-->
                             <td>Acciones</td>
                         </tr>
                     </thead>
                     <tbody>
                     @foreach($cps as $key => $value)
                         <tr>
-                            <td class="col-1" style="background: #13c3f3; color:#fff;">{{ $value->id }}</td>
-                            <td style="background: #13c3f3; color:#fff;">{{ $value->nombre }}</td>
-                            <td style="background: #13c3f3; color:#fff;">
-
-                                <!-- delete the shark (uses the destroy method DESTROY /sharks/{id} -->
-                                <!-- we will add this later since its a little more complicated than the other two buttons -->
-
-                                <!-- show the shark (uses the show method found at GET /sharks/{id} -->
-                                <!--<a class="btn btn-small btn-success" href="{{ URL::to('sharks/' . $value->id) }}">-->
+                            <td>{{ $value->id }}</td>
+                            <td>{{ $value->nombre }}</td>
+                            <td>
                                 <div class="input-group">
-                                    <button type="button" style="background: #fdce04; border: none; margin-right: 10px;" class="modalCP btn btn-primary" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg" data-comp="{{ $value }}">
+                                    <a type="button" style="background: #fdce04; border: none; margin-right: 10px;" class="modalCP btn btn-primary" href="{{ route('vistaCP', $value->id) }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
                                             <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
                                             <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
                                         </svg>
-                                    </button>
+                                    </a>
                                     <a type="button" id="pdf" class="btn btn-primary" style="background: #fdce04; border: none; margin-right: 10px;" href="{{ route('pdf', $value->id) }}"  target="_blank">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
                                             <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
@@ -80,112 +55,12 @@
                                 </div>
 
                             </td>
-                            <!--<td>{{ $value->funcionalidad }}</td>
-                            <td>{{ $value->tipo_prueba }}</td>
-                            <td>{{ $value->precondiciones }}</td>
-                            <td>{{ $value->pasos }}</td>
-                            <td>{{ $value->ola }}</td>
-                            <td>{{ $value->resultado }}</td>
-                            <td>{{ $value->aprobador }}</td>-->
-                        </tr>
-                        <tr>
-                            <td colspan="3">
-                                <div class="container">
-                                    <evidencias-component :id-cp="{{ $value->id }}" :aprobado-cp="'{{ $value->aprobador }}'"></evidencias-component>
-                                </div>
-                            </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
-            </div>
         </div>
     </div>
 </div>
 
-<!-- MODAL -->
-
-<div class="modal fade bd-example-modal-lg" tabindex="-1" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Caso de Prueba N° <span id="testCaseId"></span></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="testCaseNombre">Caso de Prueba</label>
-                    <input type="text" class="form-control" id="testCaseNombre" readonly>
-                    <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
-                </div>
-                <div class="form-group">
-                    <label for="testCaseFuncionalidad">Funcionalidad</label>
-                    <input type="text" class="form-control" id="testCaseFuncionalidad" readonly>
-                    <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
-                </div>
-                <div class="form-group">
-                    <label for="testCaseTipo">Tipo de Prueba</label>
-                    <input type="text" class="form-control" id="testCaseTipo" readonly>
-                    <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
-                </div>
-                <div class="form-group">
-                    <label for="testCasePrecondiciones">Precondiciones</label>
-                    <input type="text" class="form-control" id="testCasePrecondiciones" readonly>
-                    <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
-                </div>
-                <div class="form-group">
-                    <label for="testCasePasos">Pasos</label>
-                    <input type="text" class="form-control" id="testCasePasos" readonly>
-                    <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
-                </div>
-                <div class="form-group">
-                    <label for="testCaseOla">Ola</label>
-                    <input type="text" class="form-control" id="testCaseOla" readonly>
-                    <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
-                </div>
-                <div class="form-group">
-                    <label for="testCaseResultado">Resultado</label>
-                    <input type="text" class="form-control" id="testCaseResultado" readonly>
-                    <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
-                </div>
-                <div class="form-group">
-                    <label for="testCaseAprobador">Aprobador</label>
-                    <input type="text" class="form-control" id="testCaseAprobador" readonly>
-                    <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
-                </div>
-                <!--<evidencias-component :id-cp="testCaseIdProp"></evidencias-component>-->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <!--<button type="button" class="btn btn-primary">Guardar</button>-->
-            </div>
-        </div>
-    </div>
-</div>
 @endsection
-
-@push('other-scripts')
-<script>
-    $(document).ready(function(){
-
-        $(document).on("click", ".modalCP", function () {
-
-            var testCaseId = $(this).data('comp');
-            //testCaseIdProp = testCaseId.id;
-
-            $("#testCaseId").text(testCaseId.id);
-            //$("#idcomponent").val(testCaseId.id);
-            $(".modal-body #testCaseNombre").val( testCaseId.nombre );
-            $(".modal-body #testCaseFuncionalidad").val( testCaseId.funcionalidad );
-            $(".modal-body #testCaseTipo").val( testCaseId.tipo_prueba );
-            $(".modal-body #testCasePrecondiciones").val( testCaseId.precondiciones );
-            $(".modal-body #testCasePasos").val( testCaseId.pasos );
-            $(".modal-body #testCaseOla").val( testCaseId.ola );
-            $(".modal-body #testCaseResultado").val( testCaseId.resultado );
-            $(".modal-body #testCaseAprobador").val( testCaseId.aprobador );
-        });
-    });
-</script>
-@endpush
-
-<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>

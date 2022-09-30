@@ -1,6 +1,9 @@
 <template>
     <div>
-        <div style="width: 100%; text-align: right;">
+        <div style="width: 100%; text-align: right; margin-top: 20px;">
+            <button class="btn btn-warning" type="button" v-on:click="verCps()">
+                Ver CP's
+            </button>
             <button class="btn btn-primary" type="button" v-on:click="changeFlagEvidences()">
                 Desplegar
             </button>
@@ -27,8 +30,8 @@
                 </form>
             </div>
 
-            <table class="table">
-                <thead class="thead-light">
+            <table class="table table-bordered">
+                <thead class="table-dark">
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Imagen</th>
@@ -131,7 +134,7 @@
                 .then(response=>{
                     //this.$router.push({name:"mostrarDocumentos"});
                     //console.log(response.data)
-                    window.location.href = '/dashboard';
+                    window.location.href = '/vistaCP/' + this.idCp;
                 })
                 .catch(error=>{
                     alert(error);
@@ -167,19 +170,10 @@
                 this.evidencia.imagen = e.target.files[0];
             },
 
-            /*borrarDocumento(id){
+            verCps(){
 
-                if(confirm("¿confirma eliminar el registro")){
-                    axios.delete('/api/documentos/' + id)
-                    .then(response=>{
-                        this.showDocuments()
-                    })
-                    .catch(error=>{
-                        alert(error);
-                        console.log(error)
-                    })          
-                }
-            }*/
+                window.location.href = '/dashboard';
+            }
         }
     }
 </script>

@@ -38,6 +38,10 @@ Route::get('/import', [CasosPruebasController::class, 'import'])->name('importar
 
 Route::get('pdf/{id}', [PdfController::class, 'index'])->name('pdf');
 
+/* RUTA VISTA CP */
+
+Route::get('vistaCP/{id}', [CasosPruebasController::class, 'index'])->name('vistaCP');
+
 /* RUTAS BOTONES ACEPTACION/OBSERVACION */
 
 Route::get('/observaCP/{idCP}', function ($idCP){

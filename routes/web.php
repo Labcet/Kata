@@ -44,11 +44,22 @@ Route::get('vistaCP/{id}', [CasosPruebasController::class, 'index'])->name('vist
 
 /* RUTAS BOTONES ACEPTACION/OBSERVACION */
 
+Route::get('/descartaCP/{idCP}', function ($idCP){
+
+    CasosPruebas::where('id',$idCP)
+        ->update([
+            'aprobador' => 'descartado'
+        ]);
+
+    return redirect('/dashboard');
+})
+    ->name('descartaCP');
+
 Route::get('/observaCP/{idCP}', function ($idCP){
 
     CasosPruebas::where('id',$idCP)
         ->update([
-            'aprobador' => 'observacion'
+            'aprobador' => 'observado'
         ]);
 
     return redirect('/dashboard');
@@ -59,7 +70,7 @@ Route::get('/apruebaCP/{idCP}', function ($idCP){
 
     CasosPruebas::where('id',$idCP)
         ->update([
-            'aprobador' => 'conforme'
+            'aprobador' => 'aprobado'
         ]);
 
     return redirect('/dashboard');

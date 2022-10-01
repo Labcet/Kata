@@ -121,8 +121,12 @@ class PdfController extends Controller
         $this->fpdf->Cell(59,16,utf8_decode('Precondición'),1,1,'C', $bandera);
         $this->fpdf->SetXY(72,84);
 
+        $pcond = explode(',', $testCaseData->precondiciones);
 
-        $this->fpdf->Multicell(125,8,utf8_decode($testCaseData->precondiciones),1,1,'L','true');
+        foreach ($pcond as $pc) {
+            
+            $this->fpdf->Cell(125,8,utf8_decode($pc),1,1,'L','true');
+        }   
         //  $this->MultiCell(120,5,utf8_decode(''),1,1,'L', $bandera);
 
 
@@ -181,6 +185,6 @@ class PdfController extends Controller
 
         $this->fpdf->Multicell(125,8,utf8_decode($testCaseData->aprobador),1,1,'L','true'); 
 
-        $this->fpdf->Output();
+        $this->fpdf->Output("I","CP[".$testCaseData->id."].pdf");
     }
 }

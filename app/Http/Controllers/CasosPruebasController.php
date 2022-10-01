@@ -121,6 +121,6 @@ class CasosPruebasController extends Controller
     public function import()
     {
         Excel::import(new CasosPruebaImport, 'test.xlsx');
-        return redirect('/')->with('success', 'All good!');
+        return redirect('/dashboard')->with('success', 'All good!');
     }
 }

@@ -5367,6 +5367,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     idCp: Number,
@@ -5430,6 +5438,16 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         alert(error);
         console.log(error);
+      });
+    },
+    deleteEvidencia: function deleteEvidencia(idEv) {
+      var _this3 = this;
+
+      //console.log(idEv);
+      axios["delete"]('/api/evidencias/' + idEv).then(function (response) {
+        window.location.href = '/vistaCP/' + _this3.idCp;
+      })["catch"](function (error) {
+        alert(error);
       });
     },
     changeFlag: function changeFlag() {
@@ -28476,7 +28494,21 @@ var render = function () {
             : _vm._e(),
           _vm._v(" "),
           _c("table", { staticClass: "table table-bordered" }, [
-            _vm._m(0),
+            _c("thead", { staticClass: "table-dark" }, [
+              _c("tr", [
+                _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
+                _vm._v(" "),
+                _c("th", { attrs: { scope: "col" } }, [_vm._v("Imagen")]),
+                _vm._v(" "),
+                _c("th", { attrs: { scope: "col" } }, [_vm._v("Comentario")]),
+                _vm._v(" "),
+                _c("th", { attrs: { scope: "col" } }, [_vm._v("Fecha y hora")]),
+                _vm._v(" "),
+                _vm.aprobadoFlag == "pendiente"
+                  ? _c("th", { attrs: { scope: "col" } }, [_vm._v("Acciones")])
+                  : _vm._e(),
+              ]),
+            ]),
             _vm._v(" "),
             _c(
               "tbody",
@@ -28494,6 +28526,46 @@ var render = function () {
                   _c("td", [_vm._v(_vm._s(evidencia.comentario))]),
                   _vm._v(" "),
                   _c("td", [_vm._v(_vm._s(evidencia.fecha_hora))]),
+                  _vm._v(" "),
+                  _vm.aprobadoFlag == "pendiente"
+                    ? _c("td", [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "btn btn-danger",
+                            staticStyle: { background: "rgb(255, 40, 123)" },
+                            attrs: { type: "button" },
+                            on: {
+                              click: function ($event) {
+                                return _vm.deleteEvidencia(evidencia.id)
+                              },
+                            },
+                          },
+                          [
+                            _c(
+                              "svg",
+                              {
+                                staticClass: "h-5 w-5",
+                                attrs: {
+                                  xmlns: "http://www.w3.org/2000/svg",
+                                  viewBox: "0 0 20 20",
+                                  fill: "currentColor",
+                                },
+                              },
+                              [
+                                _c("path", {
+                                  attrs: {
+                                    "fill-rule": "evenodd",
+                                    d: "M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z",
+                                    "clip-rule": "evenodd",
+                                  },
+                                }),
+                              ]
+                            ),
+                          ]
+                        ),
+                      ])
+                    : _vm._e(),
                 ])
               }),
               0
@@ -28503,24 +28575,7 @@ var render = function () {
       : _vm._e(),
   ])
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", { staticClass: "table-dark" }, [
-      _c("tr", [
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Imagen")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Comentario")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Fecha y hora")]),
-      ]),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

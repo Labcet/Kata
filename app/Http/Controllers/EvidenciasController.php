@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\CasosPruebas;
 use App\Models\Evidencias;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Storage;
+use File;
 
 class EvidenciasController extends Controller
 {
@@ -112,10 +112,13 @@ class EvidenciasController extends Controller
      */
     public function destroy($id)
     {
-        /*$oficina = oficina::find($id);
-        $oficina->delete();
+        $evidencia = Evidencias::find($id);
+        
+        File::delete(public_path($evidencia->path));
+        $evidencia->delete();
+
         return response()->json([
             'mensaje' => 'eliminado'
-        ]);*/
+        ]);
     }
 }

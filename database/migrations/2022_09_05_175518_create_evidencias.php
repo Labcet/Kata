@@ -14,11 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('evidencias', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('cp_id');
             $table->foreign('cp_id')->references('id')->on('casos_prueba');
             $table->binary('imagen');
             $table->string('path');
-            $table->text('comentario');
+            $table->text('comentario')->nullable();
             $table->timestamp('fecha_hora');
             //$table->id();
             //$table->timestamps();

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('funcionalidad');
             $table->string('tipo_prueba');
+            $table->date('fecha_certificacion')->nullable();
             $table->text('precondiciones');
             $table->text('pasos');
             $table->string('ola');

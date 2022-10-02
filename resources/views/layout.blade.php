@@ -57,9 +57,9 @@
     </head>
 <body>
     
-<nav class="navbar navbar-expand-lg navbar-light navbar-laravel">
+<nav class="navbar navbar-expand-lg navbar-light navbar-laravel" style="background-color: #01C4FA;">
     <div class="container">
-        <a class="navbar-brand" href="#">Laravel</a>
+        <a class="navbar-brand" href="#"><img src="{{asset('/upload/andes.jpg')}}" width="80px"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -70,9 +70,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('login') }}">Login</a>
                     </li>
-                    <li class="nav-item">
+                    <!--<li class="nav-item">
                         <a class="nav-link" href="{{ route('register') }}">Register</a>
-                    </li>
+                    </li>-->
                 @else
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('logout') }}">Logout</a>
@@ -92,6 +92,7 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 <script src="{{mix('js/app.js')}}" type="text/javascript"></script>
 @stack('other-scripts')

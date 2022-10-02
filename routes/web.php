@@ -46,9 +46,12 @@ Route::get('vistaCP/{id}', [CasosPruebasController::class, 'index'])->name('vist
 
 Route::get('/descartaCP/{idCP}', function ($idCP){
 
+    date_default_timezone_set('America/Lima');
+
     CasosPruebas::where('id',$idCP)
         ->update([
-            'aprobador' => 'descartado'
+            'fecha_certificacion' => date('Y-m-d'),
+            'resultado' => 'descartado'
         ]);
 
     return redirect('/dashboard');
@@ -59,7 +62,8 @@ Route::get('/observaCP/{idCP}', function ($idCP){
 
     CasosPruebas::where('id',$idCP)
         ->update([
-            'aprobador' => 'observado'
+            'fecha_certificacion' => date('Y-m-d'),
+            'resultado' => 'observado'
         ]);
 
     return redirect('/dashboard');
@@ -70,7 +74,8 @@ Route::get('/apruebaCP/{idCP}', function ($idCP){
 
     CasosPruebas::where('id',$idCP)
         ->update([
-            'aprobador' => 'aprobado'
+            'fecha_certificacion' => date('Y-m-d'),
+            'resultado' => 'aprobado'
         ]);
 
     return redirect('/dashboard');

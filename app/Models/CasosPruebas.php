@@ -9,7 +9,7 @@ class CasosPruebas extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre','funcionalidad','tipo_prueba','precondiciones','pasos','ola','resultado','aprobador','user_id'];
+    protected $fillable = ['nombre','funcionalidad','tipo_prueba','fecha_certificacion','precondiciones','pasos','ola','resultado','aprobador','user_id'];
 
     public $table = "casos_prueba";
 

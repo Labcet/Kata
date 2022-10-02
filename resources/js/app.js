@@ -20,6 +20,7 @@ window.Vue = require('vue').default;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('evidencias-component', require('./components/EvidenciasComponent.vue').default);
+Vue.component('metricas-component', require('./components/MetricasComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

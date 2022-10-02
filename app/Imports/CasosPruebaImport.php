@@ -18,12 +18,13 @@ class CasosPruebaImport implements ToModel
             'nombre' => $row[0],
             'funcionalidad' => $row[1],
             'tipo_prueba' => $row[2],
-            'precondiciones' => $row[3],
-            'pasos' => $row[4],
-            'ola' => $row[5],
-            'resultado' => $row[6],
-            'aprobador' => $row[7],
-            'user_id' => $row[8]
+            'fecha_certificacion' => $row[3],
+            'precondiciones' => $row[4],
+            'pasos' => $row[5],
+            'ola' => $row[6],
+            'resultado' => $row[7],
+            'aprobador' => $row[8],
+            'user_id' => $row[9]
         ]);
     }
 }

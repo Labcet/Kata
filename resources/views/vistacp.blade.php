@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-10">
+        <div class="col-md-8">
             <div class="card" style="margin-top: 20px;">
                 <div class="card-header">Información del Caso de Prueba</div>
                 <div class="card-body">
@@ -16,8 +16,16 @@
                         <input type="text" class="form-control" id="testCaseFuncionalidad" value="{{ $cp->funcionalidad }}" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="testCaseTipo">Tipo de Prueba</label>
-                        <input type="text" class="form-control" id="testCaseTipo" value="{{ $cp->tipo_prueba }}" readonly>
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="testCaseTipo">Tipo de Prueba</label>
+                                <input type="text" class="form-control" id="testCaseTipo" value="{{ $cp->tipo_prueba }}" readonly>
+                            </div>
+                            <div class="col-6">
+                                <label for="testCaseFechaCertificacion">Fecha de Certificación</label>
+                                <input type="text" class="form-control" id="testCaseFechaCertificacion" value="{{ $cp->fecha_certificacion }}" readonly>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="testCasePrecondiciones">Precondiciones</label>
@@ -45,7 +53,7 @@
                     </div>
                 </div>
             </div>
-            <evidencias-component :id-cp="{{ $cp->id }}" :aprobado-cp="'{{ $cp->aprobador }}'"></evidencias-component>
+            <evidencias-component :id-cp="{{ $cp->id }}" :resultado-cp="'{{ $cp->resultado }}'"></evidencias-component>
         </div>
     </div>
 </div>

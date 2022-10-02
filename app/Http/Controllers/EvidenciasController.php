@@ -42,7 +42,8 @@ class EvidenciasController extends Controller
         $evidencias = new Evidencias;
 
         //$file_name = 'Test'.$request->file('imagen')->getClientOriginalName();
-        $file_name = date('Y-m-d').'_'.$request->cp_id.'_'.$request->file('imagen')->getClientOriginalName();
+        date_default_timezone_set('America/Lima');
+        $file_name = date('Ymdhis').'_'.$request->cp_id.'_'.$request->file('imagen')->getClientOriginalName();
         //$file_path = $request->file('imagen')->storeAs('upload', $file_name, 'public');
         //$file_path = public_path().'/upload';
         $request->file('imagen')->move(public_path('/upload/'),$file_name);

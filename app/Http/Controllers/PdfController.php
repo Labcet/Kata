@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\CasosPruebas;
 use App\Models\Evidencias;
 use Webklex\PDFMerger\Facades\PDFMergerFacade as PDFMerger;
+use Illuminate\Support\Facades\URL;
 
 class PdfController extends Controller
 {
@@ -29,7 +30,8 @@ class PdfController extends Controller
         $this->fpdf->SetFont('helvetica','B',12);
         $this->fpdf->SetTextColor(0, 52, 98);
 
-        $this->fpdf->Image('../public/upload/andes.jpg',13,8,22);
+        //$this->fpdf->Image('../public/upload/andes.jpg',13,8,22);
+        $this->fpdf->Image(URL::to('/public/upload/andes.jpg'),13,8,22);
 
         $bander = false; //Para alternar el relleno
         $bander = !$bander;//Alterna el valor de la bandera
@@ -174,7 +176,8 @@ class PdfController extends Controller
                 }
             }
 
-            $this->fpdf->Cell(80,120, $this->fpdf->Image('../public'.$evidenciasTestCase[$i]->path, $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null), 1, 0, 'R');
+            $this->fpdf->Cell(80,120, $this->fpdf->Image(URL::to('/public'.$evidenciasTestCase[$i]->path), $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null), 1, 0, 'R');
+            //$this->fpdf->Cell(80,120, $this->fpdf->Image('../public'.$evidenciasTestCase[$i]->path, $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null), 1, 0, 'R');
             $this->fpdf->Cell(110,120, utf8_decode($evidenciasTestCase[$i]->comentario), 1, 0, 'C', $bandera);
             $this->fpdf->Ln();
         }
@@ -215,7 +218,8 @@ class PdfController extends Controller
             $this->fpdf->SetFont('helvetica','B',12);
             $this->fpdf->SetTextColor(0, 52, 98);
 
-            $this->fpdf->Image('../public/upload/andes.jpg',13,8,22);
+            //$this->fpdf->Image('../public/upload/andes.jpg',13,8,22);
+            $this->fpdf->Image(URL::to('/public/upload/andes.jpg'),13,8,22);
 
             $bander = false; //Para alternar el relleno
             $bander = !$bander;//Alterna el valor de la bandera
@@ -357,7 +361,8 @@ class PdfController extends Controller
                     }
                 }
 
-                $this->fpdf->Cell(80,120, $this->fpdf->Image('../public'.$evidenciasTestCase[$i]->path, $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null), 1, 0, 'R');
+                //$this->fpdf->Cell(80,120, $this->fpdf->Image('../public'.$evidenciasTestCase[$i]->path, $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null), 1, 0, 'R');
+                $this->fpdf->Cell(80,120, $this->fpdf->Image(URL::to('/public'.$evidenciasTestCase[$i]->path), $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null), 1, 0, 'R');
                 $this->fpdf->Cell(110,120, utf8_decode($evidenciasTestCase[$i]->comentario), 1, 0, 'C', $bandera);
                 $this->fpdf->Ln();
             }

@@ -20,7 +20,7 @@ class PdfController extends Controller
     public function index($id) 
     {
 
-        $testCaseData = CasosPruebas::find($id);
+        $testCaseData = CasosPruebas::find(decrypt($id));
         $evidenciasTestCase = Evidencias::where('cp_id', $testCaseData->id)->get();
 
         // HEADER
@@ -200,28 +200,8 @@ class PdfController extends Controller
 
     public function mergePDF($id)
     {
-        
-        //$reporte = new Fpdf;
 
-        $cps = CasosPruebas::where('user_id', $id)->get();
-
-        /*
-        //$pdf_reporte = new PDFMerger();
-
-        //Agregue todas las páginas del PDF para fusionar
-        //$pdf->addPDF("somePdfToMerge.pdf", 'all');
-
-        $pdf_reporte = PDFMerger::init();
-
-        foreach($cps as $cp){
-
-            $pdf_cp = redirect()->route('pdf', $cp->id);
-            $pdf_reporte->addPDF($pdf_cp, 'all');
-            //$pdf_reporte->addString(file_get_contents(redirect()->route('pdf', $cp->id)), [1]);
-
-        }
-
-        return response()->download($pdf_reporte);*/
+        $cps = CasosPruebas::where('user_id', decrypt($id))->get();
 
         // HEADER
 
@@ -287,9 +267,6 @@ class PdfController extends Controller
             $bandera = false; //Para alternar el relleno
             $bandera = !$bandera;//Alterna el valor de la bandera
 
-            /*$this->fpdf->SetFillColor(224,235,255);
-            $this->fpdf->Cell(85,14, utf8_decode('Aplicación/Módulo/ Plataforma y/o Funcionalidad: '),1, 0 , 'C', $bandera );
-            $this->fpdf->SetFillColor(255,255,255);//color de celda*/
             $this->fpdf->SetX(95);
             $this->fpdf->MultiCell(105,7, utf8_decode($testCaseData->funcionalidad),1, 0 , 'C', $bandera );
             $height_funcionalidad = $this->fpdf->GetY();
@@ -402,6 +379,6 @@ class PdfController extends Controller
         // CONFIG
 
         $this->fpdf->AliasNbPages();
-        $this->fpdf->Output("I","CP[".$testCaseData->id."].pdf");
+        $this->fpdf->Output("I","REPORTE_GENERAL.pdf");
     }
 }

@@ -81,3 +81,8 @@ Route::get('/apruebaCP/{idCP}', function ($idCP){
     return redirect('/dashboard');
 })
     ->name('apruebaCP');
+
+
+/* RUTA MERGE PDF */
+
+Route::get('/reporte/{id}', [PdfController::class, 'mergePDF'])->name('reporte');

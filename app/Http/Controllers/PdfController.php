@@ -30,8 +30,8 @@ class PdfController extends Controller
         $this->fpdf->SetFont('helvetica','B',12);
         $this->fpdf->SetTextColor(0, 52, 98);
 
-        //$this->fpdf->Image('../public/upload/andes.jpg',13,8,22);
-        $this->fpdf->Image(URL::to('/public/upload/andes.jpg'),13,8,22);
+        $this->fpdf->Image('../public/upload/andes.jpg',13,8,22);
+        //$this->fpdf->Image(URL::to('/public/upload/andes.jpg'),13,8,22);
 
         $bander = false; //Para alternar el relleno
         $bander = !$bander;//Alterna el valor de la bandera
@@ -176,8 +176,25 @@ class PdfController extends Controller
                 }
             }
 
-            $this->fpdf->Cell(80,120, $this->fpdf->Image(URL::to('/public'.$evidenciasTestCase[$i]->path), $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null), 1, 0, 'R');
+            //$this->fpdf->Cell(80,120, $this->fpdf->Image(URL::to('/public'.$evidenciasTestCase[$i]->path), $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null), 1, 0, 'R');
             //$this->fpdf->Cell(80,120, $this->fpdf->Image('../public'.$evidenciasTestCase[$i]->path, $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null), 1, 0, 'R');
+
+            /* BASE 64 DECODE IMAGE */
+
+            $dataURI = $evidenciasTestCase[$i]->imagen;
+
+            $img = explode(',',$dataURI,2)[1];
+            $pic = 'data://text/plain;base64,'. $img;
+
+            $type = substr($dataURI, 11, 3);
+
+            if($type == "png"){
+
+                $this->fpdf->Cell(80,120, $this->fpdf->Image($pic, $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null, 'png'), 1, 0, 'R');
+            } else {
+
+                $this->fpdf->Cell(80,120, $this->fpdf->Image($pic, $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null, 'jpg'), 1, 0, 'R');
+            }
             $this->fpdf->Cell(110,120, utf8_decode($evidenciasTestCase[$i]->comentario), 1, 0, 'C', $bandera);
             $this->fpdf->Ln();
         }
@@ -218,8 +235,8 @@ class PdfController extends Controller
             $this->fpdf->SetFont('helvetica','B',12);
             $this->fpdf->SetTextColor(0, 52, 98);
 
-            //$this->fpdf->Image('../public/upload/andes.jpg',13,8,22);
-            $this->fpdf->Image(URL::to('/public/upload/andes.jpg'),13,8,22);
+            $this->fpdf->Image('../public/upload/andes.jpg',13,8,22);
+            //$this->fpdf->Image(URL::to('/public/upload/andes.jpg'),13,8,22);
 
             $bander = false; //Para alternar el relleno
             $bander = !$bander;//Alterna el valor de la bandera
@@ -361,8 +378,27 @@ class PdfController extends Controller
                     }
                 }
 
+                /* BASE 64 DECODE IMAGE */
+
+                /* BASE 64 DECODE IMAGE */
+
+                $dataURI = $evidenciasTestCase[$i]->imagen;
+
+                $img = explode(',',$dataURI,2)[1];
+                $pic = 'data://text/plain;base64,'. $img;
+
+                $type = substr($dataURI, 11, 3);
+
+                if($type == "png"){
+
+                    $this->fpdf->Cell(80,120, $this->fpdf->Image($pic, $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null, 'png'), 1, 0, 'R');
+                } else {
+
+                    $this->fpdf->Cell(80,120, $this->fpdf->Image($pic, $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null, 'jpg'), 1, 0, 'R');
+                }
+
                 //$this->fpdf->Cell(80,120, $this->fpdf->Image('../public'.$evidenciasTestCase[$i]->path, $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null), 1, 0, 'R');
-                $this->fpdf->Cell(80,120, $this->fpdf->Image(URL::to('/public'.$evidenciasTestCase[$i]->path), $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null), 1, 0, 'R');
+                //$this->fpdf->Cell(80,120, $this->fpdf->Image(URL::to('/public'.$evidenciasTestCase[$i]->path), $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null), 1, 0, 'R');
                 $this->fpdf->Cell(110,120, utf8_decode($evidenciasTestCase[$i]->comentario), 1, 0, 'C', $bandera);
                 $this->fpdf->Ln();
             }

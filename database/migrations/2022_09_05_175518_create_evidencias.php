@@ -17,13 +17,15 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('cp_id');
             $table->foreign('cp_id')->references('id')->on('casos_prueba');
-            $table->binary('imagen');
+            //$table->binary('imagen');
             $table->string('path');
             $table->text('comentario')->nullable();
             $table->timestamp('fecha_hora');
             //$table->id();
             //$table->timestamps();
         });
+
+        DB::statement("ALTER TABLE evidencias ADD imagen MEDIUMBLOB");
     }
 
     /**

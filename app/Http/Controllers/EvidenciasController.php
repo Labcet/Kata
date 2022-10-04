@@ -39,15 +39,32 @@ class EvidenciasController extends Controller
      */
     public function store(Request $request)
     {
+
         $evidencias = new Evidencias;
 
-        //$file_name = 'Test'.$request->file('imagen')->getClientOriginalName();
+        date_default_timezone_set('America/Lima');
+
+        $evidencias->cp_id = $request->cp_id;
+        $evidencias->imagen = $request->imagen;
+        $evidencias->path = 'path';
+        $evidencias->comentario = $request->comentario;
+        $evidencias->fecha_hora = Carbon::now();
+
+        $evidencias->save();
+
+        //return redirect()->route('vistacp', ['id' => encrypt($request->cp_id)]);
+
+        return response()->json([
+            'mensaje' => 'agregado'
+        ]);
+
+        // Kata v0.3.0
+
+        /*$evidencias = new Evidencias;
+
         date_default_timezone_set('America/Lima');
         $file_name = date('Ymdhis').'_'.$request->cp_id.'_'.$request->file('imagen')->getClientOriginalName();
-        //$file_path = $request->file('imagen')->storeAs('upload', $file_name, 'public');
-        //$file_path = public_path().'/upload';
         $request->file('imagen')->move(public_path('/upload/'),$file_name);
-        //Storage::disk('local')->put($request->file('imagen'), 'Contents');
 
         $evidencias->cp_id = $request->cp_id;
         $evidencias->imagen = '/upload/'.$file_name;
@@ -57,7 +74,7 @@ class EvidenciasController extends Controller
 
         $evidencias->save();
 
-        return redirect('/dashboard');
+        return redirect('/dashboard');*/
     }
 
     /**
@@ -115,7 +132,9 @@ class EvidenciasController extends Controller
     {
         $evidencia = Evidencias::find($id);
         
+        /* KATA v0.3.0
         File::delete(public_path($evidencia->path));
+        */
         $evidencia->delete();
 
         return response()->json([

@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            @if (Auth::user()->email == 'gti-echura@cajalosandes.pe')
+            @if (Auth::user()->rol == 'administrador')
                 <a href="{{ route('importar') }}" class="btn btn-danger" style="margin-top: 40px;">Importar Data</a><br><br>
             @endif
 
@@ -27,7 +27,7 @@
                         <td>{{ $value->nombre }}</td>
                         <td>
                             <div class="input-group">
-                                <a type="button" style="background: #00cbff; border: none; margin-right: 10px;" class="modalCP btn btn-primary" href="{{ route('vistaCP', $value->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Vista previa">
+                                <a type="button" style="background: #00cbff; border: none; margin-right: 10px;" class="modalCP btn btn-primary" href="{{ route('vistacp', $value->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Vista previa">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
                                         <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
                                         <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
@@ -40,18 +40,18 @@
                                     </svg>                                   
                                 </a>
                                 @if($value->resultado == 'pendiente')
-                                    <a type="button" id="descartar" class="btn btn-primary" style="background: #ff287a; border: none; margin-right: 10px;" href="{{ route('descartaCP', $value->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Descartar">
+                                    <a type="button" id="descartar" class="btn btn-primary" style="background: #ff287a; border: none; margin-right: 10px;" href="{{ route('descartacp', $value->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Descartar">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                                         </svg>
                                     </a>
-                                    <a type="button" id="observar" class="btn btn-primary" style="background: #ffd000; border: none; margin-right: 10px;" href="{{ route('observaCP', $value->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Observar">
+                                    <a type="button" id="observar" class="btn btn-primary" style="background: #ffd000; border: none; margin-right: 10px;" href="{{ route('observacp', $value->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Observar">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-diamond" viewBox="0 0 16 16">
                                             <path d="M6.95.435c.58-.58 1.52-.58 2.1 0l6.515 6.516c.58.58.58 1.519 0 2.098L9.05 15.565c-.58.58-1.519.58-2.098 0L.435 9.05a1.482 1.482 0 0 1 0-2.098L6.95.435zm1.4.7a.495.495 0 0 0-.7 0L1.134 7.65a.495.495 0 0 0 0 .7l6.516 6.516a.495.495 0 0 0 .7 0l6.516-6.516a.495.495 0 0 0 0-.7L8.35 1.134z"/>
                                             <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
                                         </svg>
                                     </a>
-                                    <a type="button" id="aprobar" class="btn btn-primary" style="background: #019500; border: none; margin-right: 10px;" href="{{ route('apruebaCP', $value->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Aprobar">
+                                    <a type="button" id="aprobar" class="btn btn-primary" style="background: #019500; border: none; margin-right: 10px;" href="{{ route('apruebacp', $value->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Aprobar">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                                         </svg>                                   

@@ -5375,6 +5375,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     idCp: Number,
@@ -5415,31 +5417,47 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
-    createEvidencia: function createEvidencia(e) {
+    createEvidencia: function createEvidencia() {
       var _this2 = this;
 
-      e.preventDefault();
-      var existingObj = this;
-      var config = {
-        headers: {
-          'content-type': 'multipart/form-data'
-        }
-      };
-      var data = new FormData();
-      data.append('cp_id', this.evidencia.cp_id);
-      data.append('imagen', this.evidencia.imagen);
-      data.append('path', this.evidencia.path);
-      data.append('comentario', this.evidencia.comentario);
-      data.append('fecha_hora', this.evidencia.fecha_hora);
-      axios.post('/api/evidencias', data, config).then(function (response) {
+      axios.post('/api/evidencias', this.evidencia).then(function (response) {
         //this.$router.push({name:"mostrarDocumentos"});
-        //console.log(response.data)
-        window.location.href = '/vistaCP/' + _this2.idCp;
+        window.location.href = '/vistacp/' + _this2.idCp;
       })["catch"](function (error) {
         alert(error);
         console.log(error);
       });
     },
+
+    /*createEvidencia(e){
+        
+        // Kata v0.3.0
+        
+        e.preventDefault();
+        let existingObj  = this;
+          const config = {
+            headers: { 
+                'content-type': 'multipart/form-data' 
+            }
+        }
+          let data = new FormData();
+        data.append('cp_id', this.evidencia.cp_id);
+        data.append('imagen', this.evidencia.imagen);
+        data.append('path', this.evidencia.path);
+        data.append('comentario', this.evidencia.comentario);
+        data.append('fecha_hora', this.evidencia.fecha_hora);
+          axios.post('/api/evidencias', data, config)
+        .then(response=>{
+            //this.$router.push({name:"mostrarDocumentos"});
+            //console.log(response.data)
+            window.location.href = '/vistaCP/' + this.idCp;
+        })
+        .catch(error=>{
+            alert(error);
+            console.log(error);
+        })
+        //alert(this.evidencia.imagen);
+    },*/
     deleteEvidencia: function deleteEvidencia(idEv) {
       var _this3 = this;
 
@@ -5465,11 +5483,77 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     onFileChange: function onFileChange(e) {
-      //console.log(e.target.files[0]);
-      this.evidencia.imagen = e.target.files[0];
+      // Kata v0.3.0
+      //this.evidencia.imagen = e.target.files[0];
+      // Testing
+      var self = this;
+      var reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
+
+      reader.onload = function () {
+        self.evidencia.imagen = reader.result; //console.log(reader.result);
+      };
     },
     verCps: function verCps() {
       window.location.href = '/dashboard';
+    },
+
+    /* TESTING*/
+    pasteFunction: function pasteFunction(pasteEvent, callback) {
+      if (pasteEvent.clipboardData == false) {
+        if (typeof callback == "function") {
+          console.log('Undefined ');
+          callback(undefined);
+        }
+      }
+
+      ;
+      var items = pasteEvent.clipboardData.items;
+
+      if (items == undefined) {
+        if (typeof callback == "function") {
+          callback(undefined);
+          console.log('Undefined 2');
+        }
+      }
+
+      ;
+
+      for (var i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf("image") == -1) continue;
+        var blob = items[i].getAsFile();
+        this.addImage(blob);
+      }
+    },
+    addImage: function addImage(file) {
+      var _this4 = this;
+
+      if (!file.type.match('image.*')) {
+        return new Promise(function (reject) {
+          var error = {
+            message: 'Solo puede arrastrar imágenes.',
+            response: {
+              status: 200
+            }
+          };
+
+          _this4.$obtenerError(error);
+
+          reject();
+          return;
+        });
+      }
+
+      this.files.push(file);
+      var img = new Image(),
+          reader = new FileReader();
+
+      reader.onload = function (e) {
+        return _this4.images.push(e.target.result);
+      };
+
+      var str = JSON.stringify(file);
+      reader.readAsDataURL(file);
     }
   }
 });
@@ -28949,7 +29033,7 @@ var render = function () {
                   _c("td", [
                     _c("img", {
                       staticStyle: { width: "150px", "object-fit": "cover" },
-                      attrs: { src: "" + evidencia.path },
+                      attrs: { src: "" + evidencia.imagen },
                     }),
                   ]),
                   _vm._v(" "),

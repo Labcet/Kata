@@ -40,11 +40,11 @@ Route::get('pdf/{id}', [PdfController::class, 'index'])->name('pdf');
 
 /* RUTA VISTA CP */
 
-Route::get('vistaCP/{id}', [CasosPruebasController::class, 'index'])->name('vistaCP');
+Route::get('vistacp/{id}', [CasosPruebasController::class, 'index'])->name('vistacp');
 
 /* RUTAS BOTONES ACEPTACION/OBSERVACION */
 
-Route::get('/descartaCP/{idCP}', function ($idCP){
+Route::get('/descartacp/{idCP}', function ($idCP){
 
     date_default_timezone_set('America/Lima');
 
@@ -56,9 +56,9 @@ Route::get('/descartaCP/{idCP}', function ($idCP){
 
     return redirect('/dashboard');
 })
-    ->name('descartaCP');
+    ->name('descartacp');
 
-Route::get('/observaCP/{idCP}', function ($idCP){
+Route::get('/observacp/{idCP}', function ($idCP){
 
     CasosPruebas::where('id',$idCP)
         ->update([
@@ -68,9 +68,9 @@ Route::get('/observaCP/{idCP}', function ($idCP){
 
     return redirect('/dashboard');
 })
-    ->name('observaCP');
+    ->name('observacp');
 
-Route::get('/apruebaCP/{idCP}', function ($idCP){
+Route::get('/apruebacp/{idCP}', function ($idCP){
 
     CasosPruebas::where('id',$idCP)
         ->update([
@@ -80,7 +80,7 @@ Route::get('/apruebaCP/{idCP}', function ($idCP){
 
     return redirect('/dashboard');
 })
-    ->name('apruebaCP');
+    ->name('apruebacp');
 
 
 /* RUTA MERGE PDF */

@@ -28,6 +28,7 @@
                     <button type="submit" class="btn btn-success">Guardar</button>
                     <br><br>
                 </form>
+                <!--<textarea @paste="pasteFunction"></textarea>-->
             </div>
 
             <table class="table table-bordered">
@@ -43,14 +44,15 @@
                 <tbody>
                     <tr v-for="(evidencia, index) in evidencias" :key="evidencia.id">
                         <td>{{ index+1 }}</td>
-                        <td><img :src="''+evidencia.path" style="width: 150px; object-fit: cover;"></td>
+                        <!--<td><img :src="''+evidencia.path" style="width: 150px; object-fit: cover;"></td>-->
+                        <td><img v-bind:src="''+evidencia.imagen" style="width: 150px; object-fit: cover;"></td>
                         <td>{{ evidencia.comentario }}</td>
                         <td>{{ evidencia.fecha_hora }}</td>
                         <td v-if="resultadoFlag == 'pendiente'">
                             <a type="button" class="btn btn-danger" style="background: rgb(255, 40, 123);" @click="deleteEvidencia(evidencia.id)">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-                                </svg>                                 
+                                </svg>
                             </a>
                         </td>
                     </tr>
@@ -120,7 +122,22 @@
                 })
             },
 
-            createEvidencia(e){
+            createEvidencia(){
+
+                axios.post('/api/evidencias', this.evidencia)
+                .then(response=>{
+                    //this.$router.push({name:"mostrarDocumentos"});
+                    window.location.href = '/vistacp/' + this.idCp;
+                })
+                .catch(error=>{
+                    alert(error);
+                    console.log(error);
+                })
+            },
+
+            /*createEvidencia(e){
+                
+                // Kata v0.3.0
                 
                 e.preventDefault();
                 let existingObj  = this;
@@ -148,7 +165,8 @@
                     alert(error);
                     console.log(error);
                 })
-            },
+                //alert(this.evidencia.imagen);
+            },*/
 
             deleteEvidencia(idEv){
 
@@ -186,14 +204,77 @@
 
             onFileChange(e){
 
-                //console.log(e.target.files[0]);
-                this.evidencia.imagen = e.target.files[0];
+                // Kata v0.3.0
+                //this.evidencia.imagen = e.target.files[0];
+
+                // Testing
+
+                var self = this;
+
+                var reader = new FileReader()
+                    reader.readAsDataURL(e.target.files[0])
+                    reader.onload = function () {
+                        self.evidencia.imagen = reader.result;
+                        //console.log(reader.result);
+                    };
             },
 
             verCps(){
 
                 window.location.href = '/dashboard';
-            }
+            },
+
+            /* TESTING*/
+
+            pasteFunction(pasteEvent, callback){
+
+                if(pasteEvent.clipboardData == false){
+                    if(typeof(callback) == "function"){
+                        console.log('Undefined ')
+                        callback(undefined);
+                    }
+                };
+
+                var items = pasteEvent.clipboardData.items;
+
+                if(items == undefined){
+                    if(typeof(callback) == "function"){
+                        callback(undefined);
+                        console.log('Undefined 2')
+                    }
+                };
+                for (var i = 0; i < items.length; i++) {
+                    
+                    if (items[i].type.indexOf("image") == -1) continue;
+                    var blob = items[i].getAsFile();
+                    this.addImage(blob)
+                }
+            },
+
+            addImage(file){
+                if (!file.type.match('image.*')) {
+                    return new Promise((reject) => {
+                        const error = {
+                            message: 'Solo puede arrastrar imágenes.',
+                            response: {
+                                status: 200
+                            }
+                        }
+                        this.$obtenerError(error)
+                        reject()
+                        return;
+                    })
+                }
+
+                this.files.push(file);
+                const img = new Image(),
+                    reader = new FileReader();
+
+                reader.onload = (e) => this.images.push(e.target.result);
+                const str = JSON.stringify(file);
+
+                reader.readAsDataURL(file);
+           }
         }
     }
 </script>

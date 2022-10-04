@@ -1,3 +1,10 @@
+<style type="text/css">
+        #viewimg img {
+            height: 100%;
+            margin: 0 auto;
+            padding: 0 0.5rem;
+        }
+    </style>
 <template>
     <div>
         <div style="width: 100%; text-align: right; margin-top: 20px;">
@@ -15,20 +22,20 @@
             <div v-if="showForm">
                 <form @submit="createEvidencia" enctype="multipart/form-data">
                     <input type="text" id="Id" v-model="evidencia.cp_id" hidden>
-                    <div class="mb-3">
+                    <div id="viewimg" @paste="pasteFunction" style="width: 200px; height: 200px; display: flex; background-color: #C1C1C1; padding: 20px; position: relative; z-index: 1;" contenteditable="true"><span> </span><span contenteditable='false' style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); cursor: alias; z-index: -1;">Copie aquí su evidencia</span></div>
+                    <!--<div class="mb-3">
                         <label for="Imagen" class="form-label">Imagen</label>
                         <input type="file" class="form-control" name="Imagen" id="Imagen" v-on:change="onFileChange">
-                    </div>
+                    </div>-->
                     <input type="text" id="path" v-model="evidencia.path" hidden>
                     <div class="mb-3">
-                        <label for="Resultado" class="form-label">Comentario</label>
+                        <br><label for="Resultado" class="form-label">Comentario</label>
                         <input type="text" class="form-control" id="Resultado" v-model="evidencia.comentario">
-                        <small id="emailHelp" class="form-text text-muted">Ingrese un comentario si lo cree necesario.</small>
+                        <small id="emailHelp" class="form-text text-muted">*Ingrese un comentario si lo cree necesario.</small>
                     </div><br>
                     <button type="submit" class="btn btn-success">Guardar</button>
                     <br><br>
                 </form>
-                <!--<textarea @paste="pasteFunction"></textarea>-->
             </div>
 
             <table class="table table-bordered">
@@ -173,7 +180,7 @@
                 //console.log(idEv);
                 axios.delete('/api/evidencias/' + idEv)
                     .then(response=>{
-                        window.location.href = '/vistaCP/' + this.idCp;
+                        window.location.href = '/vistacp/' + this.idCp;
                     })
                     .catch(error=>{
                         alert(error);
@@ -202,7 +209,7 @@
                 }  
             },
 
-            onFileChange(e){
+            /*onFileChange(e){
 
                 // Kata v0.3.0
                 //this.evidencia.imagen = e.target.files[0];
@@ -217,7 +224,7 @@
                         self.evidencia.imagen = reader.result;
                         //console.log(reader.result);
                     };
-            },
+            },*/
 
             verCps(){
 
@@ -226,55 +233,19 @@
 
             /* TESTING*/
 
-            pasteFunction(pasteEvent, callback){
+            pasteFunction(pasteEvent){
 
-                if(pasteEvent.clipboardData == false){
-                    if(typeof(callback) == "function"){
-                        console.log('Undefined ')
-                        callback(undefined);
-                    }
-                };
+                //console.log(event.clipboardData.items[0]) 
 
-                var items = pasteEvent.clipboardData.items;
+                var self = this;
 
-                if(items == undefined){
-                    if(typeof(callback) == "function"){
-                        callback(undefined);
-                        console.log('Undefined 2')
-                    }
-                };
-                for (var i = 0; i < items.length; i++) {
-                    
-                    if (items[i].type.indexOf("image") == -1) continue;
-                    var blob = items[i].getAsFile();
-                    this.addImage(blob)
-                }
+                var reader = new FileReader()
+                    reader.readAsDataURL(pasteEvent.clipboardData.items[0].getAsFile())
+                    reader.onload = function () {
+                        self.evidencia.imagen = reader.result;
+                        //console.log(reader.result);
+                    };
             },
-
-            addImage(file){
-                if (!file.type.match('image.*')) {
-                    return new Promise((reject) => {
-                        const error = {
-                            message: 'Solo puede arrastrar imágenes.',
-                            response: {
-                                status: 200
-                            }
-                        }
-                        this.$obtenerError(error)
-                        reject()
-                        return;
-                    })
-                }
-
-                this.files.push(file);
-                const img = new Image(),
-                    reader = new FileReader();
-
-                reader.onload = (e) => this.images.push(e.target.result);
-                const str = JSON.stringify(file);
-
-                reader.readAsDataURL(file);
-           }
         }
     }
 </script>

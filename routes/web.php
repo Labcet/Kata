@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CasosPruebasController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\Controller;
 use App\Models\CasosPruebas;
 
 /*
@@ -27,7 +28,7 @@ Route::get('login', [AuthController::class, 'index'])->name('login');
 Route::post('post-login', [AuthController::class, 'postLogin'])->name('login.post'); 
 Route::get('registration', [AuthController::class, 'registration'])->name('register');
 Route::post('post-registration', [AuthController::class, 'postRegistration'])->name('register.post'); 
-Route::get('dashboard', [AuthController::class, 'dashboard']); 
+Route::get('dashboard', [AuthController::class, 'dashboard'])->name('dashboard'); 
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 /* RUTA DE IMPORTACION */
@@ -41,6 +42,10 @@ Route::get('pdf/{id}', [PdfController::class, 'index'])->name('pdf');
 /* RUTA VISTA CP */
 
 Route::get('vistacp/{id}', [CasosPruebasController::class, 'index'])->name('vistacp');
+
+/* RUTA ANALYTICS */
+
+Route::get('analytics', [Controller::class, 'analytics'])->name('analytics');
 
 /* RUTAS BOTONES ACEPTACION/OBSERVACION */
 

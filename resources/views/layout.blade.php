@@ -74,6 +74,12 @@
                         <a class="nav-link" href="{{ route('register') }}">Register</a>
                     </li>-->
                 @else
+                    @if (Auth::user()->rol == 'administrador')
+                        <a class="nav-link" href="{{ route('analytics') }}">Analytics</a>
+                    @endif
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('logout') }}">Logout</a>
                     </li>

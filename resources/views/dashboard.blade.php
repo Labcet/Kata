@@ -12,6 +12,14 @@
 
             <metricas-component :id-user="{{ Auth::user()->id }}"></metricas-component>
 
+            <!-- Respuesta -->
+            @if (session('status'))
+                <div class="alert alert-danger">
+                    {{ session('status') }}
+                </div>
+            @endif
+            <!-- -->
+
             <table class="table table-bordered">
                 <thead class="table-dark">
                     <tr>

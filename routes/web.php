@@ -6,6 +6,7 @@ use App\Http\Controllers\CasosPruebasController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\Controller;
 use App\Models\CasosPruebas;
+use App\Models\Evidencias;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,37 +54,64 @@ Route::get('/descartacp/{idCP}', function ($idCP){
 
     date_default_timezone_set('America/Lima');
 
-    CasosPruebas::where('id',$idCP)
+    if(Evidencias::where('cp_id', $idCP)->count() > 0){
+
+        CasosPruebas::where('id',$idCP)
         ->update([
             'fecha_certificacion' => date('Y-m-d'),
             'resultado' => 'descartado'
         ]);
 
-    return redirect('/dashboard');
+        return redirect('/dashboard');
+
+    } else {
+
+        return redirect('/dashboard')->with('status', 'Debe registrar evidencias (mínimo 1)');        
+    }
+
+    
 })
     ->name('descartacp');
 
 Route::get('/observacp/{idCP}', function ($idCP){
 
-    CasosPruebas::where('id',$idCP)
+    date_default_timezone_set('America/Lima');
+
+    if(Evidencias::where('cp_id', $idCP)->count() > 0){
+
+        CasosPruebas::where('id',$idCP)
         ->update([
             'fecha_certificacion' => date('Y-m-d'),
             'resultado' => 'observado'
         ]);
 
-    return redirect('/dashboard');
+        return redirect('/dashboard');
+
+    } else {
+
+        return redirect('/dashboard')->with('status', 'Debe registrar evidencias (mínimo 1)');        
+    }
 })
     ->name('observacp');
 
 Route::get('/apruebacp/{idCP}', function ($idCP){
 
-    CasosPruebas::where('id',$idCP)
+    date_default_timezone_set('America/Lima');
+
+    if(Evidencias::where('cp_id', $idCP)->count() > 0){
+
+        CasosPruebas::where('id',$idCP)
         ->update([
             'fecha_certificacion' => date('Y-m-d'),
             'resultado' => 'aprobado'
         ]);
 
-    return redirect('/dashboard');
+        return redirect('/dashboard');
+
+    } else {
+
+        return redirect('/dashboard')->with('status', 'Debe registrar evidencias (mínimo 1)');        
+    }
 })
     ->name('apruebacp');
 

@@ -1,8 +1,9 @@
 <style type="text/css">
         #viewimg img {
             height: 100%;
-            margin: 0 auto;
+            /*margin: 0 auto;*/
             padding: 0 0.5rem;
+            display: inline-flex;
         }
     </style>
 <template>
@@ -22,7 +23,7 @@
             <div v-if="showForm">
                 <form @submit="createEvidencia" enctype="multipart/form-data">
                     <input type="text" id="Id" v-model="evidencia.cp_id" hidden>
-                    <div id="viewimg" @paste="pasteFunction" style="width: 200px; height: 200px; display: flex; background-color: #C1C1C1; padding: 20px; position: relative; z-index: 1;" contenteditable="true"><span> </span><span contenteditable='false' style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); cursor: alias; z-index: -1;">Copie aquí su evidencia</span></div>
+                    <div id="viewimg" @paste="pasteFunction" @keyup.delete="deleteFunction" style="width: 100%; height: 200px; display: flex; background-color: #C1C1C1; padding: 20px; position: relative; z-index: 1;" contenteditable="true" class="overflow-auto"><span> </span><span contenteditable='false' style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); cursor: alias; z-index: -1; text-align: center;">Copie aquí su evidencia</span></div>
                     <!--<div class="mb-3">
                         <label for="Imagen" class="form-label">Imagen</label>
                         <input type="file" class="form-control" name="Imagen" id="Imagen" v-on:change="onFileChange">
@@ -96,11 +97,15 @@
                 evidencia:{
 
                     cp_id: this.idCp,
-                    imagen: "",
+                    imagen: [],
                     path: "",
                     comentario: "",
                     fecha_hora: ""
-                }
+                },
+
+                /* TESTING */
+
+                images:[]
             }
         },
 
@@ -135,6 +140,7 @@
                 .then(response=>{
                     //this.$router.push({name:"mostrarDocumentos"});
                     window.location.href = '/vistacp/' + this.idCp;
+                    //alert(response.data);
                 })
                 .catch(error=>{
                     alert(error);
@@ -231,21 +237,37 @@
                 window.location.href = '/dashboard';
             },
 
-            /* TESTING*/
-
             pasteFunction(pasteEvent){
 
-                //console.log(event.clipboardData.items[0]) 
+                //console.log(event.clipboardData.items[0])
+                //console.log(pasteEvent.clipboardData.items[0]);
+
+                /*var self = this;
+
+                var reader = new FileReader()
+                    reader.readAsDataURL(pasteEvent.clipboardData.items[0].getAsFile())
+                    reader.onload = function () {
+                        self.evidencia.imagen = reader.result;
+                        console.log(reader.result);
+                    };*/
+
+                /* TESTING */
 
                 var self = this;
 
                 var reader = new FileReader()
                     reader.readAsDataURL(pasteEvent.clipboardData.items[0].getAsFile())
                     reader.onload = function () {
-                        self.evidencia.imagen = reader.result;
-                        //console.log(reader.result);
+                        self.evidencia.imagen.push(reader.result);
+                        console.log(self.evidencia.imagen);
                     };
             },
+
+            deleteFunction(deleteEvent){
+
+                //console.log('eliminado');
+                this.evidencia.imagen.splice(-1);
+            }
         }
     }
 </script>

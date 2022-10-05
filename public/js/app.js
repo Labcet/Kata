@@ -5384,6 +5384,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     idCp: Number,
@@ -5400,11 +5401,14 @@ __webpack_require__.r(__webpack_exports__);
       evidencias: [],
       evidencia: {
         cp_id: this.idCp,
-        imagen: "",
+        imagen: [],
         path: "",
         comentario: "",
         fecha_hora: ""
-      }
+      },
+
+      /* TESTING */
+      images: []
     };
   },
   computed: {//console.log(this.aprobadoCp)
@@ -5429,7 +5433,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.post('/api/evidencias', this.evidencia).then(function (response) {
         //this.$router.push({name:"mostrarDocumentos"});
-        window.location.href = '/vistacp/' + _this2.idCp;
+        window.location.href = '/vistacp/' + _this2.idCp; //alert(response.data);
       })["catch"](function (error) {
         alert(error);
         console.log(error);
@@ -5505,17 +5509,31 @@ __webpack_require__.r(__webpack_exports__);
     verCps: function verCps() {
       window.location.href = '/dashboard';
     },
-
-    /* TESTING*/
     pasteFunction: function pasteFunction(pasteEvent) {
-      //console.log(event.clipboardData.items[0]) 
+      //console.log(event.clipboardData.items[0])
+      //console.log(pasteEvent.clipboardData.items[0]);
+
+      /*var self = this;
+        var reader = new FileReader()
+          reader.readAsDataURL(pasteEvent.clipboardData.items[0].getAsFile())
+          reader.onload = function () {
+              self.evidencia.imagen = reader.result;
+              console.log(reader.result);
+          };*/
+
+      /* TESTING */
       var self = this;
       var reader = new FileReader();
       reader.readAsDataURL(pasteEvent.clipboardData.items[0].getAsFile());
 
       reader.onload = function () {
-        self.evidencia.imagen = reader.result; //console.log(reader.result);
+        self.evidencia.imagen.push(reader.result);
+        console.log(self.evidencia.imagen);
       };
+    },
+    deleteFunction: function deleteFunction(deleteEvent) {
+      //console.log('eliminado');
+      this.evidencia.imagen.splice(-1);
     }
   }
 });
@@ -10955,7 +10973,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#viewimg img {\n    height: 100%;\n    margin: 0 auto;\n    padding: 0 0.5rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#viewimg img {\n    height: 100%;\n    /*margin: 0 auto;*/\n    padding: 0 0.5rem;\n    display: inline-flex;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -29298,8 +29316,9 @@ var render = function () {
                     _c(
                       "div",
                       {
+                        staticClass: "overflow-auto",
                         staticStyle: {
-                          width: "200px",
+                          width: "100%",
                           height: "200px",
                           display: "flex",
                           "background-color": "#C1C1C1",
@@ -29308,7 +29327,24 @@ var render = function () {
                           "z-index": "1",
                         },
                         attrs: { id: "viewimg", contenteditable: "true" },
-                        on: { paste: _vm.pasteFunction },
+                        on: {
+                          paste: _vm.pasteFunction,
+                          keyup: function ($event) {
+                            if (
+                              !$event.type.indexOf("key") &&
+                              _vm._k(
+                                $event.keyCode,
+                                "delete",
+                                [8, 46],
+                                $event.key,
+                                ["Backspace", "Delete", "Del"]
+                              )
+                            ) {
+                              return null
+                            }
+                            return _vm.deleteFunction.apply(null, arguments)
+                          },
+                        },
                       },
                       [
                         _c("span"),
@@ -29322,6 +29358,7 @@ var render = function () {
                               transform: "translate(-50%, -50%)",
                               cursor: "alias",
                               "z-index": "-1",
+                              "text-align": "center",
                             },
                             attrs: { contenteditable: "false" },
                           },

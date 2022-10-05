@@ -40,23 +40,34 @@ class EvidenciasController extends Controller
     public function store(Request $request)
     {
 
-        $evidencias = new Evidencias;
-
         date_default_timezone_set('America/Lima');
 
-        $evidencias->cp_id = $request->cp_id;
-        $evidencias->imagen = $request->imagen;
-        $evidencias->path = 'path';
-        $evidencias->comentario = $request->comentario;
-        $evidencias->fecha_hora = Carbon::now();
+        for($i = 0; $i < count($request->imagen); $i++){
 
-        $evidencias->save();
+            if($i == 0){
+
+                $coment = $request->comentario;
+                $fecha = Carbon::now();
+            } else {
+
+                $coment = null;
+                $fecha = null;
+            }
+            
+            $evidencias = new Evidencias;
+            $evidencias->cp_id = $request->cp_id;
+            $evidencias->imagen = $request->imagen[$i];
+            $evidencias->path = 'path';
+            $evidencias->comentario = $coment;
+            $evidencias->fecha_hora = $fecha;
+
+            $evidencias->save();
+        }
 
         //return redirect()->route('vistacp', ['id' => encrypt($request->cp_id)]);
+        
 
-        return response()->json([
-            'mensaje' => 'agregado'
-        ]);
+        //return count($request->imagen);
 
         // Kata v0.3.0
 

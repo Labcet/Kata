@@ -83,7 +83,14 @@ class AuthController extends Controller
 
             $user = Auth::user();
 
-            $cps = CasosPruebas::where('user_id', $user->id)->get();
+            if($user->rol == "administrador"){
+
+                $cps = CasosPruebas::all();
+            }else {
+
+                $cps = CasosPruebas::where('user_id', $user->id)->get();
+            }
+            
             return View('dashboard')
                 ->with('cps', $cps);
         }

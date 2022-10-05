@@ -17,10 +17,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('cp_id');
             $table->foreign('cp_id')->references('id')->on('casos_prueba');
-            //$table->binary('imagen');
             $table->string('path');
             $table->text('comentario')->nullable();
-            $table->timestamp('fecha_hora');
+            $table->timestamp('fecha_hora')->nullable();
             //$table->id();
             //$table->timestamps();
         });

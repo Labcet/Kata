@@ -66,7 +66,7 @@ Route::get('/descartacp/{idCP}', function ($idCP){
 
     } else {
 
-        return redirect('/dashboard')->with('status', 'Debe registrar evidencias (mínimo 1)');        
+        return redirect('/dashboard')->with('status', 'Debe registrar evidencias (mínimo 1) para el Caso de Prueba: '.$idCP);
     }
 
     
@@ -89,7 +89,7 @@ Route::get('/observacp/{idCP}', function ($idCP){
 
     } else {
 
-        return redirect('/dashboard')->with('status', 'Debe registrar evidencias (mínimo 1)');        
+        return redirect('/dashboard')->with('status', 'Debe registrar evidencias (mínimo 1) para el Caso de Prueba: '.$idCP);
     }
 })
     ->name('observacp');
@@ -110,7 +110,7 @@ Route::get('/apruebacp/{idCP}', function ($idCP){
 
     } else {
 
-        return redirect('/dashboard')->with('status', 'Debe registrar evidencias (mínimo 1)');        
+        return redirect('/dashboard')->with('status', 'Debe registrar evidencias (mínimo 1) para el Caso de Prueba: '.$idCP);
     }
 })
     ->name('apruebacp');

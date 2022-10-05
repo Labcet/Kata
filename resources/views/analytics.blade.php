@@ -40,7 +40,18 @@
                     <tr>
                         <td>{{ $value->id }}</td>
                         <td>{{ $value->name }}</td>
-                        <td>{{ $value->resultado }}</td>
+                        @if($value->resultado == "observado")
+                            <td style="background-color: #ffd000; color: #ffffff">{{ strtoupper($value->resultado) }}</td>
+                        @endif
+                        @if($value->resultado == "descartado")
+                            <td style="background-color: #ff287a; color: #ffffff">{{ strtoupper($value->resultado) }}</td>
+                        @endif
+                        @if($value->resultado == "aprobado")
+                            <td style="background-color: #019500; color: #ffffff">{{ strtoupper($value->resultado) }}</td>
+                        @endif
+                        @if($value->resultado == "pendiente")
+                            <td style="background-color: silver">{{ strtoupper($value->resultado) }}</td>
+                        @endif
                     </tr>
                     @endforeach
                 </tbody>

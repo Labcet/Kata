@@ -13,7 +13,7 @@
                     </div>
                     <div class="form-group">
                         <label for="testCaseFuncionalidad">Funcionalidad</label>
-                        <input type="text" class="form-control" id="testCaseFuncionalidad" value="{{ $cp->funcionalidad }}" readonly>
+                        <input type="text" class="form-control" id="testCaseFuncionalidad" value="{{ strtoupper($cp->funcionalidad) }}" readonly>
                     </div>
                     <div class="form-group">
                         <div class="row">
@@ -43,11 +43,11 @@
                             </div>
                             <div class="col-4">
                                 <label for="testCaseResultado">Resultado</label>
-                                <input type="text" class="form-control" id="testCaseResultado" value="{{ $cp->resultado }}" readonly>
+                                <input type="text" class="form-control" id="testCaseResultado" value="{{ strtoupper($cp->resultado) }}" readonly>
                             </div>
                             <div class="col-4">
                                 <label for="testCaseAprobador">Aprobador</label>
-                            <input type="text" class="form-control" id="testCaseAprobador" value="{{ $cp->aprobador }}" readonly>
+                            <input type="text" class="form-control" id="testCaseAprobador" value="{{ strtoupper($cp->aprobador) }}" readonly>
                             </div>
                         </div>
                     </div>

@@ -51,9 +51,8 @@
                         <span></span>
                         <h1>Sistema de gestión de casos de Prueba Andes QA</h1>
                         <ul>
-                            <li><span>1</span> Simple y minimalista</li>
-                            <li><span>2</span>Rapido y de fácil uso</li>
-                            <li><span>3</span>Lorem ipsum masguinume</li>
+                            <li><span>1</span>Simple y minimalista</li>
+                            <li><span>2</span>Rápido y de fácil uso</li>
                         </ul>
                         <!--<a href="/login">Empezar</a>-->
                     </div>

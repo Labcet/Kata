@@ -64,54 +64,52 @@ class PdfController extends Controller
 
         $this->fpdf->Ln();//Salto de línea para generar otra fila
       
-
         // BODY
 
         $this->fpdf->SetXY(25,37);
-        $this->fpdf->SetFont('helvetica','B',14);
+        $this->fpdf->SetFont('helvetica','B',12);
         $this->fpdf->SetFillColor(255, 255, 255);
         $this->fpdf->SetDrawColor(255, 255, 255);
-        $this->fpdf->write(7,utf8_decode('Caso '.$testCaseData->id.': '.$testCaseData->nombre.'.'));
-        $this->fpdf->SetXY(10,55);
-        $this->fpdf->SetFont('Arial','B',10);
-        $this->fpdf->SetDrawColor(155,155,155);
-        $this->fpdf->SetLineWidth(.3); //Gris tenue de cada fila
-        $this->fpdf->SetTextColor(3, 3, 3); //Color del texto: Neg55
+        $this->fpdf->MultiCell(160,7,utf8_decode('Caso '.$testCaseData->id.': '.$testCaseData->nombre.'.'));
+        $this->fpdf->Ln();
+
+        $yFuncionalidad = $this->fpdf->GetY();
 
         $bandera = false; //Para alternar el relleno
         $bandera = !$bandera;//Alterna el valor de la bandera
 
-        /*$this->fpdf->SetFillColor(224,235,255);
-        $this->fpdf->Cell(85,14, utf8_decode('Aplicación/Módulo/ Plataforma y/o Funcionalidad: '),1, 0 , 'C', $bandera );
-        $this->fpdf->SetFillColor(255,255,255);//color de celda*/
         $height = 6;
         if(strlen($testCaseData->funcionalidad) < 80){
             $height = 12;
         }
-        $this->fpdf->SetX(80);
+        $this->fpdf->SetXY(80, $yFuncionalidad);
         $this->fpdf->SetFont('helvetica','',9);
         $this->fpdf->SetDrawColor(0,0,0);
-        $this->fpdf->MultiCell(105,$height, utf8_decode($testCaseData->funcionalidad),1, 1 , 'L', $bandera );
+        $this->fpdf->MultiCell(105,6, utf8_decode($testCaseData->funcionalidad),1, 1, 'L', $bandera );
         $height_funcionalidad = $this->fpdf->GetY();
+        $ytipo = $this->fpdf->GetY();
 
         $this->fpdf->SetFillColor(240,240,239);
-        $this->fpdf->SetXY(25,55);
+        $this->fpdf->SetXY(25, $yFuncionalidad);
         $this->fpdf->SetFont('helvetica','B',9);
-        $this->fpdf->MultiCell(55, 6, utf8_decode('Aplicación/Módulo/ Plataforma y/o Funcionalidad: '),1, 0 , 'L', $bandera );
+        $this->fpdf->Cell(55, 6, utf8_decode('Aplicación/Módulo/Plataforma y/o'), 1, 1 , 'L', $bandera );
+        $this->fpdf->SetXY(25, $yFuncionalidad+6);
+        $this->fpdf->Cell(55, 6, utf8_decode('Funcionalidad: '), 'L,R,B', 1 , 'L', $bandera );
         $this->fpdf->SetFillColor(255,255,255);//color de celda
 
         $this->fpdf->Ln(0);
         //$this->fpdf->SetXY(25,55);
-        $this->fpdf->SetX(25);
+        $this->fpdf->SetXY(25, $ytipo);
         $this->fpdf->SetFillColor(240,240,239);
         $this->fpdf->Cell(55,7,utf8_decode('Tipo de Prueba:'),1, 0 , 'L', $bandera );
         $this->fpdf->SetFillColor(255,255,255);//color de celda
         $this->fpdf->Cell(105,7, 'PRUEBA '.utf8_decode(strtoupper($testCaseData->tipo_prueba)),1, 0 , 'C', $bandera );
 
         $this->fpdf->Ln();
+        $yprecondiciones_before = $this->fpdf->GetY();
         
-        $pcond = explode(',', $testCaseData->precondiciones);
-        $height = 0;
+        $pcond = explode('\n', $testCaseData->precondiciones);
+        //$yprecondiciones_after = 0;
         $this->fpdf->SetFont('helvetica','',9);
         $border_precond = 'R,T';
         for ($i=0; $i < count($pcond); $i++) {
@@ -121,13 +119,15 @@ class PdfController extends Controller
             }
             $this->fpdf->SetX(80);
             //$this->fpdf->Ln();
-            $this->fpdf->Multicell(105,7,' -  '.utf8_decode($pcond[$i]),$border_precond,1,'L',$bandera);
-            $height += 7;
+            $this->fpdf->Multicell(105,7,utf8_decode($pcond[$i]),$border_precond,1,'L',$bandera);
+            //$height += 7;
+            $yprecondiciones_after = $this->fpdf->GetY();
         }
-        $this->fpdf->SetXY(25,$height_funcionalidad+7);
+        //$yprecondiciones = $this->fpdf->GetY();
+        $this->fpdf->SetXY(25,$yprecondiciones_before);
         $this->fpdf->SetFillColor(240,240,239);
         $this->fpdf->SetFont('helvetica','B',9);
-        $this->fpdf->Cell(55,$height,utf8_decode('Precondición:'),1, 0 , 'L', $bandera);
+        $this->fpdf->Cell(55,$yprecondiciones_after-$yprecondiciones_before,utf8_decode('Precondición:'),1, 0 , 'L', $bandera);
         $this->fpdf->SetFillColor(255,255,255);//color de celda
 
         $this->fpdf->Ln();
@@ -239,7 +239,7 @@ class PdfController extends Controller
         $this->fpdf->SetX(25);
         $this->fpdf->SetFillColor(240,240,239);
         $this->fpdf->SetFont('helvetica','B',9);
-        $this->fpdf->Cell(70,7,utf8_decode('Decisión Product Owner '),1,0,'C', $ban);
+        $this->fpdf->Cell(70,7,utf8_decode('Decisión Product Owner '),1,0,'L', $ban);
         $this->fpdf->SetFillColor(255,255,255);
         $this->fpdf->SetFont('helvetica','',8);
         $this->fpdf->Cell(90,7,utf8_decode(strtoupper('<<Aprobado | Comentarios de criterios de aceptación>>')),1,0,'C','true');

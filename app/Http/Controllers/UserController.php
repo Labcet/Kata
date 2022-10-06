@@ -14,17 +14,17 @@ class UserController extends Controller
     public function userMetrics($id)
     {   
 
-        $descartados = CasosPruebas::where([['resultado', '=', 'descartado'],['user_id', '=', $id]])->count();
-        $observados = CasosPruebas::where([['resultado', '=', 'observado'],['user_id', '=', $id]])->count();
-        $aprobados = CasosPruebas::where([['resultado', '=', 'aprobado'],['user_id', '=', $id]])->count();
+        $desestimados = CasosPruebas::where([['resultado', '=', 'desestimado'],['user_id', '=', $id]])->count();
+        $fallidos = CasosPruebas::where([['resultado', '=', 'fallido'],['user_id', '=', $id]])->count();
+        $exitosos = CasosPruebas::where([['resultado', '=', 'exitoso'],['user_id', '=', $id]])->count();
         $pendientes = CasosPruebas::where([['resultado', '=', 'pendiente'],['user_id', '=', $id]])->count();
 
         $data =[
-            'labels'  => ['Descartados', 'Observados', 'Aprobados', 'No Ejecutados'],
+            'labels'  => ['Desestimados', 'Fallidos', 'Exitosos', 'No Ejecutados'],
             'datasets' => [
                 [
-                  'backgroundColor' => ['#ff287a', '#ffd000','#019500', 'silver'],
-                  'data' => [$descartados, $observados, $aprobados, $pendientes]
+                  'backgroundColor' => ['#013461', '#FF287A','#019500', 'silver'],
+                  'data' => [$desestimados, $fallidos, $exitosos, $pendientes]
                 ],
             ]
         ];

@@ -14,16 +14,16 @@
                         <td>{{ $pendientes }}</td>
                     </tr>
                     <tr>
-                        <td>Descartados</td>
-                        <td>{{ $descartados }}</td>
+                        <td>Desestimados</td>
+                        <td>{{ $desestimados }}</td>
                     </tr>
                     <tr>
-                        <td>Observados</td>
-                        <td>{{ $observados }}</td>
+                        <td>Fallidos</td>
+                        <td>{{ $fallidos }}</td>
                     </tr>
                     <tr>
-                        <td>Aprobados</td>
-                        <td>{{ $aprobados }}</td>
+                        <td>Exitosos</td>
+                        <td>{{ $exitosos }}</td>
                     </tr>
                 </tbody>
             </table><br><br>
@@ -40,13 +40,13 @@
                     <tr>
                         <td>{{ $value->id }}</td>
                         <td>{{ $value->name }}</td>
-                        @if($value->resultado == "observado")
+                        @if($value->resultado == "fallido")
                             <td style="background-color: #ffd000; color: #ffffff">{{ strtoupper($value->resultado) }}</td>
                         @endif
-                        @if($value->resultado == "descartado")
+                        @if($value->resultado == "desestimado")
                             <td style="background-color: #ff287a; color: #ffffff">{{ strtoupper($value->resultado) }}</td>
                         @endif
-                        @if($value->resultado == "aprobado")
+                        @if($value->resultado == "exitoso")
                             <td style="background-color: #019500; color: #ffffff">{{ strtoupper($value->resultado) }}</td>
                         @endif
                         @if($value->resultado == "pendiente")

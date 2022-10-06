@@ -7,6 +7,7 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\Controller;
 use App\Models\CasosPruebas;
 use App\Models\Evidencias;
+//use App\Http\Controllers\Redirect
 
 /*
 |--------------------------------------------------------------------------
@@ -50,7 +51,7 @@ Route::get('analytics', [Controller::class, 'analytics'])->name('analytics');
 
 /* RUTAS BOTONES ACEPTACION/OBSERVACION */
 
-Route::get('/descartacp/{idCP}', function ($idCP){
+Route::get('/desestimacp/{idCP}', function ($idCP){
 
     date_default_timezone_set('America/Lima');
 
@@ -59,42 +60,22 @@ Route::get('/descartacp/{idCP}', function ($idCP){
         CasosPruebas::where('id',$idCP)
         ->update([
             'fecha_certificacion' => date('Y-m-d'),
-            'resultado' => 'descartado'
+            'resultado' => 'desestimado'
         ]);
 
         return redirect('/dashboard');
 
     } else {
 
-        return redirect('/dashboard')->with('status', 'Debe registrar evidencias (mínimo 1) para el Caso de Prueba: '.$idCP);
+        return redirect()->route('vistacp',$idCP)
+            ->with('status', 'Debe registrar evidencias (mínimo 1).');
     }
 
     
 })
-    ->name('descartacp');
+    ->name('desestimacp');
 
-Route::get('/observacp/{idCP}', function ($idCP){
-
-    date_default_timezone_set('America/Lima');
-
-    if(Evidencias::where('cp_id', $idCP)->count() > 0){
-
-        CasosPruebas::where('id',$idCP)
-        ->update([
-            'fecha_certificacion' => date('Y-m-d'),
-            'resultado' => 'observado'
-        ]);
-
-        return redirect('/dashboard');
-
-    } else {
-
-        return redirect('/dashboard')->with('status', 'Debe registrar evidencias (mínimo 1) para el Caso de Prueba: '.$idCP);
-    }
-})
-    ->name('observacp');
-
-Route::get('/apruebacp/{idCP}', function ($idCP){
+Route::get('/fallacp/{idCP}', function ($idCP){
 
     date_default_timezone_set('America/Lima');
 
@@ -103,17 +84,40 @@ Route::get('/apruebacp/{idCP}', function ($idCP){
         CasosPruebas::where('id',$idCP)
         ->update([
             'fecha_certificacion' => date('Y-m-d'),
-            'resultado' => 'aprobado'
+            'resultado' => 'fallido'
         ]);
 
         return redirect('/dashboard');
 
     } else {
 
-        return redirect('/dashboard')->with('status', 'Debe registrar evidencias (mínimo 1) para el Caso de Prueba: '.$idCP);
+        return redirect()->route('vistacp',$idCP)
+            ->with('status', 'Debe registrar evidencias (mínimo 1).');
     }
 })
-    ->name('apruebacp');
+    ->name('fallacp');
+
+Route::get('/exitocp/{idCP}', function ($idCP){
+
+    date_default_timezone_set('America/Lima');
+
+    if(Evidencias::where('cp_id', $idCP)->count() > 0){
+
+        CasosPruebas::where('id',$idCP)
+        ->update([
+            'fecha_certificacion' => date('Y-m-d'),
+            'resultado' => 'exitoso'
+        ]);
+
+        return redirect('/dashboard');
+
+    } else {
+
+        return redirect()->route('vistacp',$idCP)
+            ->with('status', 'Debe registrar evidencias (mínimo 1).');
+    }
+})
+    ->name('exitocp');
 
 
 /* RUTA MERGE PDF */

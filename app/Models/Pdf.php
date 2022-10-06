@@ -19,7 +19,7 @@ class Pdf extends Fpdf
     {
         $bander = false; //Para alternar el relleno
         $bander = !$bander;//Alterna el valor de la bandera
-        $this->SetxY(15,266.9);
+        $this->SetxY(15,-15);
         // Select Arial italic 8
         $this->SetFont('Arial','',8);
         // Print centered page number

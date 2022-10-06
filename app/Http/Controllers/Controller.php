@@ -21,18 +21,18 @@ class Controller extends BaseController
                     ->select('casos_prueba.id', 'users.name', 'casos_prueba.resultado')
                     ->get();
 
-        $descartados = CasosPruebas::where([['resultado', '=', 'descartado']])->count();
-        $observados = CasosPruebas::where([['resultado', '=', 'observado']])->count();
-        $aprobados = CasosPruebas::where([['resultado', '=', 'aprobado']])->count();
+        $desestimados = CasosPruebas::where([['resultado', '=', 'desestimado']])->count();
+        $fallidos = CasosPruebas::where([['resultado', '=', 'fallido']])->count();
+        $exitosos = CasosPruebas::where([['resultado', '=', 'exitoso']])->count();
         $pendientes = CasosPruebas::where([['resultado', '=', 'pendiente']])->count();
 
         //$cps = CasosPruebas::all();
 
         return View('analytics')
                 ->with('cps', $cps)
-                ->with('descartados', $descartados)
-                ->with('observados', $observados)
-                ->with('aprobados', $aprobados)
+                ->with('desestimados', $desestimados)
+                ->with('fallidos', $fallidos)
+                ->with('exitosos', $exitosos)
                 ->with('pendientes', $pendientes);
     }
 }

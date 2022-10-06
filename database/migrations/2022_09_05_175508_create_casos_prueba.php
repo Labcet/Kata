@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('casos_prueba', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('funcionalidad');
+            $table->text('nombre');
+            $table->text('funcionalidad');
             $table->string('tipo_prueba');
             $table->date('fecha_certificacion')->nullable();
             $table->text('precondiciones');

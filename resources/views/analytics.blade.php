@@ -31,6 +31,7 @@
                 <thead class="table-dark">
                     <tr>
                         <td>ID Caso Prueba</td>
+                        <td>Nombre CP</td>
                         <td>Usuario</td>
                         <td>Resultado</td>
                     </tr>
@@ -39,18 +40,19 @@
                     @foreach($cps as $key => $value)
                     <tr>
                         <td>{{ $value->id }}</td>
+                        <td>{{ $value->nombre }}</td>
                         <td>{{ $value->name }}</td>
                         @if($value->resultado == "fallido")
-                            <td style="background-color: #ffd000; color: #ffffff">{{ strtoupper($value->resultado) }}</td>
+                            <td><h6><span class="badge" style="background-color: #FF287A;">{{ strtoupper($value->resultado) }}</span></h6></td>
                         @endif
                         @if($value->resultado == "desestimado")
-                            <td style="background-color: #ff287a; color: #ffffff">{{ strtoupper($value->resultado) }}</td>
+                            <td><h6><span class="badge" style="background-color: #013461;">{{ strtoupper($value->resultado) }}</span></h6></td>
                         @endif
                         @if($value->resultado == "exitoso")
-                            <td style="background-color: #019500; color: #ffffff">{{ strtoupper($value->resultado) }}</td>
+                            <td><h6><span class="badge bg-success">{{ strtoupper($value->resultado) }}</span></h6></td>
                         @endif
                         @if($value->resultado == "pendiente")
-                            <td style="background-color: silver">{{ strtoupper($value->resultado) }}</td>
+                            <td><h6><span class="badge bg-secondary">{{ strtoupper($value->resultado) }}</span></h6></td>
                         @endif
                     </tr>
                     @endforeach

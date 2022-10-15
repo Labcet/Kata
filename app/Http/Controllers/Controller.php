@@ -18,7 +18,7 @@ class Controller extends BaseController
     {
         $cps = DB::table('casos_prueba')
                     ->join('users', 'casos_prueba.user_id', '=', 'users.id')
-                    ->select('casos_prueba.id', 'users.name', 'casos_prueba.resultado')
+                    ->select('casos_prueba.id', 'casos_prueba.nombre', 'users.name', 'casos_prueba.resultado')
                     ->get();
 
         $desestimados = CasosPruebas::where([['resultado', '=', 'desestimado']])->count();

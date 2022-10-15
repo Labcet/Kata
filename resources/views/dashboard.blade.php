@@ -27,16 +27,16 @@
                         <td>{{ $value->id }}</td>
                         <td>{{ $value->nombre }}</td>
                         @if($value->resultado == "fallido")
-                            <td style="background-color: #FF287A; color: #ffffff; padding: 10px 10px;">{{ strtoupper($value->resultado) }}</td>
+                            <td><h6><span class="badge" style="background-color: #FF287A;">{{ strtoupper($value->resultado) }}</span></h6></td>
                         @endif
                         @if($value->resultado == "desestimado")
-                            <td style="background-color: #013461; color: #ffffff; padding: 10px 10px;">{{ strtoupper($value->resultado) }}</td>
+                            <td><h6><span class="badge" style="background-color: #013461;">{{ strtoupper($value->resultado) }}</span></h6></td>
                         @endif
                         @if($value->resultado == "exitoso")
-                            <td style="background-color: #019500; color: #ffffff; padding: 10px 10px;">{{ strtoupper($value->resultado) }}</td>
+                            <td><h6><span class="badge bg-success">{{ strtoupper($value->resultado) }}</span></h6></td>
                         @endif
                         @if($value->resultado == "pendiente")
-                            <td style="background-color: silver; padding: 10px 10px;">{{ strtoupper($value->resultado) }}</td>
+                            <td><h6><span class="badge bg-secondary">{{ strtoupper($value->resultado) }}</span></h6></td>
                         @endif
                         <td>
                             <div class="">

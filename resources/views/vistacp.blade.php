@@ -20,61 +20,135 @@
                 <div class="card-header"><strong>Información del Caso de Prueba</strong></div>
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="testCaseNombre"><strong>Caso de Prueba</strong></label>
-                        <!--<input type="text" class="form-control" id="testCaseNombre" value="{{ $cp->nombre }}" readonly>-->
-                        <textarea type="text" class="form-control" id="testCaseNombre" rows="4" readonly>{{ $cp->nombre }}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="testCaseFuncionalidad"><strong>Funcionalidad</strong></label>
-                        <!--<input type="text" class="form-control" id="testCaseFuncionalidad" value="{{ strtoupper($cp->funcionalidad) }}" readonly>-->
-                        <textarea type="text" class="form-control" id="testCaseFuncionalidad" rows="4" readonly>{{ $cp->funcionalidad }}</textarea>
-                    </div>
-                    <div class="form-group">
                         <div class="row">
                             <div class="col-6">
-                                <label for="testCaseTipo"><strong>Tipo de Prueba</strong></label>
-                                <input type="text" class="form-control" id="testCaseTipo" value="{{ $cp->tipo_prueba }}" readonly>
+                                <label for="testCaseProducto"><strong>Producto</strong></label>
+                                <input type="text" class="form-control" id="testCaseProducto" value="{{ $cp->producto }}" readonly>
                             </div>
                             <div class="col-6">
-                                <label for="testCaseFechaCertificacion"><strong>Fecha de Certificación</strong></label>
-                                <input type="text" class="form-control" id="testCaseFechaCertificacion" value="{{ $cp->fecha_certificacion }}" readonly>
+                                <label for="testCaseSubProducto"><strong>Sub Producto</strong></label>
+                                <input type="text" class="form-control" id="testCaseSubProducto" value="{{ $cp->sub_producto }}" readonly>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="testCaseDestinoCredito"><strong>Destino del Crédito</strong></label>
+                                <input type="text" class="form-control" id="testCaseDestinoCredito" value="{{ $cp->destino_credito }}" readonly>
+                            </div>
+                            <div class="col-6">
+                                <label for="testCaseTipoCliente"><strong>Tipo Cliente</strong></label>
+                                <input type="text" class="form-control" id="testCaseTipoCliente" value="{{ $cp->tipo_cliente }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="testCaseTipoEvaluacion"><strong>Tipo Evaluación</strong></label>
+                                <input type="text" class="form-control" id="testCaseTipoEvaluacion" value="{{ $cp->tipo_evaluacion }}" readonly>
+                            </div>
+                            <div class="col-6">
+                                <label for="testCaseTipoAprobacion"><strong>Tipo Aprobación</strong></label>
+                                <input type="text" class="form-control" id="testCaseTipoAprobacion" value="{{ $cp->tipo_aprobacion }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="testCaseClasificacionCliente"><strong>Clasificación del Cliente</strong></label>
+                                <input type="text" class="form-control" id="testCaseClasificacionCliente" value="{{ $cp->clasificacion_cliente }}" readonly>
+                            </div>
+                            <div class="col-6">
+                                <label for="testCasePerfil"><strong>Perfil</strong></label>
+                                <input type="text" class="form-control" id="testCasePerfil" value="{{ $cp->perfil }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="testCaseFrecuencia"><strong>Frecuencia</strong></label>
+                                <input type="text" class="form-control" id="testCaseFrecuencia" value="{{ $cp->frecuencia }}" readonly>
+                            </div>
+                            <div class="col-6">
+                                <label for="testCaseMoneda"><strong>Moneda</strong></label>
+                                <input type="text" class="form-control" id="testCaseMoneda" value="{{ $cp->moneda }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="testCaseSeguroObligatorio"><strong>Seguro Obligatorio</strong></label>
+                                <input type="text" class="form-control" id="testCaseSeguroObligatorio" value="{{ $cp->seguro_obligatorio }}" readonly>
+                            </div>
+                            <div class="col-6">
+                                <label for="testCaseSeguroOptativo"><strong>Seguro Optativo</strong></label>
+                                <input type="text" class="form-control" id="testCaseSeguroOptativo" value="{{ $cp->seguro_optativo }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="testCaseDatoPrueba"><strong>Elemento o Dato de Prueba</strong></label>
+                        <textarea type="text" class="form-control" id="testCaseDatoPrueba" rows="4" readonly>{{ $cp->dato_prueba }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="testCaseNombreCompleto"><strong>Nombre Completo Caso de Prueba</strong></label>
+                        <textarea type="text" class="form-control" id="testCaseNombreCompleto" rows="4" readonly>{{ $cp->nombre_completo }}</textarea>
+                    </div>
+                    <div class="form-group">
                         <label for="testCasePrecondiciones"><strong>Precondiciones</strong></label>
-                        <textarea type="text" class="form-control" id="testCasePrecondiciones" rows="5" readonly></textarea>
+                        <textarea type="text" class="form-control" id="testCasePrecondiciones" rows="4" readonly>{{ $cp->precondiciones }}</textarea>
                     </div>
                     <div class="form-group">
                         <label for="testCasePasos"><strong>Pasos</strong></label>
-                        <textarea type="text" class="form-control" id="testCasePasos" rows="5" readonly></textarea>
+                        <textarea type="text" class="form-control" id="testCasePasos" rows="4" readonly>{{ $cp->pasos }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="testCaseResultadoEsperado"><strong>Resultado Esperado</strong></label>
+                        <textarea type="text" class="form-control" id="testCaseResultadoEsperado" rows="4" readonly>{{ $cp->resultado_esperado }}</textarea>
                     </div>
                     <div class="form-group">
                         <div class="row">
                             <div class="col-4">
-                                <label for="testCaseOla"><strong>Ola</strong></label>
-                                <input type="text" class="form-control" id="testCaseOla" value="{{ $cp->ola }}" readonly>
+                                <label for="testCaseEstadoEsperado"><strong>Estado Esperado</strong></label>
+                                <input type="text" class="form-control" id="testCaseEstadoEsperado" value="{{ $cp->estado_esperado }}" readonly>
                             </div>
                             <div class="col-4">
-                                <label for="testCaseResultado"><strong>Resultado</strong></label>
-                                <input type="text" class="form-control" id="testCaseResultado" value="{{ strtoupper($cp->resultado) }}" readonly>
+                                <label for="testCaseCorebankMovilWeb"><strong>Corebank/Móvil/Web</strong></label>
+                                <input type="text" class="form-control" id="testCaseCorebankMovilWeb" value="{{ $cp->corebank_movil_web }}" readonly>
                             </div>
                             <div class="col-4">
-                                <label for="testCaseAprobador"><strong>Aprobador</strong></label>
-                            <input type="text" class="form-control" id="testCaseAprobador" value="{{ strtoupper($cp->aprobador) }}" readonly>
+                                <label for="testCaseTipoPrueba"><strong>Tipo de Prueba</strong></label>
+                                <input type="text" class="form-control" id="testCaseTipoPrueba" value="{{ $cp->tipo_prueba }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="testCasePerfilAsignado"><strong>Área o Perfil Asignado</strong></label>
+                                <input type="text" class="form-control" id="testCasePerfilAsignado" value="{{ $cp->perfil_asignado }}" readonly>
+                            </div>
+                            <div class="col-6">
+                                <label for="testCasePerfilAsignado"><strong>Resultado Real</strong></label>
+                                <input type="text" class="form-control" id="testCasePerfilAsignado" value="{{ $cp->resultado_real }}" readonly>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <evidencias-component :id-cp="{{ $cp->id }}" :resultado-cp="'{{ $cp->resultado }}'"></evidencias-component>
+            <evidencias-component :id-cp="{{ $cp->id }}" :resultado-cp="'{{ strtoupper($cp->resultado_real) }}'"></evidencias-component>
 
-            @if($cp->resultado == 'pendiente')
+            @if(strtoupper($cp->resultado_real) == 'PENDIENTE')
                 <div class="card" style="margin-bottom:100px; text-align: center;">
                     <div class="card-header"><strong>Decisíón</strong></div>
                     <div class="card-body">
                         
-                        <a type="button" id="desestimar" class="btn btn-primary" style="background: #013461; border: none; margin-right: 10px;" href="{{ route('desestimacp', $cp->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Desestimar">
+                        <a type="button" id="desestimar" class="btn btn-primary" style="background: #013461; border: none; margin-right: 10px;" href="{{ route('desestimacp', $cp->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Desestimado">
                             <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                             </svg>
@@ -102,7 +176,7 @@
 @push('other-scripts')
 
 <script type="text/javascript">
-    $(document).ready(function(){
+    /*$(document).ready(function(){
 
         var cp = {!! json_encode($cp->toArray(), JSON_HEX_TAG) !!};
         var precond = cp.precondiciones.split(',');
@@ -120,7 +194,7 @@
             
         }
 
-        /* PASOS */
+        // PASOS //
 
         var cp2 = {!! json_encode($cp->toArray(), JSON_HEX_TAG) !!};
         var precond2 = cp.pasos.split(',');
@@ -137,7 +211,7 @@
             }
             
         }
-    });
+    });*/
 </script>
 
 @endpush

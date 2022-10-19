@@ -40,19 +40,19 @@
                     @foreach($cps as $key => $value)
                     <tr>
                         <td>{{ $value->id }}</td>
-                        <td>{{ $value->nombre }}</td>
+                        <td>{{ $value->nombre_completo }}</td>
                         <td>{{ $value->name }}</td>
-                        @if($value->resultado == "fallido")
-                            <td><h6><span class="badge" style="background-color: #FF287A;">{{ strtoupper($value->resultado) }}</span></h6></td>
+                        @if(strtoupper($value->resultado_real) == "FALLIDO")
+                            <td align="center"><h6><span class="badge" style="background-color: #FF287A;">{{ strtoupper($value->resultado_real) }}</span></h6></td>
                         @endif
-                        @if($value->resultado == "desestimado")
-                            <td><h6><span class="badge" style="background-color: #013461;">{{ strtoupper($value->resultado) }}</span></h6></td>
+                        @if(strtoupper($value->resultado_real) == "DESESTIMADO")
+                            <td align="center"><h6><span class="badge" style="background-color: #013461;">{{ strtoupper($value->resultado_real) }}</span></h6></td>
                         @endif
-                        @if($value->resultado == "exitoso")
-                            <td><h6><span class="badge bg-success">{{ strtoupper($value->resultado) }}</span></h6></td>
+                        @if(strtoupper($value->resultado_real) == "EXITOSO")
+                            <td align="center"><h6><span class="badge bg-success">{{ strtoupper($value->resultado_real) }}</span></h6></td>
                         @endif
-                        @if($value->resultado == "pendiente")
-                            <td><h6><span class="badge bg-secondary">{{ strtoupper($value->resultado) }}</span></h6></td>
+                        @if(strtoupper($value->resultado_real) == "PENDIENTE")
+                            <td align="center"><h6><span class="badge bg-secondary">{{ strtoupper($value->resultado_real) }}</span></h6></td>
                         @endif
                     </tr>
                     @endforeach

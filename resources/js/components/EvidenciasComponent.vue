@@ -1,11 +1,10 @@
 <style type="text/css">
-        #viewimg img {
-            height: 100%;
-            /*margin: 0 auto;*/
-            padding: 0 0.5rem;
-            display: inline-flex;
-        }
-    </style>
+    #viewimg img {
+        height: 100%;
+        padding: 0 0.5rem;
+        display: inline-flex;
+    }
+</style>
 <template>
     <div>
         <div style="width: 100%; text-align: right; margin-top: 20px;">
@@ -17,8 +16,9 @@
             </button>
         </div><br>
         <div v-if="showEvidences">
-            <div v-if="resultadoFlag == 'pendiente'">
-                <button type="button" style="background: #ff287b; border: none;" class="btn btn-primary" v-on:click="changeFlag()">Agregar evidencia</button>
+            <div v-if="resultadoFlag == 'PENDIENTE'">
+                <button type="button" style="background: #ff287b; border: none;" class="btn btn-primary" v-on:click="changeFlag()">Agregar evidencia (Portapapeles)</button>
+                <button type="button" style="background: #ff287b; border: none;" class="btn btn-primary" v-on:click="changeFlagArchivo()">Agregar evidencia (Archivo)</button>
             </div><br>
             <div v-if="showForm">
                 <form @submit="createEvidencia" enctype="multipart/form-data">
@@ -38,6 +38,23 @@
                     <br><br>
                 </form>
             </div>
+            <div v-if="showFormArchivo">
+                <form @submit="createEvidencia" enctype="multipart/form-data">
+                    <input type="text" id="Id" v-model="evidencia.cp_id" hidden>
+                    <div class="mb-3">
+                        <label for="Imagen" class="form-label">Imagen</label>
+                        <input type="file" class="form-control" name="Imagen" id="Imagen" v-on:change="onFileChange">
+                    </div>
+                    <input type="text" id="path" v-model="evidencia.path" hidden>
+                    <div class="mb-3">
+                        <br><label for="Resultado" class="form-label">Comentario</label>
+                        <input type="text" class="form-control" id="Resultado" v-model="evidencia.comentario">
+                        <small id="emailHelp" class="form-text text-muted">*Ingrese un comentario si lo cree necesario.</small>
+                    </div><br>
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                    <br><br>
+                </form>
+            </div>
 
             <table class="table table-bordered">
                 <thead class="table-dark">
@@ -46,17 +63,17 @@
                         <th scope="col">Imagen</th>
                         <th scope="col">Comentario</th>
                         <th scope="col">Fecha y hora</th>
-                        <th scope="col" v-if="resultadoFlag == 'pendiente'">Acciones</th>
+                        <th scope="col" v-if="resultadoFlag == 'PENDIENTE'">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(evidencia, index) in evidencias" :key="evidencia.id">
                         <td>{{ index+1 }}</td>
                         <!--<td><img :src="''+evidencia.path" style="width: 150px; object-fit: cover;"></td>-->
-                        <td><img v-bind:src="''+evidencia.imagen" style="width: 150px; object-fit: cover;"></td>
+                        <td align="center"><img v-bind:src="''+evidencia.imagen" style="width: 150px; object-fit: cover;"></td>
                         <td>{{ evidencia.comentario }}</td>
                         <td>{{ evidencia.fecha_hora }}</td>
-                        <td v-if="resultadoFlag == 'pendiente'">
+                        <td v-if="resultadoFlag == 'PENDIENTE'">
                             <a type="button" class="btn btn-danger" style="background: rgb(255, 40, 123);" @click="deleteEvidencia(evidencia.id)">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
@@ -92,6 +109,7 @@
 
                 testCaseIdProp: null,
                 showForm: false,
+                showFormArchivo: false,
                 showEvidences: true,
                 evidencias:[],
                 evidencia:{
@@ -100,7 +118,8 @@
                     imagen: [],
                     path: "",
                     comentario: "",
-                    fecha_hora: ""
+                    fecha_hora: "",
+                    ola: "1"
                 },
 
                 /* TESTING */
@@ -148,7 +167,7 @@
                 })
             },
 
-            /*createEvidencia(e){
+            /*createEvidenciaArchivo(e){
                 
                 // Kata v0.3.0
                 
@@ -167,12 +186,13 @@
                 data.append('path', this.evidencia.path);
                 data.append('comentario', this.evidencia.comentario);
                 data.append('fecha_hora', this.evidencia.fecha_hora);
+                data.append('ola', this.evidencia.ola);
 
                 axios.post('/api/evidencias', data, config)
                 .then(response=>{
                     //this.$router.push({name:"mostrarDocumentos"});
                     //console.log(response.data)
-                    window.location.href = '/vistaCP/' + this.idCp;
+                    window.location.href = '/vistacp/' + this.idCp;
                 })
                 .catch(error=>{
                     alert(error);
@@ -198,9 +218,22 @@
                 if(!this.showForm){
 
                     this.showForm = true;
+                    this.showFormArchivo = false;
                 } else {
 
                     this.showForm = false;
+                }
+            },
+
+            changeFlagArchivo(){
+
+                if(!this.showFormArchivo){
+
+                    this.showFormArchivo = true;
+                    this.showForm = false
+                } else {
+
+                    this.showFormArchivo = false;
                 }
             },
 
@@ -215,7 +248,7 @@
                 }  
             },
 
-            /*onFileChange(e){
+            onFileChange(e){
 
                 // Kata v0.3.0
                 //this.evidencia.imagen = e.target.files[0];
@@ -227,10 +260,10 @@
                 var reader = new FileReader()
                     reader.readAsDataURL(e.target.files[0])
                     reader.onload = function () {
-                        self.evidencia.imagen = reader.result;
-                        //console.log(reader.result);
+                        self.evidencia.imagen[0] = reader.result;
+                        console.log(self.evidencia.imagen[0]);
                     };
-            },*/
+            },
 
             verCps(){
 

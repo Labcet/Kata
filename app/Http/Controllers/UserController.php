@@ -14,10 +14,10 @@ class UserController extends Controller
     public function userMetrics($id)
     {   
 
-        $desestimados = CasosPruebas::where([['resultado', '=', 'desestimado'],['user_id', '=', $id]])->count();
-        $fallidos = CasosPruebas::where([['resultado', '=', 'fallido'],['user_id', '=', $id]])->count();
-        $exitosos = CasosPruebas::where([['resultado', '=', 'exitoso'],['user_id', '=', $id]])->count();
-        $pendientes = CasosPruebas::where([['resultado', '=', 'pendiente'],['user_id', '=', $id]])->count();
+        $desestimados = CasosPruebas::where([['resultado_real', '=', 'desestimado'],['user_id', '=', $id]])->count();
+        $fallidos = CasosPruebas::where([['resultado_real', '=', 'fallido'],['user_id', '=', $id]])->count();
+        $exitosos = CasosPruebas::where([['resultado_real', '=', 'exitoso'],['user_id', '=', $id]])->count();
+        $pendientes = CasosPruebas::where([['resultado_real', '=', 'pendiente'],['user_id', '=', $id]])->count();
 
         $data =[
             'labels'  => ['Desestimados', 'Fallidos', 'Exitosos', 'No Ejecutados'],

@@ -95,7 +95,7 @@ class AuthController extends Controller
                 ->with('cps', $cps);
         }
   
-        return redirect("login")->withSuccess('Opps! You do not have access');
+        return redirect("login")->withSuccess('Opps! No tiene acceso.');
     }
     
     /**

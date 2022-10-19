@@ -5385,6 +5385,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     idCp: Number,
@@ -5397,6 +5414,7 @@ __webpack_require__.r(__webpack_exports__);
       resultadoFlag: this.resultadoCp,
       testCaseIdProp: null,
       showForm: false,
+      showFormArchivo: false,
       showEvidences: true,
       evidencias: [],
       evidencia: {
@@ -5404,7 +5422,8 @@ __webpack_require__.r(__webpack_exports__);
         imagen: [],
         path: "",
         comentario: "",
-        fecha_hora: ""
+        fecha_hora: "",
+        ola: "1"
       },
 
       /* TESTING */
@@ -5440,7 +5459,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
 
-    /*createEvidencia(e){
+    /*createEvidenciaArchivo(e){
         
         // Kata v0.3.0
         
@@ -5457,11 +5476,12 @@ __webpack_require__.r(__webpack_exports__);
         data.append('path', this.evidencia.path);
         data.append('comentario', this.evidencia.comentario);
         data.append('fecha_hora', this.evidencia.fecha_hora);
+        data.append('ola', this.evidencia.ola);
           axios.post('/api/evidencias', data, config)
         .then(response=>{
             //this.$router.push({name:"mostrarDocumentos"});
             //console.log(response.data)
-            window.location.href = '/vistaCP/' + this.idCp;
+            window.location.href = '/vistacp/' + this.idCp;
         })
         .catch(error=>{
             alert(error);
@@ -5482,8 +5502,17 @@ __webpack_require__.r(__webpack_exports__);
     changeFlag: function changeFlag() {
       if (!this.showForm) {
         this.showForm = true;
+        this.showFormArchivo = false;
       } else {
         this.showForm = false;
+      }
+    },
+    changeFlagArchivo: function changeFlagArchivo() {
+      if (!this.showFormArchivo) {
+        this.showFormArchivo = true;
+        this.showForm = false;
+      } else {
+        this.showFormArchivo = false;
       }
     },
     changeFlagEvidences: function changeFlagEvidences() {
@@ -5493,19 +5522,19 @@ __webpack_require__.r(__webpack_exports__);
         this.showEvidences = false;
       }
     },
+    onFileChange: function onFileChange(e) {
+      // Kata v0.3.0
+      //this.evidencia.imagen = e.target.files[0];
+      // Testing
+      var self = this;
+      var reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
 
-    /*onFileChange(e){
-          // Kata v0.3.0
-        //this.evidencia.imagen = e.target.files[0];
-          // Testing
-          var self = this;
-          var reader = new FileReader()
-            reader.readAsDataURL(e.target.files[0])
-            reader.onload = function () {
-                self.evidencia.imagen = reader.result;
-                //console.log(reader.result);
-            };
-    },*/
+      reader.onload = function () {
+        self.evidencia.imagen[0] = reader.result;
+        console.log(self.evidencia.imagen[0]);
+      };
+    },
     verCps: function verCps() {
       window.location.href = '/dashboard';
     },
@@ -10973,7 +11002,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#viewimg img {\n    height: 100%;\n    /*margin: 0 auto;*/\n    padding: 0 0.5rem;\n    display: inline-flex;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#viewimg img {\n    height: 100%;\n    padding: 0 0.5rem;\n    display: inline-flex;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -29263,7 +29292,7 @@ var render = function () {
     _vm._v(" "),
     _vm.showEvidences
       ? _c("div", [
-          _vm.resultadoFlag == "pendiente"
+          _vm.resultadoFlag == "PENDIENTE"
             ? _c("div", [
                 _c(
                   "button",
@@ -29277,7 +29306,22 @@ var render = function () {
                       },
                     },
                   },
-                  [_vm._v("Agregar evidencia")]
+                  [_vm._v("Agregar evidencia (Portapapeles)")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    staticStyle: { background: "#ff287b", border: "none" },
+                    attrs: { type: "button" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.changeFlagArchivo()
+                      },
+                    },
+                  },
+                  [_vm._v("Agregar evidencia (Archivo)")]
                 ),
               ])
             : _vm._e(),
@@ -29452,6 +29496,135 @@ var render = function () {
               ])
             : _vm._e(),
           _vm._v(" "),
+          _vm.showFormArchivo
+            ? _c("div", [
+                _c(
+                  "form",
+                  {
+                    attrs: { enctype: "multipart/form-data" },
+                    on: { submit: _vm.createEvidencia },
+                  },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.evidencia.cp_id,
+                          expression: "evidencia.cp_id",
+                        },
+                      ],
+                      attrs: { type: "text", id: "Id", hidden: "" },
+                      domProps: { value: _vm.evidencia.cp_id },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.evidencia, "cp_id", $event.target.value)
+                        },
+                      },
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "mb-3" }, [
+                      _c(
+                        "label",
+                        { staticClass: "form-label", attrs: { for: "Imagen" } },
+                        [_vm._v("Imagen")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        staticClass: "form-control",
+                        attrs: { type: "file", name: "Imagen", id: "Imagen" },
+                        on: { change: _vm.onFileChange },
+                      }),
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.evidencia.path,
+                          expression: "evidencia.path",
+                        },
+                      ],
+                      attrs: { type: "text", id: "path", hidden: "" },
+                      domProps: { value: _vm.evidencia.path },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.evidencia, "path", $event.target.value)
+                        },
+                      },
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "mb-3" }, [
+                      _c("br"),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "form-label",
+                          attrs: { for: "Resultado" },
+                        },
+                        [_vm._v("Comentario")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.evidencia.comentario,
+                            expression: "evidencia.comentario",
+                          },
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", id: "Resultado" },
+                        domProps: { value: _vm.evidencia.comentario },
+                        on: {
+                          input: function ($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.evidencia,
+                              "comentario",
+                              $event.target.value
+                            )
+                          },
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "small",
+                        {
+                          staticClass: "form-text text-muted",
+                          attrs: { id: "emailHelp" },
+                        },
+                        [_vm._v("*Ingrese un comentario si lo cree necesario.")]
+                      ),
+                    ]),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-success",
+                        attrs: { type: "submit" },
+                      },
+                      [_vm._v("Guardar")]
+                    ),
+                    _vm._v(" "),
+                    _c("br"),
+                    _c("br"),
+                  ]
+                ),
+              ])
+            : _vm._e(),
+          _vm._v(" "),
           _c("table", { staticClass: "table table-bordered" }, [
             _c("thead", { staticClass: "table-dark" }, [
               _c("tr", [
@@ -29463,7 +29636,7 @@ var render = function () {
                 _vm._v(" "),
                 _c("th", { attrs: { scope: "col" } }, [_vm._v("Fecha y hora")]),
                 _vm._v(" "),
-                _vm.resultadoFlag == "pendiente"
+                _vm.resultadoFlag == "PENDIENTE"
                   ? _c("th", { attrs: { scope: "col" } }, [_vm._v("Acciones")])
                   : _vm._e(),
               ]),
@@ -29475,7 +29648,7 @@ var render = function () {
                 return _c("tr", { key: evidencia.id }, [
                   _c("td", [_vm._v(_vm._s(index + 1))]),
                   _vm._v(" "),
-                  _c("td", [
+                  _c("td", { attrs: { align: "center" } }, [
                     _c("img", {
                       staticStyle: { width: "150px", "object-fit": "cover" },
                       attrs: { src: "" + evidencia.imagen },
@@ -29486,7 +29659,7 @@ var render = function () {
                   _vm._v(" "),
                   _c("td", [_vm._v(_vm._s(evidencia.fecha_hora))]),
                   _vm._v(" "),
-                  _vm.resultadoFlag == "pendiente"
+                  _vm.resultadoFlag == "PENDIENTE"
                     ? _c("td", [
                         _c(
                           "a",

@@ -18,13 +18,13 @@ class Controller extends BaseController
     {
         $cps = DB::table('casos_prueba')
                     ->join('users', 'casos_prueba.user_id', '=', 'users.id')
-                    ->select('casos_prueba.id', 'casos_prueba.nombre', 'users.name', 'casos_prueba.resultado')
+                    ->select('casos_prueba.id', 'casos_prueba.nombre_completo', 'users.name', 'casos_prueba.resultado_real')
                     ->get();
 
-        $desestimados = CasosPruebas::where([['resultado', '=', 'desestimado']])->count();
-        $fallidos = CasosPruebas::where([['resultado', '=', 'fallido']])->count();
-        $exitosos = CasosPruebas::where([['resultado', '=', 'exitoso']])->count();
-        $pendientes = CasosPruebas::where([['resultado', '=', 'pendiente']])->count();
+        $desestimados = CasosPruebas::where([['resultado_real', '=', 'Desestimado']])->count();
+        $fallidos = CasosPruebas::where([['resultado_real', '=', 'Fallido']])->count();
+        $exitosos = CasosPruebas::where([['resultado_real', '=', 'Exitoso']])->count();
+        $pendientes = CasosPruebas::where([['resultado_real', '=', 'Pendiente']])->count();
 
         //$cps = CasosPruebas::all();
 

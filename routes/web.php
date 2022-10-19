@@ -59,8 +59,8 @@ Route::get('/desestimacp/{idCP}', function ($idCP){
 
         CasosPruebas::where('id',$idCP)
         ->update([
-            'fecha_certificacion' => date('Y-m-d'),
-            'resultado' => 'desestimado'
+            'fecha_ejecucion' => date('Y-m-d H:i:s'),
+            'resultado_real' => 'Desestimado'
         ]);
 
         return redirect('/dashboard');
@@ -83,8 +83,8 @@ Route::get('/fallacp/{idCP}', function ($idCP){
 
         CasosPruebas::where('id',$idCP)
         ->update([
-            'fecha_certificacion' => date('Y-m-d'),
-            'resultado' => 'fallido'
+            'fecha_ejecucion' => date('Y-m-d H:i:s'),
+            'resultado_real' => 'Fallido'
         ]);
 
         return redirect('/dashboard');
@@ -105,8 +105,8 @@ Route::get('/exitocp/{idCP}', function ($idCP){
 
         CasosPruebas::where('id',$idCP)
         ->update([
-            'fecha_certificacion' => date('Y-m-d'),
-            'resultado' => 'exitoso'
+            'fecha_ejecucion' => date('Y-m-d H:i:s'),
+            'resultado_real' => 'Exitoso'
         ]);
 
         return redirect('/dashboard');

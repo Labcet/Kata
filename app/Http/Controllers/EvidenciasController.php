@@ -60,6 +60,7 @@ class EvidenciasController extends Controller
             $evidencias->path = 'path';
             $evidencias->comentario = $coment;
             $evidencias->fecha_hora = $fecha;
+            $evidencias->ola = $request->ola;
 
             $evidencias->save();
         }

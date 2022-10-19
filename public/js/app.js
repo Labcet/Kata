@@ -29627,7 +29627,7 @@ var render = function () {
           _vm._v(" "),
           _c("table", { staticClass: "table table-bordered" }, [
             _c("thead", { staticClass: "table-dark" }, [
-              _c("tr", [
+              _c("tr", { attrs: { align: "center" } }, [
                 _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
                 _vm._v(" "),
                 _c("th", { attrs: { scope: "col" } }, [_vm._v("Imagen")]),
@@ -29657,16 +29657,23 @@ var render = function () {
                   _vm._v(" "),
                   _c("td", [_vm._v(_vm._s(evidencia.comentario))]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(evidencia.fecha_hora))]),
+                  _c("td", { attrs: { align: "center" } }, [
+                    _vm._v(_vm._s(evidencia.fecha_hora)),
+                  ]),
                   _vm._v(" "),
                   _vm.resultadoFlag == "PENDIENTE"
-                    ? _c("td", [
+                    ? _c("td", { attrs: { align: "center" } }, [
                         _c(
                           "a",
                           {
                             staticClass: "btn btn-danger",
                             staticStyle: { background: "rgb(255, 40, 123)" },
-                            attrs: { type: "button" },
+                            attrs: {
+                              type: "button",
+                              "data-bs-toggle": "tooltip",
+                              "data-bs-placement": "top",
+                              title: "Eliminar Evidencia",
+                            },
                             on: {
                               click: function ($event) {
                                 return _vm.deleteEvidencia(evidencia.id)

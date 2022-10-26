@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CasosPruebasController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\VariableController;
 use App\Http\Controllers\Controller;
 use App\Models\CasosPruebas;
 use App\Models\Evidencias;
@@ -44,6 +45,10 @@ Route::get('pdf/{id}', [PdfController::class, 'index'])->name('pdf');
 /* RUTA VISTA CP */
 
 Route::get('vistacp/{id}', [CasosPruebasController::class, 'index'])->name('vistacp');
+
+/* RUTA CONFIGURATION */
+
+Route::get('configuration', [Controller::class, 'configuration'])->name('configuration');
 
 /* RUTA ANALYTICS */
 
@@ -123,3 +128,7 @@ Route::get('/exitocp/{idCP}', function ($idCP){
 /* RUTA MERGE PDF */
 
 Route::get('/reporte/{id}', [PdfController::class, 'mergePDF'])->name('reporte');
+
+/* ACTUALIZAR OLA */
+
+Route::post('updateola', [VariableController::class, 'updateOla'])->name('updateola');

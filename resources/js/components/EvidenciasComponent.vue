@@ -261,7 +261,7 @@
                     reader.readAsDataURL(e.target.files[0])
                     reader.onload = function () {
                         self.evidencia.imagen[0] = reader.result;
-                        console.log(self.evidencia.imagen[0]);
+                        //console.log(self.evidencia.imagen[0]);
                     };
             },
 
@@ -281,7 +281,7 @@
                     reader.readAsDataURL(pasteEvent.clipboardData.items[0].getAsFile())
                     reader.onload = function () {
                         self.evidencia.imagen = reader.result;
-                        console.log(reader.result);
+                        //console.log(reader.result);
                     };*/
 
                 /* TESTING */
@@ -292,7 +292,7 @@
                     reader.readAsDataURL(pasteEvent.clipboardData.items[0].getAsFile())
                     reader.onload = function () {
                         self.evidencia.imagen.push(reader.result);
-                        console.log(self.evidencia.imagen);
+                        //console.log(self.evidencia.imagen);
                     };
             },
 

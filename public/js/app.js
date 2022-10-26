@@ -5531,8 +5531,7 @@ __webpack_require__.r(__webpack_exports__);
       reader.readAsDataURL(e.target.files[0]);
 
       reader.onload = function () {
-        self.evidencia.imagen[0] = reader.result;
-        console.log(self.evidencia.imagen[0]);
+        self.evidencia.imagen[0] = reader.result; //console.log(self.evidencia.imagen[0]);
       };
     },
     verCps: function verCps() {
@@ -5547,7 +5546,7 @@ __webpack_require__.r(__webpack_exports__);
           reader.readAsDataURL(pasteEvent.clipboardData.items[0].getAsFile())
           reader.onload = function () {
               self.evidencia.imagen = reader.result;
-              console.log(reader.result);
+              //console.log(reader.result);
           };*/
 
       /* TESTING */
@@ -5556,8 +5555,7 @@ __webpack_require__.r(__webpack_exports__);
       reader.readAsDataURL(pasteEvent.clipboardData.items[0].getAsFile());
 
       reader.onload = function () {
-        self.evidencia.imagen.push(reader.result);
-        console.log(self.evidencia.imagen);
+        self.evidencia.imagen.push(reader.result); //console.log(self.evidencia.imagen);
       };
     },
     deleteFunction: function deleteFunction(deleteEvent) {

@@ -75,6 +75,7 @@
                         </li>-->
                     @else
                         @if (Auth::user()->rol == 'administrador')
+                            <a class="nav-link" href="{{ route('configuration') }}">Configuración</a>
                             <a class="nav-link" href="{{ route('analytics') }}">Analytics</a>
                         @endif
                         <li class="nav-item">

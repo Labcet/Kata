@@ -35,4 +35,9 @@ class Controller extends BaseController
                 ->with('exitosos', $exitosos)
                 ->with('pendientes', $pendientes);
     }
+
+    public function configuration()
+    {
+        return View('configuration');
+    }
 }

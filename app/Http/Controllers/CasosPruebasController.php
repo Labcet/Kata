@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CasosPruebas;
 use App\Models\Evidencias;
+use App\Models\Variable;
 use App\Imports\CasosPruebaImport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
 
 class CasosPruebasController extends Controller
 {
@@ -17,7 +19,15 @@ class CasosPruebasController extends Controller
      */
     public function index($id)
     {
-        $cp = CasosPruebas::find($id);
+        //$cp = CasosPruebas::find($id);
+        $ola = Variable::where('variable', 'Ola')->first();
+
+        $cp = DB::table('casos_prueba')
+                ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
+                ->select('casos_prueba.*', 'olas.estado')
+                ->where([['casos_prueba.id', '=', $id],['olas.num_ola', '=', $ola->valor]])
+                ->get();
+
         return View('vistaCP')
                 ->with('cp', $cp);
     }
@@ -108,6 +118,20 @@ class CasosPruebasController extends Controller
     public function import()
     {
         Excel::import(new CasosPruebaImport, 'test.xlsx');
+
+        // Insertamos data en la tabla olas
+
+        $cps = CasosPruebas::all();
+
+        foreach ($cps as $key => $cp) {
+            
+            DB::table('olas')->insert([
+                'cp_id' => $cp->id,
+                'num_ola' => 1,
+                'estado' => 'Pendiente'
+            ]);
+        }
+
         return redirect('/dashboard')->with('success', 'All good!');
     }
 }

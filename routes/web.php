@@ -8,6 +8,8 @@ use App\Http\Controllers\VariableController;
 use App\Http\Controllers\Controller;
 use App\Models\CasosPruebas;
 use App\Models\Evidencias;
+use App\Models\Variable;
+use App\Models\Ola;
 //use App\Http\Controllers\Redirect
 
 /*
@@ -60,12 +62,16 @@ Route::get('/desestimacp/{idCP}', function ($idCP){
 
     date_default_timezone_set('America/Lima');
 
-    if(Evidencias::where('cp_id', $idCP)->count() > 0){
+    $ola = Variable::where('variable', 'Ola')->first();
 
-        CasosPruebas::where('id',$idCP)
+    if(Evidencias::where([['cp_id', '=', $idCP],['ola', '=', $ola->valor]])->count() > 0){
+
+        // Actualizamos el estado del CP en la tabla Ola
+
+        Ola::where([['cp_id', '=', $idCP],['num_ola', '=', $ola->valor]])
         ->update([
-            'fecha_ejecucion' => date('Y-m-d H:i:s'),
-            'resultado_real' => 'Desestimado'
+            'estado' => 'Desestimado',
+            'fecha_ejecucion' => date('Y-m-d H:i:s')
         ]);
 
         return redirect('/dashboard');
@@ -84,12 +90,16 @@ Route::get('/fallacp/{idCP}', function ($idCP){
 
     date_default_timezone_set('America/Lima');
 
-    if(Evidencias::where('cp_id', $idCP)->count() > 0){
+    $ola = Variable::where('variable', 'Ola')->first();
 
-        CasosPruebas::where('id',$idCP)
+    if(Evidencias::where([['cp_id', '=', $idCP],['ola', '=', $ola->valor]])->count() > 0){
+
+        // Actualizamos el estado del CP en la tabla Ola
+
+        Ola::where([['cp_id', '=', $idCP],['num_ola', '=', $ola->valor]])
         ->update([
-            'fecha_ejecucion' => date('Y-m-d H:i:s'),
-            'resultado_real' => 'Fallido'
+            'estado' => 'Fallido',
+            'fecha_ejecucion' => date('Y-m-d H:i:s')
         ]);
 
         return redirect('/dashboard');
@@ -106,12 +116,16 @@ Route::get('/exitocp/{idCP}', function ($idCP){
 
     date_default_timezone_set('America/Lima');
 
-    if(Evidencias::where('cp_id', $idCP)->count() > 0){
+    $ola = Variable::where('variable', 'Ola')->first();
 
-        CasosPruebas::where('id',$idCP)
+    if(Evidencias::where([['cp_id', '=', $idCP],['ola', '=', $ola->valor]])->count() > 0){
+
+        // Actualizamos el estado del CP en la tabla Ola
+
+        Ola::where([['cp_id', '=', $idCP],['num_ola', '=', $ola->valor]])
         ->update([
-            'fecha_ejecucion' => date('Y-m-d H:i:s'),
-            'resultado_real' => 'Exitoso'
+            'estado' => 'Exitoso',
+            'fecha_ejecucion' => date('Y-m-d H:i:s')
         ]);
 
         return redirect('/dashboard');
@@ -123,6 +137,36 @@ Route::get('/exitocp/{idCP}', function ($idCP){
     }
 })
     ->name('exitocp');
+
+Route::get('/addola/{idVar}', function ($idVar){
+
+
+    // Actualizamos la variable Ola
+
+    $ola = Variable::where('variable', 'Ola')->first();
+    $new_value = $ola->valor+1;
+
+    Variable::where('id', $idVar)
+    ->update([
+        'valor' => $new_value
+    ]);
+
+    //Agregamos los mismos CP's con la nueva ola
+
+    $cps = CasosPruebas::all();
+
+    foreach ($cps as $key => $cp) {
+        
+        DB::table('olas')->insert([
+            'cp_id' => $cp->id,
+            'num_ola' => $new_value,
+            'estado' => 'Pendiente'
+        ]);
+    }
+
+    return redirect('/configuration');
+})
+    ->name('addola');
 
 
 /* RUTA MERGE PDF */

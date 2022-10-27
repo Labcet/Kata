@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CasosPruebas;
 use App\Models\Evidencias;
+use App\Models\Variable;
 use Carbon\Carbon;
 use File;
 
@@ -17,7 +18,9 @@ class EvidenciasController extends Controller
      */
     public function index()
     {
-        $evidencias = Evidencias::all();
+        $ola = Variable::where('variable', 'Ola')->first();
+
+        $evidencias = Evidencias::where('ola',$ola->valor)->get();
         return response()->json($evidencias);
     }
 
@@ -39,6 +42,7 @@ class EvidenciasController extends Controller
      */
     public function store(Request $request)
     {
+        $ola = Variable::where('variable', 'Ola')->first();
 
         date_default_timezone_set('America/Lima');
 
@@ -60,7 +64,7 @@ class EvidenciasController extends Controller
             $evidencias->path = 'path';
             $evidencias->comentario = $coment;
             $evidencias->fecha_hora = $fecha;
-            $evidencias->ola = $request->ola;
+            $evidencias->ola = $ola->valor;
 
             $evidencias->save();
         }
@@ -97,7 +101,9 @@ class EvidenciasController extends Controller
      */
     public function show($id)
     {
-        $evidencias_cp = Evidencias::where('cp_id', $id)->get();
+        $ola = Variable::where('variable', 'Ola')->first();
+
+        $evidencias_cp = Evidencias::where([['cp_id', '=', $id],['ola', '=', $ola->valor]])->get();
         return response()->json($evidencias_cp);
     }
 

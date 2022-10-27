@@ -158,8 +158,8 @@
                 axios.post('/api/evidencias', this.evidencia)
                 .then(response=>{
                     //this.$router.push({name:"mostrarDocumentos"});
-                    window.location.href = '/vistacp/' + this.idCp;
                     //alert(response.data);
+                    window.location.href = '/vistacp/' + this.idCp;
                 })
                 .catch(error=>{
                     alert(error);

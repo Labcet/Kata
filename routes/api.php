@@ -20,4 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::resource('evidencias', App\Http\Controllers\EvidenciasController::class)->only (['index','store', 'update', 'show','destroy']);
 
-Route::get('userMetrics/{id}', [ App\Http\Controllers\UserController::class, 'userMetrics'])->name('userMetrics');
+Route::get('userMetrics/{id}', [ App\Http\Controllers\Auth\AuthController::class, 'userMetrics'])->name('userMetrics');

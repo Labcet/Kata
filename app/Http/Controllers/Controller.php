@@ -8,6 +8,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\CasosPruebas;
 use App\Models\Evidencias;
+use App\Models\Variable;
 use Illuminate\Support\Facades\DB;
 
 class Controller extends BaseController
@@ -38,6 +39,8 @@ class Controller extends BaseController
 
     public function configuration()
     {
-        return View('configuration');
+        $var = Variable::all();
+        return View('configuration')
+                ->with('variables', $var);
     }
 }

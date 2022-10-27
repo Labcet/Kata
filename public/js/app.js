@@ -5452,7 +5452,8 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.post('/api/evidencias', this.evidencia).then(function (response) {
         //this.$router.push({name:"mostrarDocumentos"});
-        window.location.href = '/vistacp/' + _this2.idCp; //alert(response.data);
+        //alert(response.data);
+        window.location.href = '/vistacp/' + _this2.idCp;
       })["catch"](function (error) {
         alert(error);
         console.log(error);

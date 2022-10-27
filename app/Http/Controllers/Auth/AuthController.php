@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\CasosPruebas;
 use App\Models\User;
+use App\Models\Variable;
 use Session;
 use Hash;
 
@@ -83,12 +85,25 @@ class AuthController extends Controller
 
             $user = Auth::user();
 
+            $ola = Variable::where('variable', 'Ola')->first();
+
             if($user->rol == "administrador"){
 
-                $cps = CasosPruebas::all();
+                //$cps = CasosPruebas::all();
+                $cps = DB::table('casos_prueba')
+                    ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
+                    ->select('casos_prueba.*', 'olas.estado')
+                    ->where('olas.num_ola', $ola->valor)
+                    ->get();
+
             }else {
 
-                $cps = CasosPruebas::where('user_id', $user->id)->get();
+                //$cps = CasosPruebas::where('user_id', $user->id)->get();
+                $cps = DB::table('casos_prueba')
+                    ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
+                    ->select('casos_prueba.*', 'olas.estado')
+                    ->where('casos_prueba.user_id', $user->id)
+                    ->get();
             }
             
             return View('dashboard')
@@ -122,5 +137,51 @@ class AuthController extends Controller
         Auth::logout();
   
         return Redirect('login');
+    }
+
+    public function userMetrics($id)
+    {   
+
+        //$user = auth('api')->user();
+
+        //if($user->rol == "administrador"){
+
+            //$desestimados = Ola::where([['estado', '=', 'desestimado']])->count();
+            $desestimados = DB::table('olas')
+                ->join('casos_prueba', 'casos_prueba.id', '=', 'olas.cp_id')
+                ->select('olas.*')
+                ->where([['olas.estado', '=', 'desestimado'],['casos_prueba.user_id', '=', $id]])
+                ->count();
+            //$fallidos = Ola::where([['estado', '=', 'fallido']])->count();
+            $fallidos = DB::table('olas')
+                ->join('casos_prueba', 'casos_prueba.id', '=', 'olas.cp_id')
+                ->select('olas.*')
+                ->where([['olas.estado', '=', 'fallido'],['casos_prueba.user_id', '=', $id]])
+                ->count();
+            //$exitosos = Ola::where([['estado', '=', 'exitoso']])->count();
+            $exitosos = DB::table('olas')
+                ->join('casos_prueba', 'casos_prueba.id', '=', 'olas.cp_id')
+                ->select('olas.*')
+                ->where([['olas.estado', '=', 'exitoso'],['casos_prueba.user_id', '=', $id]])
+                ->count();
+            //$pendientes = Ola::where([['estado', '=', 'pendiente']])->count();
+            $pendientes = DB::table('olas')
+                ->join('casos_prueba', 'casos_prueba.id', '=', 'olas.cp_id')
+                ->select('olas.*')
+                ->where([['olas.estado', '=', 'pendiente'],['casos_prueba.user_id', '=', $id]])
+                ->count();
+        //}
+
+        $data =[
+            'labels'  => ['Desestimados', 'Fallidos', 'Exitosos', 'No Ejecutados'],
+            'datasets' => [
+                [
+                  'backgroundColor' => ['#013461', '#FF287A','#019500', 'silver'],
+                  'data' => [$desestimados, $fallidos, $exitosos, $pendientes]
+                ],
+            ]
+        ];
+
+        return response()->json($data);
     }
 }

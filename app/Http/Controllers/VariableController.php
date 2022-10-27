@@ -7,11 +7,11 @@ use App\Models\Variable;
 
 class VariableController extends Controller
 {
-    public function updateOla($request)
+    public function updateOla(Request $request)
     {
         Variable::where('variable', $request->variable)
           ->update(['valor' => $request->valor]);
 
-        return View('configuration');
+        return redirect('configuration');
     }
 }

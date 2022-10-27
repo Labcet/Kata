@@ -5,32 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Permission;
 use App\Models\CasosPruebas;
+use App\Models\Ola;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-
-    public function userMetrics($id)
-    {   
-
-        $desestimados = CasosPruebas::where([['resultado_real', '=', 'desestimado'],['user_id', '=', $id]])->count();
-        $fallidos = CasosPruebas::where([['resultado_real', '=', 'fallido'],['user_id', '=', $id]])->count();
-        $exitosos = CasosPruebas::where([['resultado_real', '=', 'exitoso'],['user_id', '=', $id]])->count();
-        $pendientes = CasosPruebas::where([['resultado_real', '=', 'pendiente'],['user_id', '=', $id]])->count();
-
-        $data =[
-            'labels'  => ['Desestimados', 'Fallidos', 'Exitosos', 'No Ejecutados'],
-            'datasets' => [
-                [
-                  'backgroundColor' => ['#013461', '#FF287A','#019500', 'silver'],
-                  'data' => [$desestimados, $fallidos, $exitosos, $pendientes]
-                ],
-            ]
-        ];
-
-        return response()->json($data);
-    }
 
     /**
      * Display a listing of the resource.

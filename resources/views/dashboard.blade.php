@@ -24,7 +24,7 @@
                 <tbody>
                 @foreach($cps as $key => $value)
                     <tr>
-                        <td align="center">{{ $value->estado }}</td>
+                        <td align="center">{{ $value->caso_prueba }}</td>
                         <td>{{ $value->nombre_completo }}</td>
                         @if(strtoupper($value->estado) == "FALLIDO")
                             <td align="center"><h6><span class="badge" style="background-color: #FF287A;">{{ strtoupper($value->estado) }}</span></h6></td>
@@ -58,7 +58,7 @@
                     </tr>
                 @endforeach
                 </tbody>
-            </table><br><br>
+            </table><br><br><br>
         </div>
     </div>
 </div>

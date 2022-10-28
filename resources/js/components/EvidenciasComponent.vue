@@ -14,7 +14,7 @@
             <button class="btn btn-primary" type="button" v-on:click="changeFlagEvidences()">
                 Mostrar/Esconder
             </button>
-        </div><br>
+        </div><br><br>
         <div v-if="showEvidences">
             <div v-if="resultadoFlag == 'PENDIENTE'">
                 <button type="button" style="background: #ff287b; border: none;" class="btn btn-primary" v-on:click="changeFlag()">Agregar evidencia (Portapapeles)</button>
@@ -83,7 +83,7 @@
                     </tr>
                 </tbody>
             </table>
-        </div><br><br>
+        </div><br><br><br>
     </div>
 </template>
 

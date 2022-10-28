@@ -98,7 +98,7 @@
 
     </div>
 
-    <footer class="bg-light text-center text-lg-start">
+    <footer class="bg-light text-center text-lg-start" style="position: fixed; bottom: 0px; width: 100%; z-index: 2;">
         <strong>
             <!-- Copyright -->
             <div class="text-center p-3" style="background-color: #01C4FA; color: #FFFFFF;">

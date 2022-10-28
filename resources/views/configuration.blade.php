@@ -19,10 +19,10 @@
                             <td>{{ $var->variable }}</td>
                             <td>{{ $var->valor }}</td>
                             <td>
-                                <a type="button" id="addola" class="btn btn-primary" style="background: #ffd000; border: none;" href="{{ route('addola', $var->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="PDF">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
-                                    </svg>                                  
+                                <a type="button" id="addola" class="btn btn-primary" style="background: #ffd000; border: none;" href="{{ route('addola', $var->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Añadir Ola">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"></path>
+                                    </svg>                                
                                 </a>
                             </td>
                         </tr>
@@ -39,7 +39,6 @@
                         @csrf
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Variable</label>
-                            <!--<input type="text" class="form-control" id="variable" name="variable" value="Ola" disabled>-->
                             <select name="variable" id="variable" class="form-control">
                                 @foreach($variables as $key => $var)
                                     <option value="{{ $var->variable }}">{{ $var->variable }}</option>

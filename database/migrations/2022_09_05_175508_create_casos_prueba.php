@@ -19,7 +19,9 @@ return new class extends Migration
             $table->text('proceso')->nullable();
             $table->string('producto')->nullable();
             $table->string('sub_producto')->nullable();
+            $table->string('tipo_campana')->nullable();
             $table->string('destino_credito')->nullable();
+            $table->string('tipo_persona')->nullable();
             $table->string('tipo_cliente')->nullable();
             $table->string('tipo_evaluacion')->nullable();
             $table->string('tipo_aprobacion')->nullable();
@@ -37,6 +39,7 @@ return new class extends Migration
             $table->string('estado_esperado')->nullable();
             $table->string('complejidad')->nullable();
             $table->string('corebank_movil_web')->nullable();
+            $table->string('equivalente_corebank')->nullable();
             $table->string('tipo_prueba')->nullable();
             $table->string('prioridad')->nullable();
             $table->string('tiempo_estimado_ejecucion')->nullable();
@@ -44,7 +47,7 @@ return new class extends Migration
             $table->string('numero_ejecutores')->nullable();
             $table->string('numero_probadores')->nullable();
             $table->timestamp('fecha_ejecucion')->nullable();
-            $table->text('resultado_real')->nullable();
+            //$table->text('resultado_real')->nullable();
             $table->unsignedBigInteger('requerimiento_id');
             $table->foreign('requerimiento_id')->references('id')->on('requerimientos');
             $table->unsignedBigInteger('user_id');

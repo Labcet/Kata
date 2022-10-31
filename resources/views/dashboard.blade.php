@@ -22,7 +22,11 @@
                 <a href="{{ route('importar') }}" class="btn btn-danger" style="margin-top: 40px;" onclick="return confirm('Está seguro?')">Importar Data</a>
             @endif
 
-            <a href="{{ route('reporte', encrypt(Auth::user()->id)) }}" class="btn btn-danger" style="margin-top: 40px;" target="_blank">Reporte General</a><br><br>
+            <a href="{{ route('reporteusuario', encrypt(Auth::user()->id)) }}" class="btn btn-danger" style="margin-top: 40px;" target="_blank">Reporte</a>
+            @if (Auth::user()->rol == 'administrador')
+                <a href="{{ route('reportegeneral') }}" class="btn btn-danger" style="margin-top: 40px;" target="_blank">Reporte General</a>
+            @endif
+            <br><br>
 
             <!--@if (Auth::user()->rol == 'administrador')
                 <metricas-component :id-user="{{ Auth::user()->id }}"></metricas-component>

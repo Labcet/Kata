@@ -171,7 +171,11 @@ Route::get('/addola/{idVar}', function ($idVar){
 
 /* RUTA MERGE PDF */
 
-Route::get('/reporte/{id}', [PdfController::class, 'mergePDF'])->name('reporte');
+Route::get('/reporteusuario/{id}', [PdfController::class, 'mergePDF'])->name('reporteusuario');
+
+/* RUTA GENERAL PDF */
+
+Route::get('/reportegeneral', [PdfController::class, 'generalPDF'])->name('reportegeneral');
 
 /* ACTUALIZAR OLA */
 

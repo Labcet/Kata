@@ -9,6 +9,7 @@ use App\Models\Variable;
 use App\Imports\CasosPruebaImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class CasosPruebasController extends Controller
 {
@@ -121,21 +122,33 @@ class CasosPruebasController extends Controller
 
     public function import()
     {
-        Excel::import(new CasosPruebaImport, 'test.xlsx');
+        if(Auth::check()){
 
-        // Insertamos data en la tabla olas
+            $user = Auth::user();
 
-        $cps = CasosPruebas::all();
+            if($user->rol == "administrador"){
 
-        foreach ($cps as $key => $cp) {
-            
-            DB::table('olas')->insert([
-                'cp_id' => $cp->id,
-                'num_ola' => 1,
-                'estado' => 'Pendiente'
-            ]);
+                Excel::import(new CasosPruebaImport, 'test.xlsx');
+
+                // Insertamos data en la tabla olas
+
+                $cps = CasosPruebas::all();
+
+                foreach ($cps as $key => $cp) {
+                    
+                    DB::table('olas')->insert([
+                        'cp_id' => $cp->id,
+                        'num_ola' => 1,
+                        'estado' => 'Pendiente'
+                    ]);
+                }
+
+                return redirect('/dashboard')->with('status', 'Se importó la data correctamente!');
+            }
+
+            return redirect("dashboard");
         }
 
-        return redirect('/dashboard')->with('success', 'All good!');
+        return redirect("login")->withSuccess('Opps! No tiene acceso.');
     }
 }

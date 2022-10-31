@@ -4,6 +4,7 @@
 <div class="container"><br><br>
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <metricas-component :id-user="{{ Auth::user()->id }}"></metricas-component>
             <table class="table table-bordered">
                 <thead class="table-dark">
                     <td colspan="2"> Resumen General </td>
@@ -29,8 +30,8 @@
             </table><br><br>
             <table class="table table-bordered">
                 <thead class="table-dark">
-                    <tr>
-                        <td>ID Caso Prueba</td>
+                    <tr align='center'>
+                        <td>Caso Prueba</td>
                         <td>Nombre CP</td>
                         <td>Usuario</td>
                         <td>Resultado</td>
@@ -39,7 +40,7 @@
                 <tbody>
                     @foreach($cps as $key => $value)
                     <tr>
-                        <td>{{ $value->id }}</td>
+                        <td align='center'>{{ $value->caso_prueba }}</td>
                         <td>{{ $value->nombre_completo }}</td>
                         <td>{{ $value->name }}</td>
                         @if(strtoupper($value->estado) == "FALLIDO")

@@ -57,7 +57,7 @@
     </head>
 <body>
     
-    <nav class="navbar navbar-expand-lg navbar-light navbar-laravel" style="background-color: #01C4FA;">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light navbar-laravel" style="background-color: #01C4FA;">
         <div class="container">
             <a class="navbar-brand" href="#"><img src="{{asset('/upload/andes.jpg')}}" width="80px"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

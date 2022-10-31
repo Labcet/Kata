@@ -49,10 +49,10 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             return redirect()->intended('dashboard')
-                        ->withSuccess('You have Successfully loggedin');
+                    ->withSuccess('You have Successfully loggedin');
         }
   
-        return redirect("login")->withSuccess('Oppes! You have entered invalid credentials');
+        return redirect("login")->with('message', 'Opps! El usuario o contraseña es incorrecto!');
     }
       
     /**
@@ -150,25 +150,25 @@ class AuthController extends Controller
             $desestimados = DB::table('olas')
                 ->join('casos_prueba', 'casos_prueba.id', '=', 'olas.cp_id')
                 ->select('olas.*')
-                ->where([['olas.estado', '=', 'desestimado'],['casos_prueba.user_id', '=', $id]])
+                ->where([['olas.estado', '=', 'desestimado']])
                 ->count();
             //$fallidos = Ola::where([['estado', '=', 'fallido']])->count();
             $fallidos = DB::table('olas')
                 ->join('casos_prueba', 'casos_prueba.id', '=', 'olas.cp_id')
                 ->select('olas.*')
-                ->where([['olas.estado', '=', 'fallido'],['casos_prueba.user_id', '=', $id]])
+                ->where([['olas.estado', '=', 'fallido']])
                 ->count();
             //$exitosos = Ola::where([['estado', '=', 'exitoso']])->count();
             $exitosos = DB::table('olas')
                 ->join('casos_prueba', 'casos_prueba.id', '=', 'olas.cp_id')
                 ->select('olas.*')
-                ->where([['olas.estado', '=', 'exitoso'],['casos_prueba.user_id', '=', $id]])
+                ->where([['olas.estado', '=', 'exitoso']])
                 ->count();
             //$pendientes = Ola::where([['estado', '=', 'pendiente']])->count();
             $pendientes = DB::table('olas')
                 ->join('casos_prueba', 'casos_prueba.id', '=', 'olas.cp_id')
                 ->select('olas.*')
-                ->where([['olas.estado', '=', 'pendiente'],['casos_prueba.user_id', '=', $id]])
+                ->where([['olas.estado', '=', 'Pendiente']])
                 ->count();
         //}
 

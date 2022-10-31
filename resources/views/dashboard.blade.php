@@ -4,13 +4,29 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <!-- Respuesta -->
+            @if (session('status'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 20px;">
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 20 20" fill="currentColor" style="display: inline-block;">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        {{ session('status') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </span>
+                </div>
+            @endif
+            <!-- -->
+
             @if (Auth::user()->rol == 'administrador')
-                <a href="{{ route('importar') }}" class="btn btn-danger" style="margin-top: 40px;">Importar Data</a><br><br>
+                <a href="{{ route('importar') }}" class="btn btn-danger" style="margin-top: 40px;" onclick="return confirm('Está seguro?')">Importar Data</a>
             @endif
 
             <a href="{{ route('reporte', encrypt(Auth::user()->id)) }}" class="btn btn-danger" style="margin-top: 40px;" target="_blank">Reporte General</a><br><br>
 
-            <metricas-component :id-user="{{ Auth::user()->id }}"></metricas-component>
+            <!--@if (Auth::user()->rol == 'administrador')
+                <metricas-component :id-user="{{ Auth::user()->id }}"></metricas-component>
+            @endif-->
 
             <table class="table table-bordered">
                 <thead class="table-dark">

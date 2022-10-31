@@ -29,7 +29,7 @@ class Controller extends BaseController
                 $cps = DB::table('casos_prueba')
                             ->join('users', 'casos_prueba.user_id', '=', 'users.id')
                             ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
-                            ->select('casos_prueba.id', 'casos_prueba.nombre_completo', 'users.name', 'olas.estado')
+                            ->select('casos_prueba.caso_prueba', 'casos_prueba.nombre_completo', 'users.name', 'olas.estado')
                             ->get();
 
                 $desestimados = Ola::where([['estado', '=', 'Desestimado']])->count();

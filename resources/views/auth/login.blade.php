@@ -2,14 +2,27 @@
   
 @section('content')
 <main class="login-form">
-  <div class="cotainer">
-      <div class="row justify-content-center">
-          <div class="col-md-6">
-              <div class="card">
-                  <div class="card-header">Login</div>
-                  <div class="card-body">
+    <div class="cotainer">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <!-- Respuesta -->
+                @if (session('message'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 20px;">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 20 20" fill="currentColor" style="display: inline-block;">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                            </svg>
+                            {{ session('message') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </span>
+                    </div>
+                @endif
+                <!-- -->
+                <div class="card">
+                    <div class="card-header">Login</div>
+                    <div class="card-body">
   
-                      <form action="{{ route('login.post') }}" method="POST">
+                        <form action="{{ route('login.post') }}" method="POST">
                           @csrf
                           <div class="form-group row">
                               <label for="email_address" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>

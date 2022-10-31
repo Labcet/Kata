@@ -19,17 +19,21 @@ class CasosPruebasController extends Controller
      */
     public function index($id)
     {
-        //$cp = CasosPruebas::find($id);
-        $ola = Variable::where('variable', 'Ola')->first();
+        if(Auth::check()){
 
-        $cp = DB::table('casos_prueba')
-                ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
-                ->select('casos_prueba.*', 'olas.estado')
-                ->where([['casos_prueba.id', '=', $id],['olas.num_ola', '=', $ola->valor]])
-                ->get();
+            $ola = Variable::where('variable', 'Ola')->first();
 
-        return View('vistaCP')
-                ->with('cp', $cp);
+            $cp = DB::table('casos_prueba')
+                    ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
+                    ->select('casos_prueba.*', 'olas.estado')
+                    ->where([['casos_prueba.id', '=', $id],['olas.num_ola', '=', $ola->valor]])
+                    ->get();
+
+            return View('vistaCP')
+                    ->with('cp', $cp);
+        }
+
+        return redirect("login")->withSuccess('Opps! No tiene acceso.');
     }
 
     /**

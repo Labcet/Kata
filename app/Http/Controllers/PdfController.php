@@ -228,7 +228,9 @@ class PdfController extends Controller
 
                 $this->fpdf->Cell(50,120, $this->fpdf->Image($pic, $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null, 'jpg'), 1, 0, 'R');
             }
-            $this->fpdf->Cell(90,120, utf8_decode($evidenciasTestCase[$i]->comentario), 1, 0, 'C', $bandera);
+            //$this->fpdf->Cell(90,120, utf8_decode($evidenciasTestCase[$i]->comentario), 1, 0, 'C', $bandera);
+            $this->fpdf->Multicell(90,7, utf8_decode($evidenciasTestCase[$i]->comentario), 1, 0, 'C', $bandera);
+            $this->fpdf->SetY(120);
             $this->fpdf->Ln();
         }
 

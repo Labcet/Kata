@@ -21,11 +21,15 @@
                 <div class="card-body">
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-4">
+                                <label for="testCaseId"><strong>Caso de Prueba</strong></label>
+                                <input type="text" class="form-control" id="testCaseId" value="{{ $cp[0]->caso_prueba }}" readonly>
+                            </div>
+                            <div class="col-4">
                                 <label for="testCaseProducto"><strong>Producto</strong></label>
                                 <input type="text" class="form-control" id="testCaseProducto" value="{{ $cp[0]->producto }}" readonly>
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label for="testCaseSubProducto"><strong>Sub Producto</strong></label>
                                 <input type="text" class="form-control" id="testCaseSubProducto" value="{{ $cp[0]->sub_producto }}" readonly>
                             </div>

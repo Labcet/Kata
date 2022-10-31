@@ -31,8 +31,8 @@
                     <input type="text" id="path" v-model="evidencia.path" hidden>
                     <div class="mb-3">
                         <br><label for="Resultado" class="form-label">Comentario</label>
-                        <input type="text" class="form-control" id="Resultado" v-model="evidencia.comentario">
-                        <small id="emailHelp" class="form-text text-muted">*Ingrese un comentario si lo cree necesario.</small>
+                        <input type="text" class="form-control" id="Resultado" v-model="evidencia.comentario" required>
+                        <small id="comentario" class="form-text text-muted">*Ingrese un comentario obligatoriamente.</small>
                     </div><br>
                     <button type="submit" class="btn btn-success">Guardar</button>
                     <br><br>
@@ -48,8 +48,8 @@
                     <input type="text" id="path" v-model="evidencia.path" hidden>
                     <div class="mb-3">
                         <br><label for="Resultado" class="form-label">Comentario</label>
-                        <input type="text" class="form-control" id="Resultado" v-model="evidencia.comentario">
-                        <small id="emailHelp" class="form-text text-muted">*Ingrese un comentario si lo cree necesario.</small>
+                        <input type="text" class="form-control" id="Resultado" v-model="evidencia.comentario" required>
+                        <small id="comentario" class="form-text text-muted">*Ingrese un comentario obligatoriamente</small>
                     </div><br>
                     <button type="submit" class="btn btn-success">Guardar</button>
                     <br><br>

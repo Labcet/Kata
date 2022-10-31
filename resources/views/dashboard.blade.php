@@ -8,7 +8,7 @@
                 <a href="{{ route('importar') }}" class="btn btn-danger" style="margin-top: 40px;">Importar Data</a><br><br>
             @endif
 
-            <a href="{{ route('reporte', encrypt(Auth::user()->id)) }}" class="btn btn-danger" style="margin-top: 40px;" target="_blank">Reporte</a><br><br>
+            <a href="{{ route('reporte', encrypt(Auth::user()->id)) }}" class="btn btn-danger" style="margin-top: 40px;" target="_blank">Reporte General</a><br><br>
 
             <metricas-component :id-user="{{ Auth::user()->id }}"></metricas-component>
 

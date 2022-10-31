@@ -46,7 +46,7 @@ return new class extends Migration
             $table->string('perfil_asignado')->nullable();
             $table->string('numero_ejecutores')->nullable();
             $table->string('numero_probadores')->nullable();
-            $table->timestamp('fecha_ejecucion')->nullable();
+            //$table->timestamp('fecha_ejecucion')->nullable();
             //$table->text('resultado_real')->nullable();
             $table->unsignedBigInteger('requerimiento_id');
             $table->foreign('requerimiento_id')->references('id')->on('requerimientos');

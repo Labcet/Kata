@@ -42,17 +42,17 @@
                         <td>{{ $value->id }}</td>
                         <td>{{ $value->nombre_completo }}</td>
                         <td>{{ $value->name }}</td>
-                        @if(strtoupper($value->resultado_real) == "FALLIDO")
-                            <td align="center"><h6><span class="badge" style="background-color: #FF287A;">{{ strtoupper($value->resultado_real) }}</span></h6></td>
+                        @if(strtoupper($value->estado) == "FALLIDO")
+                            <td align="center"><h6><span class="badge" style="background-color: #FF287A;">{{ strtoupper($value->estado) }}</span></h6></td>
                         @endif
-                        @if(strtoupper($value->resultado_real) == "DESESTIMADO")
-                            <td align="center"><h6><span class="badge" style="background-color: #013461;">{{ strtoupper($value->resultado_real) }}</span></h6></td>
+                        @if(strtoupper($value->estado) == "DESESTIMADO")
+                            <td align="center"><h6><span class="badge" style="background-color: #013461;">{{ strtoupper($value->estado) }}</span></h6></td>
                         @endif
-                        @if(strtoupper($value->resultado_real) == "EXITOSO")
-                            <td align="center"><h6><span class="badge bg-success">{{ strtoupper($value->resultado_real) }}</span></h6></td>
+                        @if(strtoupper($value->estado) == "EXITOSO")
+                            <td align="center"><h6><span class="badge bg-success">{{ strtoupper($value->estado) }}</span></h6></td>
                         @endif
-                        @if(strtoupper($value->resultado_real) == "PENDIENTE")
-                            <td align="center"><h6><span class="badge bg-secondary">{{ strtoupper($value->resultado_real) }}</span></h6></td>
+                        @if(strtoupper($value->estado) == "PENDIENTE")
+                            <td align="center"><h6><span class="badge bg-secondary">{{ strtoupper($value->estado) }}</span></h6></td>
                         @endif
                     </tr>
                     @endforeach

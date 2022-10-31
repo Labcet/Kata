@@ -29453,7 +29453,7 @@ var render = function () {
                           },
                         ],
                         staticClass: "form-control",
-                        attrs: { type: "text", id: "Resultado" },
+                        attrs: { type: "text", id: "Resultado", required: "" },
                         domProps: { value: _vm.evidencia.comentario },
                         on: {
                           input: function ($event) {
@@ -29473,9 +29473,9 @@ var render = function () {
                         "small",
                         {
                           staticClass: "form-text text-muted",
-                          attrs: { id: "emailHelp" },
+                          attrs: { id: "comentario" },
                         },
-                        [_vm._v("*Ingrese un comentario si lo cree necesario.")]
+                        [_vm._v("*Ingrese un comentario obligatoriamente.")]
                       ),
                     ]),
                     _c("br"),
@@ -29582,7 +29582,7 @@ var render = function () {
                           },
                         ],
                         staticClass: "form-control",
-                        attrs: { type: "text", id: "Resultado" },
+                        attrs: { type: "text", id: "Resultado", required: "" },
                         domProps: { value: _vm.evidencia.comentario },
                         on: {
                           input: function ($event) {
@@ -29602,9 +29602,9 @@ var render = function () {
                         "small",
                         {
                           staticClass: "form-text text-muted",
-                          attrs: { id: "emailHelp" },
+                          attrs: { id: "comentario" },
                         },
-                        [_vm._v("*Ingrese un comentario si lo cree necesario.")]
+                        [_vm._v("*Ingrese un comentario obligatoriamente")]
                       ),
                     ]),
                     _c("br"),

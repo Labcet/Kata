@@ -102,12 +102,19 @@ class AuthController extends Controller
                 $cps = DB::table('casos_prueba')
                     ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
                     ->select('casos_prueba.*', 'olas.estado')
-                    ->where('casos_prueba.user_id', $user->id)
+                    ->where([['casos_prueba.user_id', '=', $user->id],['olas.num_ola', '=', $ola->valor]])
                     ->get();
             }
+
+            $users = DB::table('users')
+                        ->select('*')
+                        ->where('rol', '!=', 'administrador')
+                        ->get();
             
             return View('dashboard')
-                ->with('cps', $cps);
+                ->with('cps', $cps)
+                ->with('users', $users)
+                ->with('olas', $ola->valor);
         }
   
         return redirect("login")->withSuccess('Opps! No tiene acceso.');

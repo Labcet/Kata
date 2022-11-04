@@ -6,8 +6,10 @@ use Codedge\Fpdf\Fpdf\Fpdf;
 use Illuminate\Http\Request;
 use App\Models\CasosPruebas;
 use App\Models\Evidencias;
+use App\Models\Variable;
 use Webklex\PDFMerger\Facades\PDFMergerFacade as PDFMerger;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\DB;
 
 class PdfController extends Controller
 {
@@ -21,8 +23,15 @@ class PdfController extends Controller
     public function index($id) 
     {
 
-        $testCaseData = CasosPruebas::find(decrypt($id));
-        $evidenciasTestCase = Evidencias::where('cp_id', $testCaseData->id)->get();
+        $ola = Variable::where('variable', 'Ola')->first();
+        //$testCaseData = CasosPruebas::find(decrypt($id));
+        $testCaseData = DB::table('casos_prueba')
+                        ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
+                        ->select('casos_prueba.*', 'olas.cp_id', 'olas.num_ola', 'olas.estado', 'olas.fecha_ejecucion')
+                        ->where([['casos_prueba.id', '=', decrypt($id)],['olas.num_ola', '=', $ola->valor]])
+                        ->get();
+                    
+        $evidenciasTestCase = Evidencias::where([['cp_id', '=', decrypt($id)],['ola', '=', $ola->valor]])->get();
 
         $bander = false; //Para alternar el relleno
         $bander = !$bander;//Alterna el valor de la bandera
@@ -58,19 +67,19 @@ class PdfController extends Controller
         $this->fpdf->Cell(80,10, utf8_decode(' Evidencia Pruebas de Certificación QA'),1, 0 , 'L', $bander );
         $this->fpdf->Cell(15,10,utf8_decode( 'Ver.'),1, 0 , 'C', $bander );
         $this->fpdf->SetFillColor(255,255,255);
-        $this->fpdf->Cell(15,10,utf8_decode('3.0'),1, 0 , 'C', $bander);
+        $this->fpdf->Cell(15,10,utf8_decode($testCaseData[0]->num_ola),1, 0 , 'C', $bander);
 
         //$this->fpdf->Cell(20,10,utf8_decode('Página'.$this->fpdf->PageNo().'/{nb}'),1, 0 , 'C', $bander);
 
         $this->fpdf->Ln();//Salto de línea para generar otra fila
-      
+        
         // BODY
 
         $this->fpdf->SetXY(25,37);
         $this->fpdf->SetFont('helvetica','B',12);
         $this->fpdf->SetFillColor(255, 255, 255);
         $this->fpdf->SetDrawColor(255, 255, 255);
-        $this->fpdf->MultiCell(160,7,utf8_decode('Caso '.$testCaseData->id.': '.$testCaseData->nombre_completo.'.'));
+        $this->fpdf->MultiCell(160,7,utf8_decode('Caso '.$testCaseData[0]->id.': '.$testCaseData[0]->nombre_completo.'.'));
         $this->fpdf->Ln();
 
         $yFuncionalidad = $this->fpdf->GetY();
@@ -79,13 +88,13 @@ class PdfController extends Controller
         $bandera = !$bandera;//Alterna el valor de la bandera
 
         $height = 6;
-        if(strlen($testCaseData->funcionalidad) < 80){
+        if(strlen($testCaseData[0]->proceso) < 80){
             $height = 12;
         }
         $this->fpdf->SetXY(80, $yFuncionalidad);
         $this->fpdf->SetFont('helvetica','',9);
         $this->fpdf->SetDrawColor(0,0,0);
-        $this->fpdf->MultiCell(105,6, utf8_decode($testCaseData->dato_prueba),1, 1, 'L', $bandera );
+        $this->fpdf->MultiCell(105,6, utf8_decode($testCaseData[0]->dato_prueba),1, 1, 'L', $bandera );
         $height_funcionalidad = $this->fpdf->GetY();
         $ytipo = $this->fpdf->GetY();
 
@@ -103,13 +112,13 @@ class PdfController extends Controller
         $this->fpdf->SetFillColor(240,240,239);
         $this->fpdf->Cell(55,7,utf8_decode('Tipo de Prueba:'),1, 0 , 'L', $bandera );
         $this->fpdf->SetFillColor(255,255,255);//color de celda
-        $this->fpdf->Cell(105,7, 'PRUEBA '.utf8_decode(strtoupper($testCaseData->tipo_prueba)),1, 0 , 'C', $bandera );
+        $this->fpdf->Cell(105,7, 'PRUEBA '.utf8_decode(strtoupper($testCaseData[0]->tipo_prueba)),1, 0 , 'C', $bandera );
 
         $this->fpdf->Ln();
         $yprecondiciones_before = $this->fpdf->GetY();
         
-        $pcond = explode('\n', $testCaseData->precondiciones);
-        $pcond_cant = explode('.', $testCaseData->precondiciones);
+        $pcond = explode('\n', $testCaseData[0]->precondiciones);
+        $pcond_cant = explode('.', $testCaseData[0]->precondiciones);
         //$yprecondiciones_after = 0;
         $this->fpdf->SetFont('helvetica','',9);
         $border_precond = 'R,T';
@@ -141,17 +150,17 @@ class PdfController extends Controller
         // $this->fpdf->Cell(54,7,utf8_decode( 'FECHA DE CERTIFICACION'),1, 0 , 'C', $bandera );
         $this->fpdf->SetFillColor(255,255,255);//color de celda
         $this->fpdf->SetFont('helvetica','',9);
-        $this->fpdf->Cell(105,7, utf8_decode(strtoupper($testCaseData->ola)). '   |    '.$testCaseData->fecha_certificacion,1, 0 , 'C', $bandera );
+        $this->fpdf->Cell(105,7, utf8_decode(strtoupper($testCaseData[0]->num_ola)). '   |    '.$testCaseData[0]->fecha_ejecucion,1, 0 , 'C', $bandera );
 
         $this->fpdf->Ln();
         $this->fpdf->SetX(25);
         $this->fpdf->SetFillColor(240,240,239);
         $this->fpdf->SetFont('helvetica','B',9);
         $this->fpdf->Cell(55,7,utf8_decode('Resultado de prueba  :'),1, 0 , 'L', $bandera );
-           
+            
         $this->fpdf->SetFillColor(255,255,255);//color de celda
         $this->fpdf->SetFont('helvetica','',9);
-        $this->fpdf->Cell(105,7, utf8_decode(strtoupper($testCaseData->resultado_real)),1, 0 , 'C', $bandera );
+        $this->fpdf->Cell(105,7, utf8_decode(strtoupper($testCaseData[0]->estado)),1, 0 , 'C', $bandera );
 
         $this->fpdf->Ln();
         $this->fpdf->SetX(25);
@@ -163,8 +172,8 @@ class PdfController extends Controller
         //
         $this->fpdf->SetFillColor(255, 255, 255);
         $this->fpdf->SetFont('helvetica','',9);
-        $pasos = explode('\n', $testCaseData->pasos);
-        $pasos_cant = explode('.', $testCaseData->pasos);
+        $pasos = explode('\n', $testCaseData[0]->pasos);
+        $pasos_cant = explode('.', $testCaseData[0]->pasos);
         $border_pasos = 'R,T,L';
         
         for ($i=0; $i < count($pasos); $i++) {
@@ -186,12 +195,22 @@ class PdfController extends Controller
         // EVIDENCIAS
 
         $flag = false;
+        $iniY = $this->fpdf->GetY();
+
+        if(count($evidenciasTestCase) != 0){
+        
+            $finY = $this->fpdf->GetY() + 120;
+        } else {
+
+            $finY = $this->fpdf->GetY();
+        }
 
         for($i=0; $i < count($evidenciasTestCase); $i++)
         {
             if($i == 0 && (count($pcond_cant) + count($pasos_cant)) > 10){
                 
                 $this->fpdf->AddPage();
+                $finY = $this->fpdf->GetY() + 120;
                 $flag = true;
             }
 
@@ -200,18 +219,20 @@ class PdfController extends Controller
                 if($i != 0 && $i % 2 == 0){
 
                     $this->fpdf->AddPage();
+                    $finY = $this->fpdf->GetY() + 120;
                 }
             } else{
                 if($i != 0 && $i % 2 != 0){
 
                     $this->fpdf->AddPage();
+                    $finY = $this->fpdf->GetY() + 120;
                 }
             }
 
             //$this->fpdf->Cell(80,120, $this->fpdf->Image(URL::to('/public'.$evidenciasTestCase[$i]->path), $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null), 1, 0, 'R');
             //$this->fpdf->Cell(80,120, $this->fpdf->Image('../public'.$evidenciasTestCase[$i]->path, $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null), 1, 0, 'R');
 
-            /* BASE 64 DECODE IMAGE */
+            // BASE 64 DECODE IMAGE //
 
             $dataURI = $evidenciasTestCase[$i]->imagen;
 
@@ -228,12 +249,16 @@ class PdfController extends Controller
 
                 $this->fpdf->Cell(50,120, $this->fpdf->Image($pic, $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null, 'jpg'), 1, 0, 'R');
             }
-            //$this->fpdf->Cell(90,120, utf8_decode($evidenciasTestCase[$i]->comentario), 1, 0, 'C', $bandera);
-            $this->fpdf->Multicell(90,7, utf8_decode($evidenciasTestCase[$i]->comentario), 1, 0, 'C', $bandera);
-            $this->fpdf->SetY(120);
-            $this->fpdf->Ln();
-        }
 
+            $iniY = $this->fpdf->GetY();
+            //$finY = $this->fpdf->GetY() + 120;
+            //$this->fpdf->Cell(90,120, utf8_decode($evidenciasTestCase[$i]->comentario), 1, 0, 'C', $bandera);
+            $this->fpdf->Multicell(90,7, utf8_decode($evidenciasTestCase[$i]->comentario), 0, 0, 'C', $bandera);
+            $this->fpdf->Rect(95,$iniY,90,120);
+            //$this->fpdf->Ln();
+            //$finY = $this->fpdf->GetY();
+        }
+        
         //FOOTER
 
         $ban = false; //Para alternar el relleno
@@ -243,30 +268,36 @@ class PdfController extends Controller
         $this->fpdf->Settextcolor(10, 10, 10);
 
         $this->fpdf->Ln(0);
-        $this->fpdf->SetX(25);
+        $this->fpdf->SetXY(25, $finY);
         $this->fpdf->SetFillColor(240,240,239);
         $this->fpdf->SetFont('helvetica','B',9);
-        $this->fpdf->Cell(70,7,utf8_decode('Decisión Product Owner '),1,0,'L', $ban);
+        $this->fpdf->Cell(70,7,utf8_decode('Decisión Product Owner '),1,0,'C', $ban);
         $this->fpdf->SetFillColor(255,255,255);
         $this->fpdf->SetFont('helvetica','',8);
         $this->fpdf->Cell(90,7,utf8_decode(strtoupper('<<Aprobado | Comentarios de criterios de aceptación>>')),1,0,'C','true');
 
+        // CONFIG
+
         $this->fpdf->AliasNbPages();
-        $this->fpdf->Output("I","CP[".$testCaseData->id."].pdf");
+        $this->fpdf->Output("I","REPORTE_GENERAL.pdf");
     }
 
     public function mergePDF($id)
     {
+        $ola = Variable::where('variable', 'Ola')->first();
 
-        $cps = CasosPruebas::where('user_id', decrypt($id))->get();
+        $cps = DB::table('casos_prueba')
+                ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
+                ->select('casos_prueba.*', 'num_ola', 'estado', 'fecha_ejecucion')
+                ->where([['casos_prueba.user_id', '=', decrypt($id)],['olas.num_ola', '=', $ola->valor]])
+                ->get();
 
         // HEADER
 
         foreach ($cps as $testCaseData) {
 
             //$testCaseData = CasosPruebas::find($id);
-            $evidenciasTestCase = Evidencias::where('cp_id', $testCaseData->id)->get();
-        
+            $evidenciasTestCase = Evidencias::where([['cp_id', '=', $testCaseData->id],['ola', '=', $ola->valor]])->get(); 
             
             $bander = false; //Para alternar el relleno
             $bander = !$bander;//Alterna el valor de la bandera
@@ -302,7 +333,7 @@ class PdfController extends Controller
             $this->fpdf->Cell(80,10, utf8_decode(' Evidencia Pruebas de Certificación QA'),1, 0 , 'L', $bander );
             $this->fpdf->Cell(15,10,utf8_decode( 'Ver.'),1, 0 , 'C', $bander );
             $this->fpdf->SetFillColor(255,255,255);
-            $this->fpdf->Cell(15,10,utf8_decode('3.0'),1, 0 , 'C', $bander);
+            $this->fpdf->Cell(15,10,utf8_decode($testCaseData->num_ola),1, 0 , 'C', $bander);
 
             //$this->fpdf->Cell(20,10,utf8_decode('Página'.$this->fpdf->PageNo().'/{nb}'),1, 0 , 'C', $bander);
 
@@ -323,7 +354,7 @@ class PdfController extends Controller
             $bandera = !$bandera;//Alterna el valor de la bandera
 
             $height = 6;
-            if(strlen($testCaseData->funcionalidad) < 80){
+            if(strlen($testCaseData->proceso) < 80){
                 $height = 12;
             }
             $this->fpdf->SetXY(80, $yFuncionalidad);
@@ -385,7 +416,7 @@ class PdfController extends Controller
             // $this->fpdf->Cell(54,7,utf8_decode( 'FECHA DE CERTIFICACION'),1, 0 , 'C', $bandera );
             $this->fpdf->SetFillColor(255,255,255);//color de celda
             $this->fpdf->SetFont('helvetica','',9);
-            $this->fpdf->Cell(105,7, utf8_decode(strtoupper($testCaseData->ola)). '   |    '.$testCaseData->fecha_certificacion,1, 0 , 'C', $bandera );
+            $this->fpdf->Cell(105,7, utf8_decode(strtoupper($testCaseData->num_ola)). '   |    '.$testCaseData->fecha_ejecucion,1, 0 , 'C', $bandera );
 
             $this->fpdf->Ln();
             $this->fpdf->SetX(25);
@@ -395,7 +426,7 @@ class PdfController extends Controller
                
             $this->fpdf->SetFillColor(255,255,255);//color de celda
             $this->fpdf->SetFont('helvetica','',9);
-            $this->fpdf->Cell(105,7, utf8_decode(strtoupper($testCaseData->resultado_real)),1, 0 , 'C', $bandera );
+            $this->fpdf->Cell(105,7, utf8_decode(strtoupper($testCaseData->estado)),1, 0 , 'C', $bandera );
 
             $this->fpdf->Ln();
             $this->fpdf->SetX(25);
@@ -430,12 +461,22 @@ class PdfController extends Controller
             // EVIDENCIAS
 
             $flag = false;
+            $iniY = $this->fpdf->GetY();
+
+            if(count($evidenciasTestCase) != 0){
+            
+                $finY = $this->fpdf->GetY() + 120;
+            } else {
+
+                $finY = $this->fpdf->GetY();
+            }
 
             for($i=0; $i < count($evidenciasTestCase); $i++)
             {
                 if($i == 0 && (count($pcond_cant) + count($pasos_cant)) > 10){
                     
                     $this->fpdf->AddPage();
+                    $finY = $this->fpdf->GetY() + 120;
                     $flag = true;
                 }
 
@@ -444,18 +485,20 @@ class PdfController extends Controller
                     if($i != 0 && $i % 2 == 0){
 
                         $this->fpdf->AddPage();
+                        $finY = $this->fpdf->GetY() + 120;
                     }
                 } else{
                     if($i != 0 && $i % 2 != 0){
 
                         $this->fpdf->AddPage();
+                        $finY = $this->fpdf->GetY() + 120;
                     }
                 }
 
                 //$this->fpdf->Cell(80,120, $this->fpdf->Image(URL::to('/public'.$evidenciasTestCase[$i]->path), $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null), 1, 0, 'R');
                 //$this->fpdf->Cell(80,120, $this->fpdf->Image('../public'.$evidenciasTestCase[$i]->path, $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null), 1, 0, 'R');
 
-                /* BASE 64 DECODE IMAGE */
+                // BASE 64 DECODE IMAGE //
 
                 $dataURI = $evidenciasTestCase[$i]->imagen;
 
@@ -472,20 +515,25 @@ class PdfController extends Controller
 
                     $this->fpdf->Cell(50,120, $this->fpdf->Image($pic, $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null, 'jpg'), 1, 0, 'R');
                 }
-                $this->fpdf->Cell(90,120, utf8_decode($evidenciasTestCase[$i]->comentario), 1, 0, 'C', $bandera);
-                $this->fpdf->Ln();
-            }
 
+                $iniY = $this->fpdf->GetY();
+                //$finY = $this->fpdf->GetY() + 120;
+                //$this->fpdf->Cell(90,120, utf8_decode($evidenciasTestCase[$i]->comentario), 1, 0, 'C', $bandera);
+                $this->fpdf->Multicell(90,7, utf8_decode($evidenciasTestCase[$i]->comentario), 0, 0, 'C', $bandera);
+                $this->fpdf->Rect(95,$iniY,90,120);
+                //$this->fpdf->Ln();
+                //$finY = $this->fpdf->GetY();
+            }
+            
             //FOOTER
 
             $ban = false; //Para alternar el relleno
             $ban = !$ban;//Alterna el valor de la bandera
 
-
             $this->fpdf->Settextcolor(10, 10, 10);
 
             $this->fpdf->Ln(0);
-            $this->fpdf->SetX(25);
+            $this->fpdf->SetXY(25, $finY);
             $this->fpdf->SetFillColor(240,240,239);
             $this->fpdf->SetFont('helvetica','B',9);
             $this->fpdf->Cell(70,7,utf8_decode('Decisión Product Owner '),1,0,'C', $ban);
@@ -499,17 +547,30 @@ class PdfController extends Controller
             $this->fpdf->Output("I","REPORTE_USUARIO.pdf");
     }
 
-    public function generalPDF()
+    public function generatePDF(Request $request)
     {
+        if($request->user == 0){
 
-        $cps = CasosPruebas::all();
+            $cps = DB::table('casos_prueba')
+                    ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
+                    ->select('casos_prueba.*', 'olas.num_ola', 'olas.estado', 'fecha_ejecucion')
+                    ->where([['olas.num_ola', '=', $request->ola]])
+                    ->get();
+        } else {
+
+            $cps = DB::table('casos_prueba')
+                    ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
+                    ->select('casos_prueba.*', 'olas.num_ola', 'olas.estado', 'fecha_ejecucion')
+                    ->where([['casos_prueba.user_id', '=', $request->user],['olas.num_ola', '=', $request->ola]])
+                    ->get();
+        }
 
         // HEADER
 
         foreach ($cps as $testCaseData) {
 
             //$testCaseData = CasosPruebas::find($id);
-            $evidenciasTestCase = Evidencias::where('cp_id', $testCaseData->id)->get();
+            $evidenciasTestCase = Evidencias::where([['cp_id', '=', $testCaseData->id],['ola', '=', $request->ola]])->get();
         
             
             $bander = false; //Para alternar el relleno
@@ -546,7 +607,7 @@ class PdfController extends Controller
             $this->fpdf->Cell(80,10, utf8_decode(' Evidencia Pruebas de Certificación QA'),1, 0 , 'L', $bander );
             $this->fpdf->Cell(15,10,utf8_decode( 'Ver.'),1, 0 , 'C', $bander );
             $this->fpdf->SetFillColor(255,255,255);
-            $this->fpdf->Cell(15,10,utf8_decode('3.0'),1, 0 , 'C', $bander);
+            $this->fpdf->Cell(15,10,utf8_decode($testCaseData->num_ola),1, 0 , 'C', $bander);
 
             //$this->fpdf->Cell(20,10,utf8_decode('Página'.$this->fpdf->PageNo().'/{nb}'),1, 0 , 'C', $bander);
 
@@ -567,7 +628,7 @@ class PdfController extends Controller
             $bandera = !$bandera;//Alterna el valor de la bandera
 
             $height = 6;
-            if(strlen($testCaseData->funcionalidad) < 80){
+            if(strlen($testCaseData->proceso) < 80){
                 $height = 12;
             }
             $this->fpdf->SetXY(80, $yFuncionalidad);
@@ -629,7 +690,7 @@ class PdfController extends Controller
             // $this->fpdf->Cell(54,7,utf8_decode( 'FECHA DE CERTIFICACION'),1, 0 , 'C', $bandera );
             $this->fpdf->SetFillColor(255,255,255);//color de celda
             $this->fpdf->SetFont('helvetica','',9);
-            $this->fpdf->Cell(105,7, utf8_decode(strtoupper($testCaseData->ola)). '   |    '.$testCaseData->fecha_certificacion,1, 0 , 'C', $bandera );
+            $this->fpdf->Cell(105,7, utf8_decode(strtoupper($testCaseData->num_ola)). '   |    '.$testCaseData->fecha_ejecucion,1, 0 , 'C', $bandera );
 
             $this->fpdf->Ln();
             $this->fpdf->SetX(25);
@@ -639,7 +700,7 @@ class PdfController extends Controller
                
             $this->fpdf->SetFillColor(255,255,255);//color de celda
             $this->fpdf->SetFont('helvetica','',9);
-            $this->fpdf->Cell(105,7, utf8_decode(strtoupper($testCaseData->resultado_real)),1, 0 , 'C', $bandera );
+            $this->fpdf->Cell(105,7, utf8_decode(strtoupper($testCaseData->estado)),1, 0 , 'C', $bandera );
 
             $this->fpdf->Ln();
             $this->fpdf->SetX(25);
@@ -674,12 +735,22 @@ class PdfController extends Controller
             // EVIDENCIAS
 
             $flag = false;
+            $iniY = $this->fpdf->GetY();
+
+            if(count($evidenciasTestCase) != 0){
+            
+                $finY = $this->fpdf->GetY() + 120;
+            } else {
+
+                $finY = $this->fpdf->GetY();
+            }
 
             for($i=0; $i < count($evidenciasTestCase); $i++)
             {
                 if($i == 0 && (count($pcond_cant) + count($pasos_cant)) > 10){
                     
                     $this->fpdf->AddPage();
+                    $finY = $this->fpdf->GetY() + 120;
                     $flag = true;
                 }
 
@@ -688,18 +759,20 @@ class PdfController extends Controller
                     if($i != 0 && $i % 2 == 0){
 
                         $this->fpdf->AddPage();
+                        $finY = $this->fpdf->GetY() + 120;
                     }
                 } else{
                     if($i != 0 && $i % 2 != 0){
 
                         $this->fpdf->AddPage();
+                        $finY = $this->fpdf->GetY() + 120;
                     }
                 }
 
                 //$this->fpdf->Cell(80,120, $this->fpdf->Image(URL::to('/public'.$evidenciasTestCase[$i]->path), $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null), 1, 0, 'R');
                 //$this->fpdf->Cell(80,120, $this->fpdf->Image('../public'.$evidenciasTestCase[$i]->path, $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null), 1, 0, 'R');
 
-                /* BASE 64 DECODE IMAGE */
+                // BASE 64 DECODE IMAGE //
 
                 $dataURI = $evidenciasTestCase[$i]->imagen;
 
@@ -716,10 +789,16 @@ class PdfController extends Controller
 
                     $this->fpdf->Cell(50,120, $this->fpdf->Image($pic, $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null, 'jpg'), 1, 0, 'R');
                 }
-                $this->fpdf->Cell(90,120, utf8_decode($evidenciasTestCase[$i]->comentario), 1, 0, 'C', $bandera);
-                $this->fpdf->Ln();
-            }
 
+                $iniY = $this->fpdf->GetY();
+                //$finY = $this->fpdf->GetY() + 120;
+                //$this->fpdf->Cell(90,120, utf8_decode($evidenciasTestCase[$i]->comentario), 1, 0, 'C', $bandera);
+                $this->fpdf->Multicell(90,7, utf8_decode($evidenciasTestCase[$i]->comentario), 0, 0, 'C', $bandera);
+                $this->fpdf->Rect(95,$iniY,90,120);
+                //$this->fpdf->Ln();
+                //$finY = $this->fpdf->GetY();
+            }
+            
             //FOOTER
 
             $ban = false; //Para alternar el relleno
@@ -729,7 +808,7 @@ class PdfController extends Controller
             $this->fpdf->Settextcolor(10, 10, 10);
 
             $this->fpdf->Ln(0);
-            $this->fpdf->SetX(25);
+            $this->fpdf->SetXY(25, $finY);
             $this->fpdf->SetFillColor(240,240,239);
             $this->fpdf->SetFont('helvetica','B',9);
             $this->fpdf->Cell(70,7,utf8_decode('Decisión Product Owner '),1,0,'C', $ban);

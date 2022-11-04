@@ -19,14 +19,51 @@
             <!-- -->
 
             @if (Auth::user()->rol == 'administrador')
-                <a href="{{ route('importar') }}" class="btn btn-danger" style="margin-top: 40px;" onclick="return confirm('Está seguro?')">Importar Data</a>
+            <a href="{{ route('importar') }}" class="btn btn-danger" style="margin-top: 40px;" onclick="return confirm('¿Está seguro?')">Importar Data</a>
             @endif
 
-            <a href="{{ route('reporteusuario', encrypt(Auth::user()->id)) }}" class="btn btn-danger" style="margin-top: 40px;" target="_blank">Reporte</a>
             @if (Auth::user()->rol == 'administrador')
-                <a href="{{ route('reportegeneral') }}" class="btn btn-danger" style="margin-top: 40px;" target="_blank">Reporte General</a>
+            <div style="padding: 40px 0px;">
+                <div class="card border-warning mb-3">
+                    <div class="card-header bg-warning border-warning">
+                        Reportes
+                    </div>
+                    <div class="card-body border-warning">
+                        <form action="{{url('generatereporte')}}" method="post">
+                            @csrf
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="exampleFormControlInput1" class="form-label">Usuario</label>
+                                    <select id="user" name="user" class="form-select" aria-label="Default select example">
+                                        <option selected value="0">Todos</option>
+                                        @foreach($users as $key => $user)
+                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-4">
+                                    <label for="exampleFormControlInput1" class="form-label">Ola</label>
+                                    <select id="ola" name="ola" class="form-select" aria-label="Default select example">
+                                        @for($i = 1; $i <= (int)$olas; $i++)
+                                            <option value="{{ $i }}">{{ $i }}</option>
+                                        @endfor
+                                    </select>
+                                </div>
+                                <div class="col-4" style="display: flex; align-items: end; text-align: center;">
+                                    <!--<a href="{{ route('reportegeneral') }}" class="btn btn-danger" target="_blank">Generar Reporte</a>-->
+                                    <input type="submit" class="btn btn-danger" value="Generar Reporte">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             @endif
-            <br><br>
+
+            @if (Auth::user()->rol != 'administrador')
+                <a href="{{ route('reporteusuario', encrypt(Auth::user()->id)) }}" class="btn btn-danger" style="margin-top: 40px;" target="_blank">Reporte</a>
+                <br><br>
+            @endif
 
             <!--@if (Auth::user()->rol == 'administrador')
                 <metricas-component :id-user="{{ Auth::user()->id }}"></metricas-component>

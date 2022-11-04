@@ -177,6 +177,10 @@ Route::get('/reporteusuario/{id}', [PdfController::class, 'mergePDF'])->name('re
 
 Route::get('/reportegeneral', [PdfController::class, 'generalPDF'])->name('reportegeneral');
 
+/* RUTA PARA GENERAR REPORTE */
+
+Route::post('/generatereporte', [PdfController::class, 'generatePDF'])->name('generatereporte');
+
 /* ACTUALIZAR OLA */
 
 Route::post('updateola', [VariableController::class, 'updateOla'])->name('updateola');

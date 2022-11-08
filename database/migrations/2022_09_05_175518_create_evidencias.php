@@ -15,13 +15,15 @@ return new class extends Migration
     {
         Schema::create('evidencias', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('cp_id');
+            $table->unsignedBigInteger('cp_id')->nullable();
             $table->foreign('cp_id')->references('id')->on('casos_prueba');
+            $table->unsignedBigInteger('inc_id')->nullable();
+            $table->foreign('inc_id')->references('id')->on('incidencias');
             $table->string('path');
             $table->text('comentario')->nullable();
             $table->timestamp('fecha_hora')->nullable();
             $table->string('ola');
-            $table->char('tipo');
+            //$table->char('tipo');
             //$table->id();
             //$table->timestamps();
         });

@@ -95,8 +95,8 @@ import { stringLiteral } from '@babel/types';
         props: {
 
             idCp: Number,
-            resultadoCp: String,
-            tipoCp: String
+            idInc: Number,
+            resultadoCp: String
 
         },
 
@@ -118,12 +118,12 @@ import { stringLiteral } from '@babel/types';
                 evidencia:{
 
                     cp_id: this.idCp,
+                    inc_id: this.idInc,
                     imagen: [],
                     path: "",
                     comentario: "",
                     fecha_hora: "",
-                    ola: null,
-                    tipo: this.tipoCp
+                    ola: null
                 },
 
                 /* TESTING */
@@ -139,7 +139,7 @@ import { stringLiteral } from '@babel/types';
         mounted() {
 
             this.showEvidencias();
-            //console.log(this.idCp)
+            //console.log(this.idInc)
             //console.log(this.aprobadoCp)
         },
 
@@ -147,23 +147,41 @@ import { stringLiteral } from '@babel/types';
 
             showEvidencias(){
 
-                axios.get('/api/evidencias/' + this.idCp)
-                .then(response=>{
-                    this.evidencias = response.data
-                })
-                .catch(error=>{
-                    alert(error);
-                    console.log(error)
-                })
+                if(this.idCp != null){
+
+                    axios.get('/api/evidencias/'+this.idCp+'/'+'0')
+                            .then(response=>{
+                                this.evidencias = response.data
+                            })
+                            .catch(error=>{
+                                alert(error);
+                                console.log(error)
+                            })
+                } else {
+
+                    axios.get('/api/evidencias/'+this.idInc+'/'+'1')
+                            .then(response=>{
+                                this.evidencias = response.data
+                            })
+                            .catch(error=>{
+                                alert(error);
+                                console.log(error)
+                            })
+                }
             },
 
             createEvidencia(){
 
                 axios.post('/api/evidencias', this.evidencia)
                 .then(response=>{
-                    //this.$router.push({name:"mostrarDocumentos"});
-                    //alert(response.data);
-                    window.location.href = '/vistacp/' + this.idCp;
+                    
+                    if(this.idCp != null){
+                        
+                        window.location.href = '/vistacp/' + this.idCp;
+                    } else {
+
+                        window.location.href = '/vistainc/' + this.idInc;
+                    }
                 })
                 .catch(error=>{
                     alert(error);
@@ -207,14 +225,23 @@ import { stringLiteral } from '@babel/types';
 
             deleteEvidencia(idEv){
 
-                //console.log(idEv);
-                axios.delete('/api/evidencias/' + idEv)
-                    .then(response=>{
-                        window.location.href = '/vistacp/' + this.idCp;
-                    })
-                    .catch(error=>{
-                        alert(error);
-                    })
+                if(confirm('¿Está seguro(a)?')){
+
+                    axios.delete('/api/evidencias/' + idEv)
+                        .then(response=>{
+
+                            if(this.idCp != null){
+                        
+                                window.location.href = '/vistacp/' + this.idCp;
+                            } else {
+
+                                window.location.href = '/vistainc/' + this.idInc;
+                            }
+                        })
+                        .catch(error=>{
+                            alert(error);
+                        })
+                }
             },
 
             changeFlag(){

@@ -9,7 +9,7 @@ class Evidencias extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cp_id','imagen','path','comentario','fecha_hora', 'ola', 'tipo'];
+    protected $fillable = ['cp_id','inc_id','imagen','path','comentario','fecha_hora', 'ola'];
 
     public $table = "evidencias";
 

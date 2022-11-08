@@ -59,13 +59,22 @@ class EvidenciasController extends Controller
             }
             
             $evidencias = new Evidencias;
-            $evidencias->cp_id = $request->cp_id;
+
+            if($request->cp_id != null){
+
+                $evidencias->cp_id = $request->cp_id;
+                $evidencias->inc_id = null;
+            } else {
+
+                $evidencias->cp_id = null;
+                $evidencias->inc_id = $request->inc_id;
+            }
+            
             $evidencias->imagen = $request->imagen[$i];
             $evidencias->path = 'path';
             $evidencias->comentario = $coment;
             $evidencias->fecha_hora = $fecha;
             $evidencias->ola = $ola->valor;
-            $evidencias->tipo = $request->tipo;
 
             $evidencias->save();
         }
@@ -100,12 +109,32 @@ class EvidenciasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function showevidencias($id, $tipo)
     {
         $ola = Variable::where('variable', 'Ola')->first();
 
-        $evidencias_cp = Evidencias::where([['cp_id', '=', $id],['ola', '=', $ola->valor]])->get();
+        if($tipo == '0'){
+            
+            $evidencias_cp = Evidencias::where([['cp_id', '=', $id],['ola', '=', $ola->valor]])->get();
+        } else {
+
+            $evidencias_cp = Evidencias::where([['inc_id', '=', $id]])->get();
+        }
         return response()->json($evidencias_cp);
+    }
+    
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        /*$ola = Variable::where('variable', 'Ola')->first();
+
+        $evidencias_cp = Evidencias::where([['cp_id', '=', $id],['ola', '=', $ola->valor],['tipo', '=', $tipo]])->get();
+        return response()->json($evidencias_cp);*/
     }
 
     /**

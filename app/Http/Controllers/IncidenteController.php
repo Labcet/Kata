@@ -103,7 +103,10 @@ class IncidenteController extends Controller
      */
     public function show($id)
     {
-        //
+        $inc = Incidente::where('id', $id)->get();
+        
+        return View('vistainc')
+                ->with('inc', $inc);
     }
 
     /**

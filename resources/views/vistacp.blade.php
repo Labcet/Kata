@@ -145,7 +145,7 @@
                     </div>
                 </div>
             </div>
-            <evidencias-component :id-cp="{{ $cp[0]->id }}" :resultado-cp="'{{ strtoupper($cp[0]->estado) }}'" :tipo-cp="'0'"></evidencias-component>
+            <evidencias-component :id-cp="{{ $cp[0]->id }}" :resultado-cp="'{{ strtoupper($cp[0]->estado) }}'" :id-inc="null"></evidencias-component>
 
             @if(strtoupper($cp[0]->estado) == 'PENDIENTE')
                 <div class="card" style="margin-bottom:100px; text-align: center;">

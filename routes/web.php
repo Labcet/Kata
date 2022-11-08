@@ -11,6 +11,7 @@ use App\Models\CasosPruebas;
 use App\Models\Evidencias;
 use App\Models\Variable;
 use App\Models\Ola;
+use App\Models\Incidente;
 //use App\Http\Controllers\Redirect
 
 /*
@@ -48,6 +49,10 @@ Route::get('pdf/{id}', [PdfController::class, 'index'])->name('pdf');
 /* RUTA VISTA CP */
 
 Route::get('vistacp/{id}', [CasosPruebasController::class, 'index'])->name('vistacp');
+
+/* RUTA VISTA INCIDENTE */
+
+Route::get('vistainc/{id}', [IncidenteController::class, 'show'])->name('vistainc');
 
 /* RUTA CONFIGURATION */
 
@@ -193,3 +198,31 @@ Route::post('updateola', [VariableController::class, 'updateOla'])->name('update
 /* REGISTRAR INCIDENTE */
 
 Route::post('registerincidente', [IncidenteController::class, 'store'])->name('registerincidente');
+
+/* RESOLVER INCIDENTE */
+
+Route::get('/resueltoinc/{idInc}', function ($idInc){
+
+    date_default_timezone_set('America/Lima');
+
+    //$ola = Variable::where('variable', 'Ola')->first();
+
+    if(Evidencias::where([['inc_id', '=', $idInc]])->count() > 0){
+
+        // Actualizamos el estado del INC en la tabla Incidentes
+
+        Incidente::where([['id', '=', $idInc]])
+        ->update([
+            'estado' => 'EXITOSO',
+            'fecha_solucion' => date('Y-m-d H:i:s')
+        ]);
+
+        return redirect('/dashboard');
+
+    } else {
+
+        return redirect()->route('vistainc',$idInc)
+            ->with('status', 'Debe registrar evidencias (mínimo 1).');
+    }
+})
+    ->name('resueltoinc');

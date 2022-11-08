@@ -5408,8 +5408,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     idCp: Number,
-    resultadoCp: String,
-    tipoCp: String
+    idInc: Number,
+    resultadoCp: String
   },
   created: function created() {//console.log(this.aprobadoCp)
   },
@@ -5423,12 +5423,12 @@ __webpack_require__.r(__webpack_exports__);
       evidencias: [],
       evidencia: {
         cp_id: this.idCp,
+        inc_id: this.idInc,
         imagen: [],
         path: "",
         comentario: "",
         fecha_hora: "",
-        ola: null,
-        tipo: this.tipoCp
+        ola: null
       },
 
       /* TESTING */
@@ -5438,27 +5438,38 @@ __webpack_require__.r(__webpack_exports__);
   computed: {//console.log(this.aprobadoCp)
   },
   mounted: function mounted() {
-    this.showEvidencias(); //console.log(this.idCp)
+    this.showEvidencias(); //console.log(this.idInc)
     //console.log(this.aprobadoCp)
   },
   methods: {
     showEvidencias: function showEvidencias() {
       var _this = this;
 
-      axios.get('/api/evidencias/' + this.idCp).then(function (response) {
-        _this.evidencias = response.data;
-      })["catch"](function (error) {
-        alert(error);
-        console.log(error);
-      });
+      if (this.idCp != null) {
+        axios.get('/api/evidencias/' + this.idCp + '/' + '0').then(function (response) {
+          _this.evidencias = response.data;
+        })["catch"](function (error) {
+          alert(error);
+          console.log(error);
+        });
+      } else {
+        axios.get('/api/evidencias/' + this.idInc + '/' + '1').then(function (response) {
+          _this.evidencias = response.data;
+        })["catch"](function (error) {
+          alert(error);
+          console.log(error);
+        });
+      }
     },
     createEvidencia: function createEvidencia() {
       var _this2 = this;
 
       axios.post('/api/evidencias', this.evidencia).then(function (response) {
-        //this.$router.push({name:"mostrarDocumentos"});
-        //alert(response.data);
-        window.location.href = '/vistacp/' + _this2.idCp;
+        if (_this2.idCp != null) {
+          window.location.href = '/vistacp/' + _this2.idCp;
+        } else {
+          window.location.href = '/vistainc/' + _this2.idInc;
+        }
       })["catch"](function (error) {
         alert(error);
         console.log(error);
@@ -5498,12 +5509,17 @@ __webpack_require__.r(__webpack_exports__);
     deleteEvidencia: function deleteEvidencia(idEv) {
       var _this3 = this;
 
-      //console.log(idEv);
-      axios["delete"]('/api/evidencias/' + idEv).then(function (response) {
-        window.location.href = '/vistacp/' + _this3.idCp;
-      })["catch"](function (error) {
-        alert(error);
-      });
+      if (confirm('¿Está seguro(a)?')) {
+        axios["delete"]('/api/evidencias/' + idEv).then(function (response) {
+          if (_this3.idCp != null) {
+            window.location.href = '/vistacp/' + _this3.idCp;
+          } else {
+            window.location.href = '/vistainc/' + _this3.idInc;
+          }
+        })["catch"](function (error) {
+          alert(error);
+        });
+      }
     },
     changeFlag: function changeFlag() {
       if (!this.showForm) {

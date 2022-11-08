@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CasosPruebasController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\VariableController;
+use App\Http\Controllers\IncidenteController;
 use App\Http\Controllers\Controller;
 use App\Models\CasosPruebas;
 use App\Models\Evidencias;
@@ -55,6 +56,10 @@ Route::get('configuration', [Controller::class, 'configuration'])->name('configu
 /* RUTA ANALYTICS */
 
 Route::get('analytics', [Controller::class, 'analytics'])->name('analytics');
+
+/* RUTA INCIDENTES */
+
+Route::get('incidentes/{id}', [IncidenteController::class, 'index'])->name('incidentes');
 
 /* RUTAS BOTONES ACEPTACION/OBSERVACION */
 
@@ -184,3 +189,7 @@ Route::post('/generatereporte', [PdfController::class, 'generatePDF'])->name('ge
 /* ACTUALIZAR OLA */
 
 Route::post('updateola', [VariableController::class, 'updateOla'])->name('updateola');
+
+/* REGISTRAR INCIDENTE */
+
+Route::post('registerincidente', [IncidenteController::class, 'store'])->name('registerincidente');

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('comentario')->nullable();
             $table->timestamp('fecha_hora')->nullable();
             $table->string('ola');
+            $table->char('tipo');
             //$table->id();
             //$table->timestamps();
         });

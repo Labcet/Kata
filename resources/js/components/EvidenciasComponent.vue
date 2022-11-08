@@ -7,15 +7,15 @@
 </style>
 <template>
     <div>
-        <div style="width: 100%; text-align: right; margin-top: 20px;">
+        <!--<div style="width: 100%; text-align: right; margin-top: 20px;">
             <button class="btn btn-warning" type="button" v-on:click="verCps()">
                 Ver CP's
             </button>
             <button class="btn btn-primary" type="button" v-on:click="changeFlagEvidences()">
                 Mostrar/Esconder
             </button>
-        </div><br><br>
-        <div v-if="showEvidences">
+        </div><br><br>-->
+        <div v-if="showEvidences" style="margin-top: 40px;">
             <div v-if="resultadoFlag == 'PENDIENTE'">
                 <button type="button" style="background: #ff287b; border: none;" class="btn btn-primary" v-on:click="changeFlag()">Agregar evidencia (Portapapeles)</button>
                 <button type="button" style="background: #ff287b; border: none;" class="btn btn-primary" v-on:click="changeFlagArchivo()">Agregar evidencia (Archivo)</button>
@@ -88,12 +88,15 @@
 </template>
 
 <script>
+import { stringLiteral } from '@babel/types';
+
     export default {
         
         props: {
 
             idCp: Number,
-            resultadoCp: String
+            resultadoCp: String,
+            tipoCp: String
 
         },
 
@@ -119,7 +122,8 @@
                     path: "",
                     comentario: "",
                     fecha_hora: "",
-                    ola: "1"
+                    ola: null,
+                    tipo: this.tipoCp
                 },
 
                 /* TESTING */

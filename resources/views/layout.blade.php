@@ -77,6 +77,8 @@
                         @if (Auth::user()->rol == 'administrador')
                             <a class="nav-link" href="{{ route('configuration') }}">Configuración</a>
                             <a class="nav-link" href="{{ route('analytics') }}">Analytics</a>
+                            <a class="nav-link" href="{{ route('incidentes', 0) }}">Incidentes</a>
+
                         @endif
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>

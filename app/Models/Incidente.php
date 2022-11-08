@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Evidencias extends Model
+class Incidente extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cp_id','imagen','path','comentario','fecha_hora', 'ola', 'tipo'];
+    protected $fillable = ['nombre_incidente','pasos_reproducir','system_info','estado','cp_id','fecha_solucion'];
 
-    public $table = "evidencias";
+    public $table = "incidencias";
 
     public $timestamps = false;
 }

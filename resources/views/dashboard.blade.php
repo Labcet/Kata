@@ -65,7 +65,7 @@
             @endif
             <br>
 
-            @if (Auth::user()->rol == 'administrador' && Auth::user()->rol == 'visualizador')
+            @if (Auth::user()->rol == 'administrador' || Auth::user()->rol == 'visualizador')
             <div class="filtro">
                 <div class="row">
                     <div class="col-1" style="display: flex; align-items: center;">

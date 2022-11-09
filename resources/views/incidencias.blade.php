@@ -46,9 +46,12 @@
                     </tr>
                 </thead>
                 <tbody align="center">
+                    @php
+                        $count = 1;
+                    @endphp
                     @foreach($incidencias as $key => $var)
                     <tr>
-                        <td></td>
+                        <td>{{ $count++ }}</td>
                         <td>{{ $var->nombre_incidente }}</td>
                         @if(strtoupper($var->estado) == "EXITOSO")
                             <td align="center"><h6><span class="badge bg-success">{{ strtoupper($var->estado) }}</span></h6></td>

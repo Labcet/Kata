@@ -14,7 +14,7 @@ class CasosPruebaImport implements ToModel
     */
     public function model(array $row)
     {
-        return new CasosPruebas([
+        /*return new CasosPruebas([
             'caso_prueba' => $row[0],
             'proceso' => $row[1],
             'producto' => $row[2],
@@ -48,6 +48,42 @@ class CasosPruebaImport implements ToModel
             'numero_probadores' => $row[30],
             'requerimiento_id' => $row[31],
             'user_id' => $row[32]
+        ]);*/
+
+        return new CasosPruebas([
+            'caso_prueba' => $row[0],
+            'proceso' => null,
+            'producto' => null,
+            'sub_producto' => null,
+            'tipo_campana' => null,
+            'destino_credito' => null,
+            'tipo_persona' => null,
+            'tipo_cliente' => null,
+            'tipo_evaluacion' => null,
+            'tipo_aprobacion' => null,
+            'clasificacion_cliente' => null,
+            'perfil' => null,
+            'frecuencia' => null,
+            'moneda' => null,
+            'seguro_obligatorio' => null,
+            'seguro_optativo' => null,
+            'dato_prueba' => $row[1],
+            'nombre_completo' => $row[2],
+            'precondiciones' => $row[3],
+            'pasos' => $row[4],
+            'resultado_esperado' => $row[5],
+            'estado_esperado' => $row[6],
+            'complejidad' => null,
+            'corebank_movil_web' => null,
+            'equivalente_corebank' => null,
+            'tipo_prueba' => null,
+            'prioridad' => null,
+            'tiempo_estimado_ejecucion' => null,
+            'perfil_asignado' => null,
+            'numero_ejecutores' => null,
+            'numero_probadores' => null,
+            'requerimiento_id' => $row[7],
+            'user_id' => $row[8]
         ]);
     }
 }

@@ -26,16 +26,19 @@ class Controller extends BaseController
 
             if($user->rol == "administrador"){
 
+                $ola = Variable::where('variable', 'Ola')->first();
+
                 $cps = DB::table('casos_prueba')
                             ->join('users', 'casos_prueba.user_id', '=', 'users.id')
                             ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
                             ->select('casos_prueba.caso_prueba', 'casos_prueba.nombre_completo', 'users.name', 'olas.estado')
+                            ->where([['olas.num_ola', '=', $ola->valor]])
                             ->get();
 
-                $desestimados = Ola::where([['estado', '=', 'Desestimado']])->count();
-                $fallidos = Ola::where([['estado', '=', 'Fallido']])->count();
-                $exitosos = Ola::where([['estado', '=', 'Exitoso']])->count();
-                $pendientes = Ola::where([['estado', '=', 'Pendiente']])->count();
+                $desestimados = Ola::where([['estado', '=', 'Desestimado'],['num_ola', '=', $ola->valor]])->count();
+                $fallidos = Ola::where([['estado', '=', 'Fallido'],['num_ola', '=', $ola->valor]])->count();
+                $exitosos = Ola::where([['estado', '=', 'Exitoso'],['num_ola', '=', $ola->valor]])->count();
+                $pendientes = Ola::where([['estado', '=', 'Pendiente'],['num_ola', '=', $ola->valor]])->count();
 
                 //$cps = CasosPruebas::all();
 

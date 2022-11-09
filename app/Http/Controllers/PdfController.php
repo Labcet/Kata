@@ -27,7 +27,8 @@ class PdfController extends Controller
         //$testCaseData = CasosPruebas::find(decrypt($id));
         $testCaseData = DB::table('casos_prueba')
                         ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
-                        ->select('casos_prueba.*', 'olas.cp_id', 'olas.num_ola', 'olas.estado', 'olas.fecha_ejecucion')
+                        ->join('requerimientos', 'casos_prueba.requerimiento_id', '=', 'requerimientos.id')
+                        ->select('casos_prueba.*', 'olas.cp_id', 'olas.num_ola', 'olas.estado', 'olas.fecha_ejecucion', 'requerimientos.nombre')
                         ->where([['casos_prueba.id', '=', decrypt($id)],['olas.num_ola', '=', $ola->valor]])
                         ->get();
                     
@@ -50,7 +51,7 @@ class PdfController extends Controller
         $this->fpdf->SetFillColor(255,255,255);
         $this->fpdf->Cell(15,10, utf8_decode( 'Req:'),1, 0 , 'C', $bander );
 
-        $this->fpdf->Cell(110,10,' RQ[000] Nombre de requerimiento ',1, 0 , 'L', $bander);
+        $this->fpdf->Cell(110,10, ' '.utf8_decode($testCaseData[0]->nombre),1, 0 , 'L', $bander);
         $this->fpdf->SetFillColor(255,255,255);
         // $this->fpdf->Cell(38,10, utf8_decode($testCaseData->fecha_certificacion),1, 0 , 'C', $bander );
         $pico = '../public/upload/andes2.jpg';
@@ -101,9 +102,9 @@ class PdfController extends Controller
         $this->fpdf->SetFillColor(240,240,239);
         $this->fpdf->SetXY(25, $yFuncionalidad);
         $this->fpdf->SetFont('helvetica','B',9);
-        $this->fpdf->Cell(55, 6, utf8_decode('Aplicación/Módulo/Plataforma y/o'), 1, 1 , 'L', $bandera );
-        $this->fpdf->SetXY(25, $yFuncionalidad+6);
-        $this->fpdf->Cell(55, 6, utf8_decode('Funcionalidad: '), 'L,R,B', 1 , 'L', $bandera );
+        $this->fpdf->Cell(55, $height_funcionalidad - $yFuncionalidad, utf8_decode('Elemento o Dato de Prueba: '), 1, 1 , 'L', $bandera );
+        //$this->fpdf->SetXY(25, $yFuncionalidad+6);
+        //$this->fpdf->Cell(55, 6, utf8_decode('Funcionalidad: '), 'L,R,B', 1 , 'L', $bandera );
         $this->fpdf->SetFillColor(255,255,255);//color de celda
 
         $this->fpdf->Ln(0);
@@ -288,7 +289,8 @@ class PdfController extends Controller
 
         $cps = DB::table('casos_prueba')
                 ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
-                ->select('casos_prueba.*', 'num_ola', 'estado', 'fecha_ejecucion')
+                ->join('requerimientos', 'casos_prueba.requerimiento_id', '=', 'requerimientos.id')
+                ->select('casos_prueba.*', 'num_ola', 'estado', 'fecha_ejecucion', 'requerimientos.nombre')
                 ->where([['casos_prueba.user_id', '=', decrypt($id)],['olas.num_ola', '=', $ola->valor]])
                 ->get();
 
@@ -316,7 +318,7 @@ class PdfController extends Controller
             $this->fpdf->SetFillColor(255,255,255);
             $this->fpdf->Cell(15,10, utf8_decode( 'Req:'),1, 0 , 'C', $bander );
 
-            $this->fpdf->Cell(110,10,' RQ[000] Nombre de requerimiento ',1, 0 , 'L', $bander);
+            $this->fpdf->Cell(110,10, ' '.utf8_decode($testCaseData->nombre),1, 0 , 'L', $bander);
             $this->fpdf->SetFillColor(255,255,255);
             // $this->fpdf->Cell(38,10, utf8_decode($testCaseData->fecha_certificacion),1, 0 , 'C', $bander );
             $pico = '../public/upload/andes2.jpg';
@@ -367,9 +369,9 @@ class PdfController extends Controller
             $this->fpdf->SetFillColor(240,240,239);
             $this->fpdf->SetXY(25, $yFuncionalidad);
             $this->fpdf->SetFont('helvetica','B',9);
-            $this->fpdf->Cell(55, 6, utf8_decode('Aplicación/Módulo/Plataforma y/o'), 1, 1 , 'L', $bandera );
-            $this->fpdf->SetXY(25, $yFuncionalidad+6);
-            $this->fpdf->Cell(55, 6, utf8_decode('Funcionalidad: '), 'L,R,B', 1 , 'L', $bandera );
+            $this->fpdf->Cell(55, $height_funcionalidad - $yFuncionalidad, utf8_decode('Elemento o Dato de Prueba: '), 1, 1 , 'L', $bandera );
+            //$this->fpdf->SetXY(25, $yFuncionalidad+6);
+            //$this->fpdf->Cell(55, 6, utf8_decode('Funcionalidad: '), 'L,R,B', 1 , 'L', $bandera );
             $this->fpdf->SetFillColor(255,255,255);//color de celda
 
             $this->fpdf->Ln(0);
@@ -553,14 +555,16 @@ class PdfController extends Controller
 
             $cps = DB::table('casos_prueba')
                     ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
-                    ->select('casos_prueba.*', 'olas.num_ola', 'olas.estado', 'fecha_ejecucion')
+                    ->join('requerimientos', 'casos_prueba.requerimiento_id', '=', 'requerimientos.id')
+                    ->select('casos_prueba.*', 'olas.num_ola', 'olas.estado', 'fecha_ejecucion', 'requerimientos.nombre')
                     ->where([['olas.num_ola', '=', $request->ola]])
                     ->get();
         } else {
 
             $cps = DB::table('casos_prueba')
                     ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
-                    ->select('casos_prueba.*', 'olas.num_ola', 'olas.estado', 'fecha_ejecucion')
+                    ->join('requerimientos', 'casos_prueba.requerimiento_id', '=', 'requerimientos.id')
+                    ->select('casos_prueba.*', 'olas.num_ola', 'olas.estado', 'fecha_ejecucion', 'requerimientos.nombre')
                     ->where([['casos_prueba.user_id', '=', $request->user],['olas.num_ola', '=', $request->ola]])
                     ->get();
         }
@@ -590,7 +594,7 @@ class PdfController extends Controller
             $this->fpdf->SetFillColor(255,255,255);
             $this->fpdf->Cell(15,10, utf8_decode( 'Req:'),1, 0 , 'C', $bander );
 
-            $this->fpdf->Cell(110,10,' RQ[000] Nombre de requerimiento ',1, 0 , 'L', $bander);
+            $this->fpdf->Cell(110,10, ' '.utf8_decode($testCaseData->nombre),1, 0 , 'L', $bander);
             $this->fpdf->SetFillColor(255,255,255);
             // $this->fpdf->Cell(38,10, utf8_decode($testCaseData->fecha_certificacion),1, 0 , 'C', $bander );
             $pico = '../public/upload/andes2.jpg';
@@ -641,9 +645,9 @@ class PdfController extends Controller
             $this->fpdf->SetFillColor(240,240,239);
             $this->fpdf->SetXY(25, $yFuncionalidad);
             $this->fpdf->SetFont('helvetica','B',9);
-            $this->fpdf->Cell(55, 6, utf8_decode('Aplicación/Módulo/Plataforma y/o'), 1, 1 , 'L', $bandera );
-            $this->fpdf->SetXY(25, $yFuncionalidad+6);
-            $this->fpdf->Cell(55, 6, utf8_decode('Funcionalidad: '), 'L,R,B', 1 , 'L', $bandera );
+            $this->fpdf->Cell(55, $height_funcionalidad - $yFuncionalidad, utf8_decode('Elemento o Dato de Prueba: '), 1, 1 , 'L', $bandera );
+            //$this->fpdf->SetXY(25, $yFuncionalidad+6);
+            //$this->fpdf->Cell(55, 6, utf8_decode('Funcionalidad: '), 'L,R,B', 1 , 'L', $bandera );
             $this->fpdf->SetFillColor(255,255,255);//color de celda
 
             $this->fpdf->Ln(0);

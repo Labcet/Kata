@@ -26,16 +26,24 @@
                                 <input type="text" class="form-control" id="testCaseId" value="{{ $cp[0]->caso_prueba }}" readonly>
                             </div>
                             <div class="col-4">
+                                <label for="testCaseEstadoEsperado"><strong>Estado Esperado</strong></label>
+                                <input type="text" class="form-control" id="testCaseEstadoEsperado" value="{{ $cp[0]->estado_esperado }}" readonly>
+                            </div>
+                            <div class="col-4">
+                                <label for="testCasePerfilAsignado"><strong>Resultado Real</strong></label>
+                                <input type="text" class="form-control" id="testCasePerfilAsignado" value="{{ $cp[0]->estado }}" readonly>
+                            </div>
+                            <!--<div class="col-4">
                                 <label for="testCaseProducto"><strong>Producto</strong></label>
                                 <input type="text" class="form-control" id="testCaseProducto" value="{{ $cp[0]->producto }}" readonly>
                             </div>
                             <div class="col-4">
                                 <label for="testCaseSubProducto"><strong>Sub Producto</strong></label>
                                 <input type="text" class="form-control" id="testCaseSubProducto" value="{{ $cp[0]->sub_producto }}" readonly>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
-                    <div class="form-group">
+                    <!--<div class="form-group">
                         <div class="row">
                             <div class="col-6">
                                 <label for="testCaseDestinoCredito"><strong>Destino del Crédito</strong></label>
@@ -94,7 +102,7 @@
                                 <input type="text" class="form-control" id="testCaseSeguroOptativo" value="{{ $cp[0]->seguro_optativo }}" readonly>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                     <div class="form-group">
                         <label for="testCaseDatoPrueba"><strong>Elemento o Dato de Prueba</strong></label>
                         <textarea type="text" class="form-control" id="testCaseDatoPrueba" rows="4" readonly>{{ $cp[0]->dato_prueba }}</textarea>
@@ -117,7 +125,7 @@
                     </div>
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-4">
+                            <!--<div class="col-4">
                                 <label for="testCaseEstadoEsperado"><strong>Estado Esperado</strong></label>
                                 <input type="text" class="form-control" id="testCaseEstadoEsperado" value="{{ $cp[0]->estado_esperado }}" readonly>
                             </div>
@@ -128,19 +136,19 @@
                             <div class="col-4">
                                 <label for="testCaseTipoPrueba"><strong>Tipo de Prueba</strong></label>
                                 <input type="text" class="form-control" id="testCaseTipoPrueba" value="{{ $cp[0]->tipo_prueba }}" readonly>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-6">
+                            <!--<div class="col-6">
                                 <label for="testCasePerfilAsignado"><strong>Área o Perfil Asignado</strong></label>
                                 <input type="text" class="form-control" id="testCasePerfilAsignado" value="{{ $cp[0]->perfil_asignado }}" readonly>
                             </div>
                             <div class="col-6">
                                 <label for="testCasePerfilAsignado"><strong>Resultado Real</strong></label>
                                 <input type="text" class="form-control" id="testCasePerfilAsignado" value="{{ $cp[0]->estado }}" readonly>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                 </div>

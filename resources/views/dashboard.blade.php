@@ -73,7 +73,7 @@
                 <thead class="table-dark">
                     <tr align="center">
                         <td>Caso Prueba</td>
-                        <td>Proceso</td>
+                        <td>Nombre Completo</td>
                         <td>Estado</td>
                         <td>Acciones</td>
                     </tr>

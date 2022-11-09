@@ -29460,7 +29460,7 @@ var render = function () {
                         [_vm._v("Comentario")]
                       ),
                       _vm._v(" "),
-                      _c("input", {
+                      _c("textarea", {
                         directives: [
                           {
                             name: "model",
@@ -29470,7 +29470,12 @@ var render = function () {
                           },
                         ],
                         staticClass: "form-control",
-                        attrs: { type: "text", id: "Resultado", required: "" },
+                        attrs: {
+                          type: "text",
+                          id: "Resultado",
+                          rows: "4",
+                          required: "",
+                        },
                         domProps: { value: _vm.evidencia.comentario },
                         on: {
                           input: function ($event) {
@@ -29589,7 +29594,7 @@ var render = function () {
                         [_vm._v("Comentario")]
                       ),
                       _vm._v(" "),
-                      _c("input", {
+                      _c("textarea", {
                         directives: [
                           {
                             name: "model",
@@ -29599,7 +29604,12 @@ var render = function () {
                           },
                         ],
                         staticClass: "form-control",
-                        attrs: { type: "text", id: "Resultado", required: "" },
+                        attrs: {
+                          type: "text",
+                          id: "Resultado",
+                          rows: "4",
+                          required: "",
+                        },
                         domProps: { value: _vm.evidencia.comentario },
                         on: {
                           input: function ($event) {

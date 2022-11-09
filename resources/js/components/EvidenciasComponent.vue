@@ -31,7 +31,7 @@
                     <input type="text" id="path" v-model="evidencia.path" hidden>
                     <div class="mb-3">
                         <br><label for="Resultado" class="form-label">Comentario</label>
-                        <input type="text" class="form-control" id="Resultado" v-model="evidencia.comentario" required>
+                        <textarea type="text" class="form-control" id="Resultado" v-model="evidencia.comentario" rows="4" required></textarea>
                         <small id="comentario" class="form-text text-muted">*Ingrese un comentario obligatoriamente.</small>
                     </div><br>
                     <button type="submit" class="btn btn-success">Guardar</button>
@@ -48,7 +48,7 @@
                     <input type="text" id="path" v-model="evidencia.path" hidden>
                     <div class="mb-3">
                         <br><label for="Resultado" class="form-label">Comentario</label>
-                        <input type="text" class="form-control" id="Resultado" v-model="evidencia.comentario" required>
+                        <textarea type="text" class="form-control" id="Resultado" v-model="evidencia.comentario" rows="4" required></textarea>
                         <small id="comentario" class="form-text text-muted">*Ingrese un comentario obligatoriamente</small>
                     </div><br>
                     <button type="submit" class="btn btn-success">Guardar</button>

@@ -87,7 +87,7 @@ class AuthController extends Controller
 
             $ola = Variable::where('variable', 'Ola')->first();
 
-            if($user->rol == "administrador"){
+            if($user->rol == "administrador" || $user->rol == "visualizador"){
 
                 //$cps = CasosPruebas::all();
                 $cps = DB::table('casos_prueba')

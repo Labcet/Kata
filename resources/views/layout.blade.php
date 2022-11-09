@@ -76,9 +76,12 @@
                     @else
                         @if (Auth::user()->rol == 'administrador')
                             <a class="nav-link" href="{{ route('configuration') }}">Configuración</a>
+                        @endif
+                        @if (Auth::user()->rol == 'administrador' || Auth::user()->rol == 'visualizador')
                             <a class="nav-link" href="{{ route('analytics') }}">Analytics</a>
+                        @endif
+                        @if (Auth::user()->rol == 'administrador')
                             <a class="nav-link" href="{{ route('incidentes', 0) }}">Incidentes</a>
-
                         @endif
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>

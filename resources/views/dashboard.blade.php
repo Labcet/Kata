@@ -60,10 +60,10 @@
             </div>
             @endif
 
-            @if (Auth::user()->rol != 'administrador')
+            @if (Auth::user()->rol != 'administrador' && Auth::user()->rol != 'visualizador')
                 <a href="{{ route('reporteusuario', encrypt(Auth::user()->id)) }}" class="btn btn-danger" style="margin-top: 40px;" target="_blank">Reporte</a>
-                <br><br>
             @endif
+            <br><br>
 
             <!--@if (Auth::user()->rol == 'administrador')
                 <metricas-component :id-user="{{ Auth::user()->id }}"></metricas-component>
@@ -97,12 +97,14 @@
                         @endif
                         <td align="center">
                             <div>
-                                <a type="button" style="background: #ffd000; border: none; margin-bottom: 10px;" class="modalCP btn btn-primary" href="{{ route('vistacp', $value->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Vista previa">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
-                                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
-                                    </svg>
-                                </a>
+                                @if (Auth::user()->rol != 'visualizador')
+                                    <a type="button" style="background: #ffd000; border: none; margin-bottom: 10px;" class="modalCP btn btn-primary" href="{{ route('vistacp', $value->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Vista previa">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                            <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                                        </svg>
+                                    </a>
+                                @endif
                                 <a type="button" id="pdf" class="btn btn-primary" style="background: #ffd000; border: none; margin-bottom: 10px;" href="{{ route('pdf', encrypt($value->id)) }}"  target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="PDF">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
                                         <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>

@@ -24,7 +24,7 @@ class Controller extends BaseController
 
             $user = Auth::user();
 
-            if($user->rol == "administrador"){
+            if($user->rol == "administrador" || $user->rol == "visualizador"){
 
                 $ola = Variable::where('variable', 'Ola')->first();
 

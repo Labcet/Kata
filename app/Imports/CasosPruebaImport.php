@@ -52,7 +52,7 @@ class CasosPruebaImport implements ToModel
 
         return new CasosPruebas([
             'caso_prueba' => $row[0],
-            'proceso' => null,
+            'proceso' => $row[1],
             'producto' => null,
             'sub_producto' => null,
             'tipo_campana' => null,
@@ -67,12 +67,12 @@ class CasosPruebaImport implements ToModel
             'moneda' => null,
             'seguro_obligatorio' => null,
             'seguro_optativo' => null,
-            'dato_prueba' => $row[1],
-            'nombre_completo' => $row[2],
-            'precondiciones' => $row[3],
-            'pasos' => $row[4],
-            'resultado_esperado' => $row[5],
-            'estado_esperado' => $row[6],
+            'dato_prueba' => $row[2],
+            'nombre_completo' => $row[3],
+            'precondiciones' => $row[4],
+            'pasos' => $row[5],
+            'resultado_esperado' => $row[6],
+            'estado_esperado' => $row[7],
             'complejidad' => null,
             'corebank_movil_web' => null,
             'equivalente_corebank' => null,
@@ -82,8 +82,8 @@ class CasosPruebaImport implements ToModel
             'perfil_asignado' => null,
             'numero_ejecutores' => null,
             'numero_probadores' => null,
-            'requerimiento_id' => $row[7],
-            'user_id' => $row[8]
+            'requerimiento_id' => $row[8],
+            'user_id' => $row[9]
         ]);
     }
 }

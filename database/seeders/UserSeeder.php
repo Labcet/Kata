@@ -28,44 +28,63 @@ class UserSeeder extends Seeder
             'name' => 'Jhon Ever Maron Puma',
             'email' => 'gti-jmaron@cajalosandes.pe',
             'password' => Hash::make('gti-jmaron2022'),
-            'rol' => 'gestor_incidencias'
+            'rol' => 'administrador'
         ]);
 
         DB::table('users')->insert([
             'name' => 'Jesus Antony Arratia Cama',
             'email' => 'gti-jarratia@cajalosandes.pe',
             'password' => Hash::make('gti-jarratia2022'),
-            'rol' => 'gestor_incidencias'
+            'rol' => 'administrador'
         ]);
 
         DB::table('users')->insert([
             'name' => 'Luane Nicole Salas Choque',
             'email' => 'lsalasc@cajalosandes.pe',
             'password' => Hash::make('lsalasc2022'),
-            'rol' => 'gestor_incidencias'
+            'rol' => 'admnistrador'
         ]);
 
         DB::table('users')->insert([
-            'name' => 'Lucy Yulisa Sanchez Cueva',
-            'email' => 'isanchez@cajalosandes.pe',
-            'password' => Hash::make('isanchez2022'),
+            'name' => 'CallCenter01',
+            'email' => 'callcenter01@cajalosandes.pe',
+            'password' => Hash::make('callcenter012022'),
             'rol' => 'ejecutor_pruebas'
         ]);
 
         DB::table('users')->insert([
-            'name' => 'Ronald Alexander Ramirez Rodriguez',
-            'email' => 'rramirezro@cajalosandes.pe',
-            'password' => Hash::make('rramirezro2022'),
+            'name' => 'Operaciones01',
+            'email' => 'operaciones01@cajalosandes.pe',
+            'password' => Hash::make('operaciones012022'),
             'rol' => 'ejecutor_pruebas'
         ]);
 
         DB::table('users')->insert([
-            'name' => 'Deyvis Ramos Quispe',
-            'email' => 'dramosq@cajalosandes.pe',
-            'password' => Hash::make('dramosq2022'),
+            'name' => 'Usuario1',
+            'email' => 'usuario1@cajalosandes.pe',
+            'password' => Hash::make('usuario12022'),
             'rol' => 'ejecutor_pruebas'
         ]);
 
+        DB::table('users')->insert([
+            'name' => 'Usuario2',
+            'email' => 'usuario2@cajalosandes.pe',
+            'password' => Hash::make('usuario22022'),
+            'rol' => 'ejecutor_pruebas'
+        ]);
 
+        DB::table('users')->insert([
+            'name' => 'Usuario3',
+            'email' => 'usuario3@cajalosandes.pe',
+            'password' => Hash::make('usuario32022'),
+            'rol' => 'ejecutor_pruebas'
+        ]);
+
+        DB::table('users')->insert([
+            'name' => 'Usuario4',
+            'email' => 'usuario4@cajalosandes.pe',
+            'password' => Hash::make('usuario42022'),
+            'rol' => 'ejecutor_pruebas'
+        ]);
     }
 }

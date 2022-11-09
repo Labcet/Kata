@@ -35,7 +35,7 @@ Route::get('login', [AuthController::class, 'index'])->name('login');
 Route::post('post-login', [AuthController::class, 'postLogin'])->name('login.post'); 
 Route::get('registration', [AuthController::class, 'registration'])->name('register');
 Route::post('post-registration', [AuthController::class, 'postRegistration'])->name('register.post'); 
-Route::get('dashboard', [AuthController::class, 'dashboard'])->name('dashboard'); 
+Route::get('dashboard/{filtro}', [AuthController::class, 'dashboard'])->name('dashboard'); 
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 /* RUTA DE IMPORTACION */
@@ -84,7 +84,7 @@ Route::get('/desestimacp/{idCP}', function ($idCP){
             'fecha_ejecucion' => date('Y-m-d H:i:s')
         ]);
 
-        return redirect('/dashboard');
+        return redirect()->route('dashboard', ['filtro' => 'all']);
 
     } else {
 
@@ -112,7 +112,7 @@ Route::get('/fallacp/{idCP}', function ($idCP){
             'fecha_ejecucion' => date('Y-m-d H:i:s')
         ]);
 
-        return redirect('/dashboard');
+        return redirect()->route('dashboard', ['filtro' => 'all']);
 
     } else {
 
@@ -138,7 +138,7 @@ Route::get('/exitocp/{idCP}', function ($idCP){
             'fecha_ejecucion' => date('Y-m-d H:i:s')
         ]);
 
-        return redirect('/dashboard');
+        return redirect()->route('dashboard', ['filtro' => 'all']);
 
     } else {
 
@@ -217,7 +217,7 @@ Route::get('/resueltoinc/{idInc}', function ($idInc){
             'fecha_solucion' => date('Y-m-d H:i:s')
         ]);
 
-        return redirect('/dashboard');
+        return redirect()->route('dashboard', ['filtro' => 'all']);
 
     } else {
 

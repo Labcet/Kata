@@ -48,7 +48,7 @@ class AuthController extends Controller
    
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('dashboard')
+            return redirect()->route('dashboard', ['filtro' => 'all'])
                     ->withSuccess('You have Successfully loggedin');
         }
   
@@ -71,7 +71,7 @@ class AuthController extends Controller
         $data = $request->all();
         $check = $this->create($data);
          
-        return redirect("dashboard")->withSuccess('Great! You have Successfully loggedin');
+        return redirect()->route('dashboard', ['filtro' => 'all']);
     }
     
     /**
@@ -79,7 +79,7 @@ class AuthController extends Controller
      *
      * @return response()
      */
-    public function dashboard()
+    public function dashboard($filtro)
     {
         if(Auth::check()){
 
@@ -90,11 +90,21 @@ class AuthController extends Controller
             if($user->rol == "administrador" || $user->rol == "visualizador"){
 
                 //$cps = CasosPruebas::all();
-                $cps = DB::table('casos_prueba')
-                    ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
-                    ->select('casos_prueba.*', 'olas.estado')
-                    ->where('olas.num_ola', $ola->valor)
-                    ->get();
+                if($filtro == 'all'){
+
+                    $cps = DB::table('casos_prueba')
+                        ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
+                        ->select('casos_prueba.*', 'olas.estado')
+                        ->where('olas.num_ola', $ola->valor)
+                        ->get();
+                } else {
+
+                    $cps = DB::table('casos_prueba')
+                        ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
+                        ->select('casos_prueba.*', 'olas.estado')
+                        ->where([['olas.num_ola', '=', $ola->valor], ['olas.estado', '=', $filtro]])
+                        ->get();
+                }
 
             }else {
 

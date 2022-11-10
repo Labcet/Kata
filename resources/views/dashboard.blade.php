@@ -63,7 +63,29 @@
             @if (Auth::user()->rol != 'administrador' && Auth::user()->rol != 'visualizador')
                 <a href="{{ route('reporteusuario', encrypt(Auth::user()->id)) }}" class="btn btn-danger" style="margin-top: 40px;" target="_blank">Reporte</a>
             @endif
-            <br><br>
+            <br>
+
+            @if (Auth::user()->rol == 'administrador' || Auth::user()->rol == 'visualizador')
+            <div class="filtro">
+                <div class="row">
+                    <div class="col-1" style="display: flex; align-items: center;">
+                        <!--<label for="exampleFormControlInput1" class="form-label">Filtro</label>-->
+                        <h2>Filtro: </h2>
+                    </div>
+                    <div class="col-3">
+                        <select name="select" class="form-select" aria-label="Default select example" style="width: 200px;">
+                            <option value="all" selected>Seleccione</option>
+                            <option value="all">Todos</option>
+                            <option value="Pendiente">Pendientes</option>
+                            <option value="Desestimado">Desestimados</option>
+                            <option value="Fallido">Fallidos</option>
+                            <option value="Exitoso">Exitosos</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            @endif
+            <br>
 
             <!--@if (Auth::user()->rol == 'administrador')
                 <metricas-component :id-user="{{ Auth::user()->id }}"></metricas-component>
@@ -129,3 +151,23 @@
 </div>
 
 @endsection
+
+@push('other-scripts')
+
+<script type="text/javascript">
+    
+    $(document).ready(function() {
+        $('.form-select[name="select"]').on('change', showSelectedValue);
+        
+        function showSelectedValue(event) {
+            var target = $(event.target);
+            //console.log(target.val() + " = " + target.find('option:selected').text());
+            window.location.href = '/dashboard/' + target.val();
+        }
+    });
+
+</script>
+
+@endpush
+
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>

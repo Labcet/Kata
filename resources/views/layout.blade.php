@@ -84,7 +84,7 @@
                             <a class="nav-link" href="{{ route('incidentes', 0) }}">Incidentes</a>
                         @endif
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
+                            <a class="nav-link" href="{{ route('dashboard', 'all') }}">Dashboard</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('logout') }}">Logout</a>

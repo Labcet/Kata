@@ -143,7 +143,8 @@ class CasosPruebasController extends Controller
                     ]);
                 }
 
-                return redirect('/dashboard')->with('status', 'Se importó la data correctamente!');
+                return redirect()->route('dashboard', ['filtro' => 'all']);
+                //return redirect('/dashboard')->with('status', 'Se importó la data correctamente!');
             }
 
             return redirect("dashboard");

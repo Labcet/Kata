@@ -83,6 +83,28 @@
                     </tr>
                 </tbody>
             </table>
+            <!--<div class="card" style="margin-bottom:100px; text-align: center;">
+                <div class="card-header"><strong>Decisíón</strong></div>
+                <div class="card-body">
+                    
+                    <a type="button" id="desestimar" class="btn btn-primary" style="background: #013461; border: none; margin-right: 10px;" href="{{ route('desestimacp', {{ this.idCp }}) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Desestimado" onclick="return confirm('¿Está seguro(a)?')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        </svg>
+                    </a>
+                    <a type="button" id="fallido" class="btn btn-primary" style="background: #FF287A; border: none; margin-right: 10px;" href="{{ route('fallacp', {{ idCp }}) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Fallido" onclick="return confirm('¿Está seguro(a)?')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-exclamation-diamond" viewBox="0 0 16 16">
+                            <path d="M6.95.435c.58-.58 1.52-.58 2.1 0l6.515 6.516c.58.58.58 1.519 0 2.098L9.05 15.565c-.58.58-1.519.58-2.098 0L.435 9.05a1.482 1.482 0 0 1 0-2.098L6.95.435zm1.4.7a.495.495 0 0 0-.7 0L1.134 7.65a.495.495 0 0 0 0 .7l6.516 6.516a.495.495 0 0 0 .7 0l6.516-6.516a.495.495 0 0 0 0-.7L8.35 1.134z"/>
+                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                        </svg>
+                    </a>
+                    <a type="button" id="exitoso" class="btn btn-primary" style="background: #019500; border: none; margin-right: 10px;" href="{{ route('exitocp', {{ idCp }}) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Exitoso" onclick="return confirm('¿Está seguro(a)?')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>                                   
+                    </a>
+                </div>
+            </div>-->
         </div><br><br><br>
     </div>
 </template>

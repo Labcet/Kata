@@ -18,9 +18,9 @@
             @endif
             <!-- -->
 
-            @if (Auth::user()->rol == 'administrador')
+            <!--@if (Auth::user()->rol == 'administrador')
             <a href="{{ route('importar') }}" class="btn btn-danger" style="margin-top: 40px;" onclick="return confirm('¿Está seguro?')">Importar Data</a>
-            @endif
+            @endif-->
 
             @if (Auth::user()->rol == 'administrador')
             <div style="padding: 40px 0px;">

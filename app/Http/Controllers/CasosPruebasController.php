@@ -22,6 +22,23 @@ class CasosPruebasController extends Controller
     {
         if(Auth::check()){
 
+            $cp_temp = CasosPruebas::where('id', $id)->first();
+
+            // Checking if estado_temporal has already a value
+            
+            if($cp_temp->estado_temporal == '0' && $cp_temp->id_user_helper == null){
+
+                $user = Auth::user();
+
+                CasosPruebas::where('id', $id)
+                    ->update([
+                        'estado_temporal' => 'PROCESO',
+                        'id_user_helper' => $user->id
+                    ]);
+            }
+
+            // Division
+            
             $ola = Variable::where('variable', 'Ola')->first();
 
             $cp = DB::table('casos_prueba')

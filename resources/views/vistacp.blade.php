@@ -153,9 +153,12 @@
                     </div>
                 </div>
             </div>
-            <evidencias-component :id-cp="{{ $cp[0]->id }}" :resultado-cp="'{{ strtoupper($cp[0]->estado) }}'" :id-inc="null"></evidencias-component>
 
-            @if(strtoupper($cp[0]->estado) == 'PENDIENTE')
+            @if($cp[0]->estado_temporal == '0' || $cp[0]->id_user_helper == Auth::user()->id)
+                <evidencias-component :id-cp="{{ $cp[0]->id }}" :resultado-cp="'{{ strtoupper($cp[0]->estado) }}'" :id-inc="null"></evidencias-component>
+            @endif
+
+            @if(strtoupper($cp[0]->estado) == 'PENDIENTE' && strtoupper($cp[0]->estado_temporal) == '0' || strtoupper($cp[0]->estado) == 'PENDIENTE' && $cp[0]->id_user_helper == Auth::user()->id)
                 <div class="card" style="margin-bottom:100px; text-align: center;">
                     <div class="card-header"><strong>Decisíón</strong></div>
                     <div class="card-body">

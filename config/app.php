@@ -175,6 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         //Webklex\PDFMerger\Providers\PDFMergerServiceProvider::class
+        Barryvdh\DomPDF\ServiceProvider::class
     ],
 
     /*
@@ -230,6 +231,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         //'PDFMerger' => Webklex\PDFMerger\Facades\PDFMergerFacade::class
+        'PDF' => Barryvdh\DomPDF\Facade::class
 
     ],
 

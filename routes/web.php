@@ -226,3 +226,9 @@ Route::get('/resueltoinc/{idInc}', function ($idInc){
     }
 })
     ->name('resueltoinc');
+
+/* PDF */
+
+//Route::get('/pdf_index/{id}', [PdfController::class, 'index'])->name('evidencias.index');
+
+//Route::get('/pdf/{id}', [PdfController::class, 'createPDF'])->name('evidencias.pdf');

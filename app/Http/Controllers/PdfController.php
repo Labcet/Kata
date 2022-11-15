@@ -10,6 +10,7 @@ use App\Models\Variable;
 use Webklex\PDFMerger\Facades\PDFMergerFacade as PDFMerger;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class PdfController extends Controller
 {
@@ -20,9 +21,41 @@ class PdfController extends Controller
         $this->fpdf = $fpdf;
     }
 
+    /*public function index($cp_id)
+    {
+        $ola = Variable::where('variable', 'Ola')->first();
+        $testCaseData = DB::table('casos_prueba')
+                        ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
+                        ->join('requerimientos', 'casos_prueba.requerimiento_id', '=', 'requerimientos.id')
+                        ->select('casos_prueba.*', 'olas.cp_id', 'olas.num_ola', 'olas.estado', 'olas.fecha_ejecucion', 'requerimientos.nombre')
+                        ->where([['casos_prueba.id', '=', decrypt($id)],['olas.num_ola', '=', $ola->valor]])
+                        ->get();
+        
+        $evidenciasTestCase = Evidencias::where([['cp_id', '=', $cp_id],['ola', '=', $ola->valor]])->get();
+        
+        return view('pdf_index', compact('evidenciasTestCase'));
+    }
+
+    public function createPDF($cp_id)
+    {
+        $ola = Variable::where('variable', 'Ola')->first();
+        //Recuperar todos los productos de la db
+        $testCaseData = DB::table('casos_prueba')
+                        ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
+                        ->join('requerimientos', 'casos_prueba.requerimiento_id', '=', 'requerimientos.id')
+                        ->select('casos_prueba.*', 'olas.cp_id', 'olas.num_ola', 'olas.estado', 'olas.fecha_ejecucion', 'requerimientos.nombre')
+                        ->where([['casos_prueba.id', '=', decrypt($id)],['olas.num_ola', '=', $ola->valor]])
+                        ->get();
+        
+        $evidenciasTestCase = Evidencias::where([['cp_id', '=', $cp_id],['ola', '=', $ola->valor]])->get();
+        view()->share('evidencias', $evidenciasTestCase);
+        $pdf = PDF::loadView('index', $evidenciasTestCase);
+        return $pdf->download('archivo-prueba.pdf');
+    }*/
+
     public function index($id) 
     {
-
+        
         $ola = Variable::where('variable', 'Ola')->first();
         //$testCaseData = CasosPruebas::find(decrypt($id));
         $testCaseData = DB::table('casos_prueba')
@@ -197,6 +230,8 @@ class PdfController extends Controller
 
         $flag = false;
         $iniY = $this->fpdf->GetY();
+        $y_ref = $this->fpdf->GetY();
+        $fin_evidencias_y = $this->fpdf->GetY();
 
         if(count($evidenciasTestCase) != 0){
         
@@ -211,7 +246,7 @@ class PdfController extends Controller
             if($i == 0 && (count($pcond_cant) + count($pasos_cant)) > 10){
                 
                 $this->fpdf->AddPage();
-                $finY = $this->fpdf->GetY() + 120;
+                $finY = $this->fpdf->GetY();
                 $flag = true;
             }
 
@@ -222,11 +257,26 @@ class PdfController extends Controller
                     $this->fpdf->AddPage();
                     $finY = $this->fpdf->GetY() + 120;
                 }
+                else {
+
+                    $finY = $this->fpdf->GetY();
+                }
             } else{
                 if($i != 0 && $i % 2 != 0){
 
                     $this->fpdf->AddPage();
-                    $finY = $this->fpdf->GetY() + 120;
+                    $finY = $this->fpdf->GetY();
+
+
+                } else {
+
+                    if($i != 0){
+
+                        $finY = $this->fpdf->GetY() + 120;
+                    } else {
+
+                        $finY = $y_ref;
+                    }
                 }
             }
 
@@ -245,19 +295,26 @@ class PdfController extends Controller
 
             if($type == "png"){
 
-                $this->fpdf->Cell(70,120, $this->fpdf->Image($pic, $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null, 'png'), 1, 0, 'R');
+                //$this->fpdf->Cell(70,120, $this->fpdf->Image($pic, $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null, 'png'), 0, 0, 'R');
+                $this->fpdf->Image($pic, $this->fpdf->GetX()+10, $finY+5, 50, null, 'png');
             } else {
 
-                $this->fpdf->Cell(50,120, $this->fpdf->Image($pic, $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null, 'jpg'), 1, 0, 'R');
+                //$this->fpdf->Cell(50,120, $this->fpdf->Image($pic, $this->fpdf->GetX()+10, $this->fpdf->GetY()+5, 50, null, 'jpg'), 0, 0, 'R');
+                $this->fpdf->Image($pic, $this->fpdf->GetX()+10, $finY+5, 50, null, 'jpg');
             }
 
-            $iniY = $this->fpdf->GetY();
+            $fin_evidencias_y = $this->fpdf->GetY();
+
+            //$iniY = $this->fpdf->GetY();
             //$finY = $this->fpdf->GetY() + 120;
-            //$this->fpdf->Cell(90,120, utf8_decode($evidenciasTestCase[$i]->comentario), 1, 0, 'C', $bandera);
-            $this->fpdf->Multicell(90,7, utf8_decode($evidenciasTestCase[$i]->comentario), 0, 0, 'C', $bandera);
-            $this->fpdf->Rect(95,$iniY,90,120);
-            //$this->fpdf->Ln();
-            //$finY = $this->fpdf->GetY();
+            $y_ref = $this->fpdf->GetY();
+            $this->fpdf->SetX(95);
+            
+            if($evidenciasTestCase[$i]->comentario != null){
+
+                $this->fpdf->Multicell(90,7, utf8_decode($evidenciasTestCase[$i]->comentario), 0, 0, 'C', $bandera);
+            }
+            $this->fpdf->Rect(95,$iniY,90,130);
         }
         
         //FOOTER
@@ -265,11 +322,11 @@ class PdfController extends Controller
         $ban = false; //Para alternar el relleno
         $ban = !$ban;//Alterna el valor de la bandera
 
-
         $this->fpdf->Settextcolor(10, 10, 10);
 
+        //$this->fpdf->setY($this->fpdf->getY() + 120);
         $this->fpdf->Ln(0);
-        $this->fpdf->SetXY(25, $finY);
+        $this->fpdf->SetXY(25, $finY + 120);
         $this->fpdf->SetFillColor(240,240,239);
         $this->fpdf->SetFont('helvetica','B',9);
         $this->fpdf->Cell(70,7,utf8_decode('Decisión Product Owner '),1,0,'C', $ban);
@@ -281,7 +338,7 @@ class PdfController extends Controller
 
         $this->fpdf->AliasNbPages();
         $this->fpdf->Output("I","REPORTE_GENERAL.pdf");
-    }
+    }*/
 
     public function mergePDF($id)
     {

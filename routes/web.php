@@ -84,6 +84,11 @@ Route::get('/desestimacp/{idCP}', function ($idCP){
             'fecha_ejecucion' => date('Y-m-d H:i:s')
         ]);
 
+        // Actualizamos el estado temporal del CP (Lo liberamos)
+
+        CasosPruebas::where('id', $idCP)
+                        ->update(['estado_temporal' => '0']);
+
         return redirect()->route('dashboard', ['filtro' => 'all']);
 
     } else {
@@ -112,6 +117,11 @@ Route::get('/fallacp/{idCP}', function ($idCP){
             'fecha_ejecucion' => date('Y-m-d H:i:s')
         ]);
 
+        // Actualizamos el estado temporal del CP (Lo liberamos)
+
+        CasosPruebas::where('id', $idCP)
+                        ->update(['estado_temporal' => '0']);
+
         return redirect()->route('dashboard', ['filtro' => 'all']);
 
     } else {
@@ -137,6 +147,11 @@ Route::get('/exitocp/{idCP}', function ($idCP){
             'estado' => 'Exitoso',
             'fecha_ejecucion' => date('Y-m-d H:i:s')
         ]);
+
+        // Actualizamos el estado temporal del CP (Lo liberamos)
+
+        CasosPruebas::where('id', $idCP)
+                        ->update(['estado_temporal' => '0']);
 
         return redirect()->route('dashboard', ['filtro' => 'all']);
 

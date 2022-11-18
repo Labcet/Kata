@@ -7,24 +7,33 @@
             <metricas-component :id-user="{{ Auth::user()->id }}"></metricas-component>
             <table class="table table-bordered">
                 <thead class="table-dark">
-                    <td colspan="2"> Resumen General </td>
+                    <td> Resumen General </td>
+                    <td align="center"> Cantidad </td>
+                    <td align="center"> Porcentaje </td>
                 </thead>
                 <tbody>
+                    @php
+                        $total = $pendientes + $desestimados + $fallidos + $exitosos
+                    @endphp
                     <tr>
                         <td>Pendientes</td>
-                        <td>{{ $pendientes }}</td>
+                        <td align="center">{{ $pendientes }}</td>
+                        <td align="center">{{ number_format(($pendientes/$total)*100, 2, '.', '') }} %</td>
                     </tr>
                     <tr>
                         <td>Desestimados</td>
-                        <td>{{ $desestimados }}</td>
+                        <td align="center">{{ $desestimados }}</td>
+                        <td align="center">{{ number_format(($desestimados/$total)*100, 2, '.', '') }} %</td>
                     </tr>
                     <tr>
                         <td>Fallidos</td>
-                        <td>{{ $fallidos }}</td>
+                        <td align="center">{{ $fallidos }}</td>
+                        <td align="center">{{ number_format(($fallidos/$total)*100, 2, '.', '') }} %</td>
                     </tr>
                     <tr>
                         <td>Exitosos</td>
-                        <td>{{ $exitosos }}</td>
+                        <td align="center">{{ $exitosos }}</td>
+                        <td align="center">{{ number_format(($exitosos/$total)*100, 2, '.', '') }} %</td>
                     </tr>
                 </tbody>
             </table><br><br>

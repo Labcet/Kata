@@ -44,7 +44,7 @@ Route::get('/import', [CasosPruebasController::class, 'import'])->name('importar
 
 /* RUTA PDF */
 
-Route::get('pdf/{id}', [PdfController::class, 'index'])->name('pdf');
+//Route::get('pdf/{id}', [PdfController::class, 'index'])->name('pdf');
 
 /* RUTA VISTA CP */
 
@@ -196,7 +196,8 @@ Route::get('/addola/{idVar}', function ($idVar){
 
 /* RUTA MERGE PDF */
 
-Route::get('/reporteusuario/{id}', [PdfController::class, 'mergePDF'])->name('reporteusuario');
+//Route::get('/reporteusuario/{id}', [PdfController::class, 'mergePDF'])->name('reporteusuario');
+Route::get('/reporteusuario/{id}', [PdfController::class, 'reporte_usuario'])->name('reporteusuario');
 
 /* RUTA GENERAL PDF */
 
@@ -244,6 +245,6 @@ Route::get('/resueltoinc/{idInc}', function ($idInc){
 
 /* PDF */
 
-//Route::get('/pdf_index/{id}', [PdfController::class, 'index'])->name('evidencias.index');
+Route::get('/pdf/{id}', [PdfController::class, 'index'])->name('pdf');
 
 //Route::get('/pdf/{id}', [PdfController::class, 'createPDF'])->name('evidencias.pdf');

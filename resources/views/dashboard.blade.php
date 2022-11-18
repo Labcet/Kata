@@ -50,7 +50,6 @@
                                     </select>
                                 </div>
                                 <div class="col-4" style="display: flex; align-items: end; text-align: center;">
-                                    <!--<a href="{{ route('reportegeneral') }}" class="btn btn-danger" target="_blank">Generar Reporte</a>-->
                                     <input type="submit" class="btn btn-danger" value="Generar Reporte">
                                 </div>
                             </div>

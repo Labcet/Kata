@@ -66,6 +66,46 @@ class PdfController extends Controller
         return view('pdf', compact('testCaseData', 'evidenciasTestCase', 'total'));
     }
 
+    public function reporte_general(Request $request)
+    {
+        
+        if($request->user == 0){
+
+            $testCaseData = DB::table('casos_prueba')
+                    ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
+                    ->join('requerimientos', 'casos_prueba.requerimiento_id', '=', 'requerimientos.id')
+                    ->select('casos_prueba.*', 'olas.num_ola', 'olas.estado', 'fecha_ejecucion', 'requerimientos.nombre')
+                    ->where([['olas.num_ola', '=', $request->ola]])
+                    ->get();
+        } else {
+    
+            $testCaseData = DB::table('casos_prueba')
+                    ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
+                    ->join('requerimientos', 'casos_prueba.requerimiento_id', '=', 'requerimientos.id')
+                    ->select('casos_prueba.*', 'olas.num_ola', 'olas.estado', 'fecha_ejecucion', 'requerimientos.nombre')
+                    ->where([['casos_prueba.user_id', '=', $request->user],['olas.num_ola', '=', $request->ola]])
+                    ->get();
+        }
+        
+        $evidenciasTestCase = [];
+
+        foreach ($testCaseData as $key => $value) {
+            
+            $query = Evidencias::where([['cp_id', '=', $value->id],['ola', '=', $request->ola]])->get();
+            array_push($evidenciasTestCase, $query);
+        }
+
+        $total = [];
+
+        foreach ($testCaseData as $key => $value) {
+            
+            $query2 = Evidencias::where([['cp_id', '=', $value->id],['ola', '=', $request->ola]])->count();
+            array_push($total, $query2);
+        }
+        
+        return view('pdf', compact('testCaseData', 'evidenciasTestCase', 'total'));
+    }
+
     /*public function createPDF($cp_id)
     {
         $ola = Variable::where('variable', 'Ola')->first();
@@ -374,7 +414,7 @@ class PdfController extends Controller
         $this->fpdf->Output("I","REPORTE_GENERAL.pdf");
     }*/
 
-    public function mergePDF($id)
+    /*public function mergePDF($id)
     {
         $ola = Variable::where('variable', 'Ola')->first();
 
@@ -638,9 +678,9 @@ class PdfController extends Controller
 
             $this->fpdf->AliasNbPages();
             $this->fpdf->Output("I","REPORTE_USUARIO.pdf");
-    }
+    }*/
 
-    public function generatePDF(Request $request)
+    /*public function generatePDF(Request $request)
     {
         if($request->user == 0){
 
@@ -915,5 +955,5 @@ class PdfController extends Controller
 
             $this->fpdf->AliasNbPages();
             $this->fpdf->Output("I","REPORTE_GENERAL.pdf");
-    }
+    }*/
 }

@@ -21,22 +21,52 @@ class PdfController extends Controller
         $this->fpdf = $fpdf;
     }
 
-    /*public function index($cp_id)
+    public function index($cp_id)
     {
         $ola = Variable::where('variable', 'Ola')->first();
         $testCaseData = DB::table('casos_prueba')
                         ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
                         ->join('requerimientos', 'casos_prueba.requerimiento_id', '=', 'requerimientos.id')
                         ->select('casos_prueba.*', 'olas.cp_id', 'olas.num_ola', 'olas.estado', 'olas.fecha_ejecucion', 'requerimientos.nombre')
-                        ->where([['casos_prueba.id', '=', decrypt($id)],['olas.num_ola', '=', $ola->valor]])
+                        ->where([['casos_prueba.id', '=', $cp_id],['olas.num_ola', '=', $ola->valor]])
                         ->get();
         
         $evidenciasTestCase = Evidencias::where([['cp_id', '=', $cp_id],['ola', '=', $ola->valor]])->get();
+        $total = Evidencias::where([['cp_id', '=', $cp_id],['ola', '=', $ola->valor]])->count();
         
-        return view('pdf_index', compact('evidenciasTestCase'));
+        return view('pdf_index', compact('testCaseData', 'evidenciasTestCase', 'total'));
     }
 
-    public function createPDF($cp_id)
+    public function reporte_usuario($user_id)
+    {
+        $ola = Variable::where('variable', 'Ola')->first();
+        $testCaseData = DB::table('casos_prueba')
+                        ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
+                        ->join('requerimientos', 'casos_prueba.requerimiento_id', '=', 'requerimientos.id')
+                        ->select('casos_prueba.*', 'olas.cp_id', 'olas.num_ola', 'olas.estado', 'olas.fecha_ejecucion', 'requerimientos.nombre')
+                        ->where([['casos_prueba.user_id', '=', $user_id],['olas.num_ola', '=', $ola->valor]])
+                        ->get();
+        
+        $evidenciasTestCase = [];
+
+        foreach ($testCaseData as $key => $value) {
+            
+            $query = Evidencias::where([['cp_id', '=', $value->id],['ola', '=', $ola->valor]])->get();
+            array_push($evidenciasTestCase, $query);
+        }
+
+        $total = [];
+
+        foreach ($testCaseData as $key => $value) {
+            
+            $query2 = Evidencias::where([['cp_id', '=', $value->id],['ola', '=', $ola->valor]])->count();
+            array_push($total, $query2);
+        }
+        
+        return view('pdf', compact('testCaseData', 'evidenciasTestCase', 'total'));
+    }
+
+    /*public function createPDF($cp_id)
     {
         $ola = Variable::where('variable', 'Ola')->first();
         //Recuperar todos los productos de la db
@@ -44,16 +74,20 @@ class PdfController extends Controller
                         ->join('olas', 'casos_prueba.id', '=', 'olas.cp_id')
                         ->join('requerimientos', 'casos_prueba.requerimiento_id', '=', 'requerimientos.id')
                         ->select('casos_prueba.*', 'olas.cp_id', 'olas.num_ola', 'olas.estado', 'olas.fecha_ejecucion', 'requerimientos.nombre')
-                        ->where([['casos_prueba.id', '=', decrypt($id)],['olas.num_ola', '=', $ola->valor]])
+                        ->where([['casos_prueba.id', '=', $cp_id],['olas.num_ola', '=', $ola->valor]])
                         ->get();
         
         $evidenciasTestCase = Evidencias::where([['cp_id', '=', $cp_id],['ola', '=', $ola->valor]])->get();
-        view()->share('evidencias', $evidenciasTestCase);
-        $pdf = PDF::loadView('index', $evidenciasTestCase);
-        return $pdf->download('archivo-prueba.pdf');
+        $total = Evidencias::where([['cp_id', '=', $cp_id],['ola', '=', $ola->valor]])->count();
+        view()->share('testCaseData', $testCaseData);
+        view()->share('evidenciasTestCase', $evidenciasTestCase);
+        view()->share('total', $total);
+        //$pdf = PDF::loadView('pdf_index', $evidenciasTestCase->toArray());
+        $pdf = PDF::loadView('pdf_index');
+        return $pdf->stream('archivo-prueba.pdf');
     }*/
 
-    public function index($id) 
+    /*public function index($id) 
     {
         
         $ola = Variable::where('variable', 'Ola')->first();

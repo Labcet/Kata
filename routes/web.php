@@ -44,7 +44,7 @@ Route::get('/import', [CasosPruebasController::class, 'import'])->name('importar
 
 /* RUTA PDF */
 
-//Route::get('pdf/{id}', [PdfController::class, 'index'])->name('pdf');
+Route::get('pdf/{id}', [PdfController::class, 'index'])->name('pdf');
 
 /* RUTA VISTA CP */
 
@@ -201,11 +201,11 @@ Route::get('/reporteusuario/{id}', [PdfController::class, 'reporte_usuario'])->n
 
 /* RUTA GENERAL PDF */
 
-Route::get('/reportegeneral', [PdfController::class, 'generalPDF'])->name('reportegeneral');
+//Route::get('/reportegeneral', [PdfController::class, 'generalPDF'])->name('reportegeneral');
 
 /* RUTA PARA GENERAR REPORTE */
 
-Route::post('/generatereporte', [PdfController::class, 'generatePDF'])->name('generatereporte');
+Route::post('/generatereporte', [PdfController::class, 'reporte_general'])->name('generatereporte');
 
 /* ACTUALIZAR OLA */
 
@@ -245,6 +245,6 @@ Route::get('/resueltoinc/{idInc}', function ($idInc){
 
 /* PDF */
 
-Route::get('/pdf/{id}', [PdfController::class, 'index'])->name('pdf');
+//Route::get('/pdf/{id}', [PdfController::class, 'index'])->name('pdf');
 
 //Route::get('/pdf/{id}', [PdfController::class, 'createPDF'])->name('evidencias.pdf');

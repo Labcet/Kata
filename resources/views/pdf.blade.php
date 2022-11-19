@@ -14,6 +14,9 @@
     <!--<p>{{ $evidenciasTestCase[0] }}</p>-->
     <main>
         <div class="box" style="margin: 20px;">
+            @php
+                $temp = 0;
+            @endphp
             @foreach($testCaseData as $key => $value)
                 <table class="table table-bordered" style="border: 10px;">
                     <tr>
@@ -59,14 +62,28 @@
                             <td class="col-5" style="background-color: #E7E7E7;"><strong>Secuencia (Pasos):</strong></td>
                             <td class="col-7">{{ $value->pasos }}</td>
                         </tr>
+                        @php
+                            $count = 1;
+                        @endphp
+                        @for ($i = 0; $i < $total[$temp]; $i++)
+                        <tr>
+                            <td align="center" class="col-4"><img src="{{ $evidenciasTestCase[$temp][$i]->imagen }}" alt="Image Preview" style="width: 150px; object-fit: cover;"/></td>
+                            @if($count++ == 1)
+                            <td rowspan="{{ $total[$temp] }}" class="col-8">{{ $evidenciasTestCase[$temp][$i]->comentario }}</td>
+                            @endif
+                        </tr>
+                        @endfor
                         <tr>
                             <td class="col-5"><strong>Decisión Product Owner:</strong></td>
                             <td class="col-7">APROBADO | COMENTARIOS DE CRITERIOS DE ACEPTACIóN</td>
                         </tr>
                     </table>
                 </div>
+                @php
+                    $temp++;
+                @endphp
             @endforeach
-        </div>
+        </div><br><br><br>
     </main>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

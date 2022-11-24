@@ -116,6 +116,9 @@
                         @if(strtoupper($value->estado) == "PENDIENTE")
                             <td align="center"><h6><span class="badge bg-secondary">{{ strtoupper($value->estado) }}</span></h6></td>
                         @endif
+                        @if(strtoupper($value->estado) == "STAND BY")
+                            <td align="center"><h6><span class="badge bg-danger" style="background-color: red;">{{ strtoupper($value->estado) }}</span></h6></td>
+                        @endif
                         <td align="center">
                             <div>
                                 @if (Auth::user()->rol != 'visualizador')

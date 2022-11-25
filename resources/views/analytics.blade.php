@@ -13,7 +13,7 @@
                 </thead>
                 <tbody>
                     @php
-                        $total = $pendientes + $desestimados + $fallidos + $exitosos
+                        $total = $pendientes + $desestimados + $fallidos + $exitosos + $standby
                     @endphp
                     <tr>
                         <td>Pendientes</td>

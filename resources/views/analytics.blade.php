@@ -35,6 +35,11 @@
                         <td align="center">{{ $exitosos }}</td>
                         <td align="center">{{ number_format(($exitosos/$total)*100, 2, '.', '') }} %</td>
                     </tr>
+                    <tr>
+                        <td>Stand By</td>
+                        <td align="center">{{ $standby }}</td>
+                        <td align="center">{{ number_format(($standby/$total)*100, 2, '.', '') }} %</td>
+                    </tr>
                 </tbody>
             </table><br><br>
             <table class="table table-bordered">
@@ -63,6 +68,9 @@
                         @endif
                         @if(strtoupper($value->estado) == "PENDIENTE")
                             <td align="center"><h6><span class="badge bg-secondary">{{ strtoupper($value->estado) }}</span></h6></td>
+                        @endif
+                        @if(strtoupper($value->estado) == "STAND BY")
+                            <td align="center"><h6><span class="badge bg-danger" style="background-color: red;">{{ strtoupper($value->estado) }}</span></h6></td>
                         @endif
                     </tr>
                     @endforeach

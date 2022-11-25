@@ -189,14 +189,19 @@ class AuthController extends Controller
                 ->select('olas.*')
                 ->where([['olas.estado', '=', 'Pendiente'],['olas.num_ola', '=', $ola->valor]])
                 ->count();
+            $standby = DB::table('olas')
+                ->join('casos_prueba', 'casos_prueba.id', '=', 'olas.cp_id')
+                ->select('olas.*')
+                ->where([['olas.estado', '=', 'Stand By'],['olas.num_ola', '=', $ola->valor]])
+                ->count();
         //}
 
         $data =[
-            'labels'  => ['Desestimados', 'Fallidos', 'Exitosos', 'No Ejecutados'],
+            'labels'  => ['Desestimados', 'Fallidos', 'Exitosos', 'No Ejecutados', 'Stand By'],
             'datasets' => [
                 [
-                  'backgroundColor' => ['#013461', '#FF287A','#019500', 'silver'],
-                  'data' => [$desestimados, $fallidos, $exitosos, $pendientes]
+                  'backgroundColor' => ['#013461', '#FF287A','#019500', 'silver', 'red'],
+                  'data' => [$desestimados, $fallidos, $exitosos, $pendientes, $standby]
                 ],
             ]
         ];

@@ -79,6 +79,7 @@
                             <option value="Desestimado">Desestimados</option>
                             <option value="Fallido">Fallidos</option>
                             <option value="Exitoso">Exitosos</option>
+                            <option value="Stand By">Stand By</option>
                         </select>
                     </div>
                 </div>

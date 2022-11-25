@@ -39,6 +39,7 @@ class Controller extends BaseController
                 $fallidos = Ola::where([['estado', '=', 'Fallido'],['num_ola', '=', $ola->valor]])->count();
                 $exitosos = Ola::where([['estado', '=', 'Exitoso'],['num_ola', '=', $ola->valor]])->count();
                 $pendientes = Ola::where([['estado', '=', 'Pendiente'],['num_ola', '=', $ola->valor]])->count();
+                $standby = Ola::where([['estado', '=', 'Stand By'],['num_ola', '=', $ola->valor]])->count();
 
                 //$cps = CasosPruebas::all();
 
@@ -47,7 +48,8 @@ class Controller extends BaseController
                         ->with('desestimados', $desestimados)
                         ->with('fallidos', $fallidos)
                         ->with('exitosos', $exitosos)
-                        ->with('pendientes', $pendientes);
+                        ->with('pendientes', $pendientes)
+                        ->with('standby', $standby);
             }
 
             return redirect("dashboard")->withSuccess('Opps! No tiene acceso.');

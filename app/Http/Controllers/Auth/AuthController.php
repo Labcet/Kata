@@ -118,7 +118,7 @@ class AuthController extends Controller
 
             $users = DB::table('users')
                         ->select('*')
-                        ->where('rol', '!=', 'administrador')
+                        ->where('rol', '=', 'ejecutor_pruebas')
                         ->get();
             
             return View('dashboard')

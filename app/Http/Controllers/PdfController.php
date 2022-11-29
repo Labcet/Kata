@@ -91,16 +91,40 @@ class PdfController extends Controller
 
         foreach ($testCaseData as $key => $value) {
             
-            $query = Evidencias::where([['cp_id', '=', $value->id],['ola', '=', $request->ola]])->get();
-            array_push($evidenciasTestCase, $query);
+            if($request->ola == 4){
+
+                //$query = Evidencias::where([['cp_id', '=', $value->id],['ola', '=', 3]])->get();
+                $query = DB::table('evidencias')
+                            ->where([['cp_id', '=', $value->id],['ola', '=', 3]])
+                            ->orwhere([['cp_id', '=', $value->id],['ola', '=', 4]])
+                            //->orwhere('ola', '=', 4)
+                            ->get();
+                array_push($evidenciasTestCase, $query);
+            } else {
+
+                $query = Evidencias::where([['cp_id', '=', $value->id],['ola', '=', $request->ola]])->get();
+                array_push($evidenciasTestCase, $query);
+            }
         }
 
         $total = [];
 
         foreach ($testCaseData as $key => $value) {
             
-            $query2 = Evidencias::where([['cp_id', '=', $value->id],['ola', '=', $request->ola]])->count();
-            array_push($total, $query2);
+            if($request->ola == 4){
+                
+                //$query2 = Evidencias::where([['cp_id', '=', $value->id],['ola', '=', 3]])->count();
+                $query2 = DB::table('evidencias')
+                            ->where([['cp_id', '=', $value->id],['ola', '=', 3]])
+                            ->orwhere([['cp_id', '=', $value->id],['ola', '=', 4]])
+                            //->orwhere('ola', '=', 4)
+                            ->count();
+                array_push($total, $query2);
+            } else {
+
+                $query2 = Evidencias::where([['cp_id', '=', $value->id],['ola', '=', $request->ola]])->count();
+                array_push($total, $query2);
+            }
         }
         
         return view('pdf', compact('testCaseData', 'evidenciasTestCase', 'total'));
